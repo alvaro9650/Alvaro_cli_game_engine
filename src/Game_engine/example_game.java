@@ -24,10 +24,9 @@ public class example_game {
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
-        game_engine.DrawFrame();
         game:
         while (true) {
-            game_engine.DeprecatedDrawFrame(field, balls, players);
+            game_engine.DrawFrame();
             for (Ball ball : balls) {
                 ball.log();
                 ball.UpdateLocation();
