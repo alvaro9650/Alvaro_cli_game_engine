@@ -39,7 +39,6 @@ public class example_game {
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
         game_engine.DrawFrame();
-        char edfdf = input.nextLine().charAt(0);
         game:
         while (true) {
             game_engine.DeprecatedDrawFrame(field, balls, players);
