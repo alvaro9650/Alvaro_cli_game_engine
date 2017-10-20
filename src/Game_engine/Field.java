@@ -19,7 +19,7 @@ public class Field {
         this.game_objects = new Game_object[this.x_size][this.y_size][max_objects_per_coord];
     }
     public void DeleteGame_object(Game_object game_object){
-        for (int o_num = 0;o_num<this.game_objects[game_object.location.x][game_object.location.y].length;o_num++) {
+        for (int o_num = 0;o_num<this.game_objects[game_object.location.x-1][game_object.location.y-1].length;o_num++) {
             if( this.game_objects[game_object.location.x][game_object.location.y][o_num]!=null && this.game_objects[game_object.location.x][game_object.location.y][o_num].hashCode()==game_object.hashCode() ){
                 this.game_objects[game_object.location.x][game_object.location.y][o_num]=null;
                 break;
@@ -27,7 +27,7 @@ public class Field {
         }
     }
     public void AddGame_object(Game_object game_object){
-        for (int o_num = 0;o_num<this.game_objects[game_object.location.x][game_object.location.y].length;o_num++) {
+        for (int o_num = 0;o_num<this.game_objects[game_object.location.x-1][game_object.location.y-1].length;o_num++) {
             if( this.game_objects[game_object.location.x][game_object.location.y][o_num]==null ){
                 this.game_objects[game_object.location.x][game_object.location.y][o_num]=game_object;
                 break;
