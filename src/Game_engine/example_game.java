@@ -6,7 +6,6 @@
 package Game_engine;
 
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -19,8 +18,7 @@ public class example_game {
      */
     public static void main(String[] args) {
         System.out.append("You are a character\nYou have to touch a ball to win a point\nYou have 10 move points each turn , if you don't use them all you will have them at the next turn\nYou get 10 move points each turn\nBall speed and position is generated randomly every match\nBalls bounce when they reach a border\nYou have to input your move coordinates in an x(right and left) y(down and up) format\nThe first player to reach 5 points wins\nThe character | means nothing in that position , the character O means ball in that position\n");
-        
-        Field field = new Field(79, 20,50);
+        Field field = new Field(79, 20, 50);
         Game_engine game_engine = new Game_engine(field);
         Scanner input = new Scanner(System.in);
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
@@ -45,7 +43,7 @@ public class example_game {
                     System.out.println("Thats not a coordinate , you loose your turn");
                 }
             }
-            addPoints(players, balls);
+            addPoints(field,players);
             showScore(players);
             for (Player player : players) {
                 if (player.points >= 5) {
@@ -68,11 +66,11 @@ public class example_game {
         }
     }
 
-    public static void addPoints(Player[] players, Ball[] balls) {
+    public static void addPoints(Field field, Player[] players) {
         for (Player player : players) {
-            for (Ball ball : balls) {
-                if (Objects.equals(player.location.x, ball.location.x) && Objects.equals(player.location.y, ball.location.y)) {
-                    player.points++;
+            for (Game_object game_object : field.game_objects[player.location.x][player.location.y]) {
+                if (game_object != null) {
+                    player.points += ("Ball".equals(game_object.object_type)) ? 1 : 0;
                 }
             }
         }
