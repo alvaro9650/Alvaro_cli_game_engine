@@ -35,6 +35,7 @@ public class Player extends Game_object{
             this.move_points+=10;
         }
     }
+    @Override
     public void log(){
         super.log();
         StringBuilder object_log = new StringBuilder();
