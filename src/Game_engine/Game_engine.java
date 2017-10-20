@@ -89,4 +89,15 @@ public class Game_engine {
             }
         }
     }
+    public char ToDrawAt(Field field,Integer x,Integer y){
+        char draw_character = ' ';
+        Integer character_height = 0;
+        for (Game_object game_object : this.playing_field.game_objects[x][y]) {
+            if ( game_object!=null&&game_object.height!=null&&game_object.height>character_height && game_object.height>0 ) {
+                character_height = game_object.height;
+                draw_character = game_object.character;
+            }
+        }
+        return draw_character;
+    }
 }
