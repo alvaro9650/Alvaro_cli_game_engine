@@ -28,6 +28,7 @@ public class example_game {
         while (true) {
             game_engine.DrawFrame();
             game_engine.UpdateLocations();
+            game_engine.DrawFrame();
             for (Player player : players) {
                 System.out.append("Player ");
                 System.out.append(player.character);
