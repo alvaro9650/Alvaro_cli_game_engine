@@ -41,13 +41,13 @@ public class Game_object implements Closeable {
         this.speed = new Speed(0,0);
         this.move_type = Move_type.None;
         this.playing_field = field;
-        this.max_x_location = field.x_size;
+        this.max_x_location = field.x_size-1;
         this.min_x_location = 0;
-        this.max_y_location = field.y_size;
+        this.max_y_location = field.y_size-1;
         this.min_y_location = 0;
-        this.max_x_respawn_area = field.x_size;
+        this.max_x_respawn_area = field.x_size-1;
         this.min_x_respawn_area = 0;
-        this.max_y_respawn_area = field.y_size;
+        this.max_y_respawn_area = field.y_size-1;
         this.min_y_respawn_area = 0;
         this.collision_type = Collision_type.Ghost;
         this.out_of_bounds_move_type = Out_of_bounds_move_type.Circular_universe;
