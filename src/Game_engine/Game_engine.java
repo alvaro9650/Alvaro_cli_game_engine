@@ -78,4 +78,15 @@ public class Game_engine {
         }
         System.out.append("\n");
     }
+    public void UpdateLocations() {
+        for ( Game_object[][] x : this.playing_field.game_objects ){
+            for ( Game_object[] y : x ){
+                for ( Game_object game_object : y ) {
+                    if ( game_object!=null ) {
+                        game_object.UpdateLocation();
+                    }
+                }
+            }
+        }
+    }
 }
