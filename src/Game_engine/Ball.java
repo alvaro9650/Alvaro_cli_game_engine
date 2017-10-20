@@ -13,6 +13,7 @@ package Game_engine;
 public class Ball extends Game_object{
     Ball(Field field){
         super(field);
+        this.object_type = "Ball";
         this.character = 'O';
         this.height = 1;
         this.out_of_bounds_move_type = Out_of_bounds_move_type.Bounceable;

@@ -14,6 +14,7 @@ public class Player extends Game_object{
     Integer points;
     Player(char character,Field field){
         super(field);
+        this.object_type = "Player";
         this.speed=new Speed(0,0);
         this.height = 2;
         this.character = character;

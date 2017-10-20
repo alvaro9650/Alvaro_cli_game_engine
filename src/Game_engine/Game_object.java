@@ -33,10 +33,11 @@ public class Game_object implements Closeable {
     Out_of_bounds_move_type out_of_bounds_move_type;
     Collision_type collision_type;
     Move_type move_type;
-
+    String object_type;
     Game_object(Field field) {
         this.character = '|';
         this.height = 0;
+        this.object_type = "Default";
         this.speed = new Speed(0,0);
         this.move_type = Move_type.None;
         this.playing_field = field;
