@@ -27,10 +27,7 @@ public class example_game {
         game:
         while (true) {
             game_engine.DrawFrame();
-            for (Ball ball : balls) {
-                ball.log();
-                ball.UpdateLocation();
-            }
+            game_engine.UpdateLocations();
             for (Player player : players) {
                 System.out.append("Player ");
                 System.out.append(player.character);
