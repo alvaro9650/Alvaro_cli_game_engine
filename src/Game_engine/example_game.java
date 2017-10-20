@@ -5,12 +5,9 @@
  */
 package Game_engine;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,15 +22,6 @@ public class example_game {
         
         Field field = new Field(79, 20,50);
         Game_engine game_engine = new Game_engine(field);
-        Player test=new Player('f', field);
-        test.move(1, 1);
-        test.log();
-        System.out.println(field.game_objects[test.location.x][test.location.y][0]);
-        try {
-            test.close();
-        } catch (IOException ex) {
-            Logger.getLogger(example_game.class.getName()).log(Level.SEVERE, null, ex);
-        }
         Scanner input = new Scanner(System.in);
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
         System.out.println("Input the character you want to use");
