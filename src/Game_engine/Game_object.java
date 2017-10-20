@@ -121,20 +121,20 @@ public class Game_object implements Closeable {
         System.out.println(object_log.toString());
     }
     public Boolean[] CanUpdateLocation() {
-        switch (this.out_of_bounds_move_type.getout_of_bounds_move_type()) {
-            case 1:
+        switch (this.out_of_bounds_move_type) {
+            case Bounceable:
                 return CanUpdatecircularuniverseLocation();
-            case 2:
+            case Respawnable:
                 return CanUpdaterespawnableLocation();
-            case 3:
+            case Impossible:
                 return CanUpdateimpossibleLocation();
-            case 4:
+            case Destroyable:
                 return CanUpdatedestroyableLocation();
-            case 5:
+            case Possible:
                 return CanUpdatepossibleLocation();
-            case 6:
+            case Farest:
                 return CanUpdatefarestLocation();
-            case 7:
+            case Circular_universe:
                 return CanUpdatecircularuniverseLocation();
         }
         Boolean[] no_out_of_bounds_move_type = {false,false};
@@ -143,30 +143,30 @@ public class Game_object implements Closeable {
     public void UpdateLocation() {
         if ( this.speed.x!=0 || this.speed.y!=0 ){
             this.playing_field.DeleteGame_object(this);
-            switch (this.out_of_bounds_move_type.getout_of_bounds_move_type()) {
-                case 1:
+            switch (this.out_of_bounds_move_type) {
+                case Bounceable:
                     UpdatebounceableLocation();
                     break;
-                case 2:
+                case Respawnable:
                     UpdaterespawnableLocation();
                     break;
-                case 3:
+                case Impossible:
                     UpdateimpossibleLocation();
                     break;
-                case 4:
+                case Destroyable:
                     try {
                         UpdatedestroyableLocation();
                     } catch (IOException ex) {
                         Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
-                case 5:
+                case Possible:
                     UpdatepossibleLocation();
                     break;
-                case 6:
+                case Farest:
                     UpdatefarestLocation();
                     break;
-                case 7:
+                case Circular_universe:
                     UpdatecircularuniverseLocation();
                     break;
             }
@@ -380,20 +380,20 @@ public class Game_object implements Closeable {
         }
     }
     public Boolean[] CanUpdateLocation(Integer x,Integer y) {
-        switch (this.out_of_bounds_move_type.getout_of_bounds_move_type()) {
-            case 1:
+        switch (this.out_of_bounds_move_type) {
+            case Bounceable:
                 return CanUpdatecircularuniverseLocation(x,y);
-            case 2:
+            case Respawnable:
                 return CanUpdaterespawnableLocation(x,y);
-            case 3:
+            case Impossible:
                 return CanUpdateimpossibleLocation(x,y);
-            case 4:
+            case Destroyable:
                 return CanUpdatedestroyableLocation(x,y);
-            case 5:
+            case Possible:
                 return CanUpdatepossibleLocation(x,y);
-            case 6:
+            case Farest:
                 return CanUpdatefarestLocation(x,y);
-            case 7:
+            case Circular_universe:
                 return CanUpdatecircularuniverseLocation(x,y);
         }
         Boolean[] no_out_of_bounds_move_type = {false,false};
@@ -402,30 +402,30 @@ public class Game_object implements Closeable {
     public void UpdateLocation(Integer x,Integer y) {
         if ( x!=0 || y!=0 ){
             this.playing_field.DeleteGame_object(this);
-            switch (this.out_of_bounds_move_type.getout_of_bounds_move_type()) {
-                case 1:
+            switch (this.out_of_bounds_move_type) {
+                case Bounceable:
                     UpdatebounceableLocation(x,y);
                     break;
-                case 2:
+                case Respawnable:
                     UpdaterespawnableLocation(x,y);
                     break;
-                case 3:
+                case Impossible:
                     UpdateimpossibleLocation(x,y);
                     break;
-                case 4:
+                case Destroyable:
                     try {
                         UpdatedestroyableLocation(x,y);
                     } catch (IOException ex) {
                         Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
-                case 5:
+                case Possible:
                     UpdatepossibleLocation(x,y);
                     break;
-                case 6:
+                case Farest:
                     UpdatefarestLocation(x,y);
                     break;
-                case 7:
+                case Circular_universe:
                     UpdatecircularuniverseLocation(x,y);
                     break;
             }
