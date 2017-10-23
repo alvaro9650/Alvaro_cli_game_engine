@@ -10,8 +10,10 @@ package Game_engine;
  * @author alumno1718_2
  */
 public class Game_engine {
-    Game_engine(){
+
+    Game_engine() {
     }
+
     public void DeprecatedDrawFrame(Field field, Ball[] balls, Player[] players) {
         for (int y = 0; y <= field.y_size; y++) {
             next_coordinate:
@@ -34,14 +36,15 @@ public class Game_engine {
         }
         System.out.append("\n");
     }
-    public void DrawFrame(Field field){
+
+    public void DrawFrame(Field field) {
         StringBuilder frame = new StringBuilder();
         char draw_character = '|';
         Integer character_height = 0;
-        for(int y = 0;y<field.game_objects[0].length;y++){
+        for (int y = 0; y < field.game_objects[0].length; y++) {
             for (Game_object[][] x : field.game_objects) {
                 for (Game_object game_object : x[y]) {
-                    if ( game_object!=null&&game_object.height!=null&&game_object.height>character_height && game_object.height>0 ) {
+                    if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                         character_height = game_object.height;
                         draw_character = game_object.character;
                     }
@@ -54,15 +57,16 @@ public class Game_engine {
         }
         System.out.println(frame.toString());
     }
-    public void DrawFrame(Field[] fields){
+
+    public void DrawFrame(Field[] fields) {
         Integer character_height = 0;
         StringBuilder frame = new StringBuilder();
-        for ( Field field : fields ){
+        for (Field field : fields) {
             char draw_character = '|';
-            for(int y = 0;y<field.game_objects[0].length;y++){
+            for (int y = 0; y < field.game_objects[0].length; y++) {
                 for (Game_object[][] x : field.game_objects) {
                     for (Game_object game_object : x[y]) {
-                        if ( game_object!=null&&game_object.height!=null&&game_object.height>character_height && game_object.height>0 ) {
+                        if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                             character_height = game_object.height;
                             draw_character = game_object.character;
                         }
@@ -77,6 +81,7 @@ public class Game_engine {
             frame.delete(0, frame.length());
         }
     }
+
     public void DeprecatedUpdateLocations(Field field, Ball[] balls, Player[] players) {
         for (int y = 0; y <= field.y_size; y++) {
             next_coordinate:
@@ -99,27 +104,30 @@ public class Game_engine {
         }
         System.out.append("\n");
     }
+
     public void UpdateLocations(Field field) {
-        for ( Game_object[][] x : field.game_objects ){
-            for ( Game_object[] y : x ){
-                for ( Game_object game_object : y ) {
-                    if ( game_object!=null ) {
+        for (Game_object[][] x : field.game_objects) {
+            for (Game_object[] y : x) {
+                for (Game_object game_object : y) {
+                    if (game_object != null) {
                         game_object.UpdateLocation();
                     }
                 }
             }
         }
     }
+
     public void UpdateLocations(Field[] fields) {
-        for ( Field field : fields ){
+        for (Field field : fields) {
             this.UpdateLocations(field);
         }
     }
-    public char ToDrawAt(Field field,Integer x,Integer y){
+
+    public char ToDrawAt(Field field, Integer x, Integer y) {
         char draw_character = ' ';
         Integer character_height = 0;
         for (Game_object game_object : field.game_objects[x][y]) {
-            if ( game_object!=null&&game_object.height!=null&&game_object.height>character_height && game_object.height>0 ) {
+            if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                 character_height = game_object.height;
                 draw_character = game_object.character;
             }
