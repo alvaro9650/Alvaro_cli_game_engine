@@ -10,10 +10,12 @@ package Game_engine;
  * @author alumno1718_2
  */
 public class Coordinate {
+
     public Integer x;
     public Integer y;
-    Coordinate(Integer x,Integer y){
-        this.x=x;
-        this.y=y;
+
+    Coordinate(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
     }
 }

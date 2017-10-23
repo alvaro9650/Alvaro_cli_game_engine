@@ -10,7 +10,8 @@ package Game_engine;
  * @author alumno1718_2
  */
 public class Mathcustomfuncs {
-    public static Double random(int min,int max){
-        return Math.random()*(max+1-min)+min;
+
+    public static Double random(int min, int max) {
+        return Math.random() * (max + 1 - min) + min;
     }
 }

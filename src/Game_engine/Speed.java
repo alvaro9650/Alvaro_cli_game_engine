@@ -10,10 +10,12 @@ package Game_engine;
  * @author alumno1718_2
  */
 public class Speed {
+
     public Integer x;
     public Integer y;
-    Speed(Integer x,Integer y){
-        this.x=x;
-        this.y=y;
+
+    Speed(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
     }
 }
