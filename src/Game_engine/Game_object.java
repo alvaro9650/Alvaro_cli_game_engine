@@ -7,6 +7,7 @@ package Game_engine;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class Game_object implements Closeable {
     Log_level log_level;
     char character;
     Out_of_bounds_move_type out_of_bounds_move_type;
-    Collision_type collision_type;
+    Pysical_state_type physical_state_type;
     Move_type move_type;
     String object_type;
 
@@ -56,7 +57,7 @@ public class Game_object implements Closeable {
         this.min_x_respawn_area = 0;
         this.max_y_respawn_area = field.y_size - 1;
         this.min_y_respawn_area = 0;
-        this.collision_type = Collision_type.Ghost;
+        this.physical_state_type = Pysical_state_type.Ghost;
         this.out_of_bounds_move_type = Out_of_bounds_move_type.Circular_universe;
         this.log_level = Log_level.None;
         this.location = new Coordinate(this.min_x_location, this.min_y_location);
@@ -135,7 +136,7 @@ public class Game_object implements Closeable {
                 object_log.append(this.out_of_bounds_move_type);
             case Collision_related:
                 object_log.append("\ncollision_type = ");
-                object_log.append(this.collision_type);
+                object_log.append(this.physical_state_type);
             case Position_related:
                 object_log.append("\ncoordinate x = ");
                 object_log.append(location.x.toString());
@@ -211,9 +212,40 @@ public class Game_object implements Closeable {
         }
     }
 
-    public Boolean[] CanUpdatebounceableLocation() {
-        Boolean[] result = {CanUpdatebounceablexLocation(), CanUpdatebounceableyLocation()};
-        return result;
+    public Boolean CanUpdatebounceableLocation() {
+        Coordinate destiny_location = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
+        switch (this.move_type) {
+            case Teleport:
+                return this.playing_field.CanRelocateGame_object(this, destiny_location);
+            case Horizontal_first:
+                for (; Objects.equals(this.location.x, destiny_location.x); destiny_location.x++) {
+                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                        return false;
+                    }
+                }
+                for (; Objects.equals(this.location.y, destiny_location.y); destiny_location.y++) {
+                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                        return false;
+                    }
+                }
+                return true;
+            case Vertical_first:
+                for (; Objects.equals(this.location.y, destiny_location.y); destiny_location.y++) {
+                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                        return false;
+                    }
+                }
+                for (; Objects.equals(this.location.x, destiny_location.x); destiny_location.x++) {
+                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                        return false;
+                    }
+                }
+                return true;
+            case Diagonal:
+            case None:
+                return false;
+        }
+        return false;
     }
 
     public void UpdatebounceableLocation() {
