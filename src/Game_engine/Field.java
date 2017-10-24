@@ -56,4 +56,48 @@ public class Field {
             }
         }
     }
+
+    /**
+     * Tells if the object can be relocated there
+     *
+     * @param game_object Object you want to know if can be relocated there
+     * @param coordinate Cordinate you want to know if can be relocated
+     * @return Returns a boolean with true or false depending on if it's
+     * possible to relocate the object there
+     */
+    public Boolean CanRelocateGame_object(Game_object game_object, Coordinate coordinate) {
+        Boolean need_space = true;
+        for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
+            if (object == null) {
+                need_space = false;
+                break;
+            }
+        }
+        if (coordinate.x > game_object.max_x_location || coordinate.x < game_object.min_x_location || coordinate.x < 0 || coordinate.x >= this.x_size || coordinate.y > game_object.max_y_location || coordinate.y < game_object.min_y_location || coordinate.y < 0 || coordinate.y >= this.y_size || need_space) {
+            return false;
+        }
+        for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
+            switch (object.physical_state_type) {
+                case Solid:
+                case Solid_with_holes:
+                    switch (game_object.physical_state_type) {
+                        case Solid_with_holes:
+                        case Solid:
+                            return false;
+                    }
+                case Liquid:
+                    switch (game_object.physical_state_type) {
+                        case Solid:
+                            return false;
+                    }
+                case Gas:
+                    switch (game_object.physical_state_type) {
+                        case Solid:
+                        case Liquid:
+                            return false;
+                    }
+            }
+        }
+        return true;
+    }
 }
