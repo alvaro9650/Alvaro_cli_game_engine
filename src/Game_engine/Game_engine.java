@@ -37,6 +37,10 @@ public class Game_engine {
         System.out.append("\n");
     }
 
+    /**
+     * Draws a frame that fields
+     * @param field field to draw
+     */
     public void DrawFrame(Field field) {
         StringBuilder frame = new StringBuilder();
         char draw_character = '|';
@@ -58,6 +62,10 @@ public class Game_engine {
         System.out.println(frame.toString());
     }
 
+    /**
+     * Draws a frame of each of those fields
+     * @param fields fields to draw
+     */
     public void DrawFrame(Field[] fields) {
         Integer character_height = 0;
         StringBuilder frame = new StringBuilder();
@@ -105,6 +113,10 @@ public class Game_engine {
         System.out.append("\n");
     }
 
+    /**
+     * Updates the location of the objects in that field
+     * @param field the field that has to update locations
+     */
     public void UpdateLocations(Field field) {
         for (Game_object[][] x : field.game_objects) {
             for (Game_object[] y : x) {
@@ -116,13 +128,24 @@ public class Game_engine {
             }
         }
     }
-
+    
+    /**
+     * Update the locations of the objects in those fields
+     * @param fields fields that will update location
+     */
     public void UpdateLocations(Field[] fields) {
         for (Field field : fields) {
             this.UpdateLocations(field);
         }
     }
 
+    /**
+     * Returns which character has to be drawn in that position in that field
+     * @param field
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return
+     */
     public char ToDrawAt(Field field, Integer x, Integer y) {
         char draw_character = ' ';
         Integer character_height = 0;
