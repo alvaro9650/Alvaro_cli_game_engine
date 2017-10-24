@@ -6,6 +6,7 @@
 package Game_engine;
 
 /**
+ * Coordinate in 2d
  *
  * @author alumno1718_2
  */
@@ -14,7 +15,13 @@ public class Coordinate {
     public Integer x;
     public Integer y;
 
-    Coordinate(Integer x, Integer y) {
+    /**
+     * Constructor for coordinate
+     *
+     * @param x Coordinate in x dimension
+     * @param y Coordinate in y dimension
+     */
+    public Coordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }

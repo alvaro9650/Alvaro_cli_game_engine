@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Object to use in the game
  *
  * @author alumno1718_2
  */
@@ -35,7 +36,12 @@ public class Game_object implements Closeable {
     Move_type move_type;
     String object_type;
 
-    Game_object(Field field) {
+    /**
+     * Creates a basic game object , should be overriden
+     *
+     * @param field The field where the object is located
+     */
+    public Game_object(Field field) {
         this.character = '|';
         this.height = 0;
         this.object_type = "Default";
@@ -56,6 +62,12 @@ public class Game_object implements Closeable {
         this.location = new Coordinate(this.min_x_location, this.min_y_location);
     }
 
+    /**
+     * Creates a respawn point to use when it's going to be respawned
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     public void RespawnPoint(Integer x, Integer y) {
         this.max_x_respawn_area = x;
         this.min_x_respawn_area = x;
@@ -63,6 +75,14 @@ public class Game_object implements Closeable {
         this.min_y_respawn_area = y;
     }
 
+    /**
+     * Creates a respawn area to use when it's going to be respawned
+     *
+     * @param min_x Minumum x location of the area
+     * @param max_x Maximum x location of the area
+     * @param min_y Minumum y location of the area
+     * @param max_y Maximum y location of the area
+     */
     public void RespawnArea(Integer min_x, Integer max_x, Integer min_y, Integer max_y) {
         this.min_x_respawn_area = min_x;
         this.max_x_respawn_area = max_x;
@@ -70,6 +90,9 @@ public class Game_object implements Closeable {
         this.max_y_respawn_area = max_y;
     }
 
+    /**
+     * Logs the data in the object acording to Log_level
+     */
     public void log() {
         StringBuilder object_log = new StringBuilder();
         object_log.append("Object: ");
@@ -125,6 +148,11 @@ public class Game_object implements Closeable {
         System.out.println(object_log.toString());
     }
 
+    /**
+     * Checks if location can be updated
+     *
+     * @return Returns an array contaning if x and y can be updated
+     */
     public Boolean[] CanUpdateLocation() {
         switch (this.out_of_bounds_move_type) {
             case Bounceable:
@@ -146,6 +174,9 @@ public class Game_object implements Closeable {
         return no_out_of_bounds_move_type;
     }
 
+    /**
+     * Updates location in the object and the field
+     */
     public void UpdateLocation() {
         if (this.speed.x != 0 || this.speed.y != 0) {
             this.playing_field.DeleteGame_object(this);

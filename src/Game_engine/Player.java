@@ -6,6 +6,7 @@
 package Game_engine;
 
 /**
+ * A player for the example game
  *
  * @author alumno1718_2
  */
@@ -14,7 +15,13 @@ public class Player extends Game_object {
     Integer move_points;
     Integer points;
 
-    Player(char character, Field field) {
+    /**
+     * Creates a player for the example game
+     *
+     * @param character the character that represents the player
+     * @param field The field where the player is located
+     */
+    public Player(char character, Field field) {
         super(field);
         this.object_type = "Player";
         this.speed = new Speed(0, 0);
@@ -28,6 +35,12 @@ public class Player extends Game_object {
         this.playing_field.AddGame_object(this);
     }
 
+    /**
+     * Moves the player and calculates move points
+     *
+     * @param x How much to move in x direction
+     * @param y How much to move in y direction
+     */
     public void move(Integer x, Integer y) {
         this.move_points += (x < 0) ? x : -x;
         this.move_points += (y < 0) ? y : -y;
@@ -39,6 +52,9 @@ public class Player extends Game_object {
         }
     }
 
+    /**
+     * Logs the object data
+     */
     @Override
     public void log() {
         super.log();

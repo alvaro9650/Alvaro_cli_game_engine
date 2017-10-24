@@ -6,6 +6,7 @@
 package Game_engine;
 
 /**
+ * An object to save x direction speed and y direction speed
  *
  * @author alumno1718_2
  */
@@ -14,7 +15,13 @@ public class Speed {
     public Integer x;
     public Integer y;
 
-    Speed(Integer x, Integer y) {
+    /**
+     * Creates an object to save speed
+     *
+     * @param x x speed
+     * @param y y speed
+     */
+    public Speed(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }

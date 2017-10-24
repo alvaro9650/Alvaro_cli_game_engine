@@ -6,12 +6,18 @@
 package Game_engine;
 
 /**
+ * Ball for the object example game
  *
  * @author alumno1718_2
  */
 public class Ball extends Game_object {
 
-    Ball(Field field) {
+    /**
+     * Constructor for Ball
+     *
+     * @param field Field where the ball is located
+     */
+    public Ball(Field field) {
         super(field);
         this.object_type = "Ball";
         this.character = 'O';

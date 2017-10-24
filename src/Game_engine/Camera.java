@@ -6,7 +6,9 @@
 package Game_engine;
 
 /**
- * The camera has a location and a resolution and it's located in a field , it can draw frames
+ * The camera has a location and a resolution and it's located in a field , it
+ * can draw frames
+ *
  * @author alumno1718_2
  */
 public class Camera extends Game_object {
@@ -15,17 +17,20 @@ public class Camera extends Game_object {
 
     /**
      * Creates a camera
+     *
      * @param field The field that will be drawedby the camera
-     * @param x_location The horizontal position where the camera is going to be located
-     * @param y_location The vertical position where the camera is going to be located
+     * @param x_location The horizontal position where the camera is going to be
+     * located
+     * @param y_location The vertical position where the camera is going to be
+     * located
      * @param x_resolution Horizontal resolution of the camera
      * @param y_resolution Vertical resolution of the camera
      */
-    public Camera(Field field, Integer x_location, Integer y_location,Integer x_resolution,Integer y_resolution) {
+    public Camera(Field field, Integer x_location, Integer y_location, Integer x_resolution, Integer y_resolution) {
         super(field);
         this.location.x = x_location;
         this.location.y = y_location;
-        this.resolution = new Resolution(x_resolution,y_resolution);
+        this.resolution = new Resolution(x_resolution, y_resolution);
     }
 
     /**

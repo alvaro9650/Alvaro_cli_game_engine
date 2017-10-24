@@ -14,31 +14,9 @@ public class Game_engine {
     Game_engine() {
     }
 
-    public void DeprecatedDrawFrame(Field field, Ball[] balls, Player[] players) {
-        for (int y = 0; y <= field.y_size; y++) {
-            next_coordinate:
-            for (int x = 0; x <= field.x_size; x++) {
-                for (Player player : players) {
-                    if (x == player.location.x && y == player.location.y) {
-                        System.out.append(player.character);
-                        continue next_coordinate;
-                    }
-                }
-                for (Ball ball : balls) {
-                    if (x == ball.location.x && y == ball.location.y) {
-                        System.out.append('O');
-                        continue next_coordinate;
-                    }
-                }
-                System.out.append('|');
-            }
-            System.out.append("\n");
-        }
-        System.out.append("\n");
-    }
-
     /**
      * Draws a frame that fields
+     *
      * @param field field to draw
      */
     public void DrawFrame(Field field) {
@@ -64,6 +42,7 @@ public class Game_engine {
 
     /**
      * Draws a frame of each of those fields
+     *
      * @param fields fields to draw
      */
     public void DrawFrame(Field[] fields) {
@@ -90,31 +69,9 @@ public class Game_engine {
         }
     }
 
-    public void DeprecatedUpdateLocations(Field field, Ball[] balls, Player[] players) {
-        for (int y = 0; y <= field.y_size; y++) {
-            next_coordinate:
-            for (int x = 0; x <= field.x_size; x++) {
-                for (Player player : players) {
-                    if (x == player.location.x && y == player.location.y) {
-                        System.out.append(player.character);
-                        continue next_coordinate;
-                    }
-                }
-                for (Ball ball : balls) {
-                    if (x == ball.location.x && y == ball.location.y) {
-                        System.out.append('O');
-                        continue next_coordinate;
-                    }
-                }
-                System.out.append('|');
-            }
-            System.out.append("\n");
-        }
-        System.out.append("\n");
-    }
-
     /**
      * Updates the location of the objects in that field
+     *
      * @param field the field that has to update locations
      */
     public void UpdateLocations(Field field) {
@@ -128,9 +85,10 @@ public class Game_engine {
             }
         }
     }
-    
+
     /**
      * Update the locations of the objects in those fields
+     *
      * @param fields fields that will update location
      */
     public void UpdateLocations(Field[] fields) {
@@ -141,10 +99,11 @@ public class Game_engine {
 
     /**
      * Returns which character has to be drawn in that position in that field
+     *
      * @param field
      * @param x x coordinate
      * @param y y coordinate
-     * @return
+     * @return Character to be drawn at that location
      */
     public char ToDrawAt(Field field, Integer x, Integer y) {
         char draw_character = ' ';
