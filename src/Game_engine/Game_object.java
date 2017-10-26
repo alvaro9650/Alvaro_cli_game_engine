@@ -231,6 +231,36 @@ public class Game_object implements Closeable {
         Speed moving_speed;
         switch (this.move_type) {
             case Teleport:
+                if(this.max_x_location<this.playing_field.x_size&&this.max_x_location>=0&&this.min_x_location<this.playing_field.x_size&&this.min_x_location>=0&&this.max_y_location<this.playing_field.y_size&&this.max_y_location>=0&&this.min_y_location<this.playing_field.y_size&&this.min_y_location>=0){
+                    Coordinate last_dest;
+                    do{
+                        last_dest= new Coordinate(destiny_location.x,destiny_location.y);
+                        while(destiny_location.x>this.max_x_location||destiny_location.y>this.max_y_location||destiny_location.x>this.min_x_location||destiny_location.y>this.min_y_location){
+                            if(destiny_location.x>this.max_x_location){
+                                destiny_location.x-=this.max_x_location;
+                            }else if(destiny_location.y>this.max_y_location){
+                                destiny_location.y-=this.max_y_location;
+                            }else if(destiny_location.x<this.min_x_location){
+                                destiny_location.x=Math.abs(this.min_x_location-destiny_location.x);
+                            }else if(destiny_location.y<this.min_y_location){
+                                destiny_location.y=Math.abs(this.min_y_location-destiny_location.y);
+                            }
+                        }
+                        while(destiny_location.x>=this.playing_field.x_size||destiny_location.y>=this.playing_field.y_size||destiny_location.x<this.playing_field.x_size||destiny_location.y<this.playing_field.y_size){
+                            if(destiny_location.x>this.playing_field.x_size){
+                                destiny_location.x-=this.playing_field.x_size;
+                            }else if(destiny_location.y>this.playing_field.y_size){
+                                destiny_location.y-=this.playing_field.y_size;
+                            }else if(destiny_location.x<0){
+                                destiny_location.x=Math.abs(destiny_location.x);
+                            }else if(destiny_location.y<0){
+                                destiny_location.y=Math.abs(destiny_location.y);
+                            }
+                        }
+                    }while(!(Objects.equals(last_dest.x, destiny_location.x)&&Objects.equals(last_dest.y, destiny_location.y)));
+                }else{
+                    return false;
+                }
                 return this.playing_field.CanRelocateGame_object(this, destiny_location);
             case Horizontal_first:
                 moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
