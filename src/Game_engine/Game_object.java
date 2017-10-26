@@ -212,6 +212,21 @@ public class Game_object implements Closeable {
         }
     }
 
+    /**
+     * Checks if it will bounce when it moves
+     *
+     * @return A boolean containing the result
+     */
+    public Boolean WillBounce() {
+        Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
+        return resultcoord.y > this.max_y_location || resultcoord.y < this.min_y_location || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.max_x_location || resultcoord.x < this.min_x_location || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+    }
+
+    /**
+     * Checks if and UpdatebounceableLocation can be done
+     *
+     * @return A boolean containing the result
+     */
     public Boolean CanUpdatebounceableLocation() {
         Coordinate destiny_location = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
         Speed moving_speed;
@@ -318,11 +333,6 @@ public class Game_object implements Closeable {
         } else {
             this.location.x += this.speed.x;
         }
-    }
-
-    public Boolean CanUpdatebounceableyLocation() {
-        Integer resultcoord;
-        return !((resultcoord = this.location.y + this.speed.y) > this.max_y_location || resultcoord < this.min_y_location);
     }
 
     public void UpdatebounceableyLocation() {
