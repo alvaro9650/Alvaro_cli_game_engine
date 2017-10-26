@@ -214,34 +214,89 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatebounceableLocation() {
         Coordinate destiny_location = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
+        Speed moving_speed;
         switch (this.move_type) {
             case Teleport:
                 return this.playing_field.CanRelocateGame_object(this, destiny_location);
             case Horizontal_first:
-                for (; Objects.equals(this.location.x, destiny_location.x); destiny_location.x++) {
+                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
+                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x+=moving_speed.x) {
                     if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
                         return false;
                     }
                 }
-                for (; Objects.equals(this.location.y, destiny_location.y); destiny_location.y++) {
+                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y+=moving_speed.y) {
                     if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
                         return false;
                     }
                 }
                 return true;
             case Vertical_first:
-                for (; Objects.equals(this.location.y, destiny_location.y); destiny_location.y++) {
+                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
+                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y+=moving_speed.y) {
                     if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
                         return false;
                     }
                 }
-                for (; Objects.equals(this.location.x, destiny_location.x); destiny_location.x++) {
+                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x+=moving_speed.x) {
                     if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
                         return false;
                     }
                 }
                 return true;
             case Diagonal:
+                if(this.speed.x!=0&&this.speed.y!=0&&Math.abs(this.speed.x)>=Math.abs(this.speed.y)){
+                    Integer times=Math.abs(this.speed.x/this.speed.y);
+                    Integer x_direction = (this.speed.x<0) ? -1 : 1;
+                    Integer y_direction = (this.speed.y<0) ? -1 : 1;
+                    for(;!Objects.equals(this.location.y, destiny_location.y);this.location.y+=y_direction){
+                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                            return false;
+                        }
+                        for(Integer i=0;i<times;i++,this.location.x+=x_direction){
+                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                return false;
+                            }
+                        }
+                    }
+                    for(;!Objects.equals(this.location.x, destiny_location.x);this.location.x+=x_direction){
+                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                            return false;
+                        }
+                    }
+                }else if(this.speed.x!=0&&this.speed.y!=0&&Math.abs(this.speed.y)>=Math.abs(this.speed.x)){
+                    Integer times=Math.abs(this.speed.y/this.speed.x);
+                    Integer y_direction = (this.speed.y<0) ? -1 : 1;
+                    Integer x_direction = (this.speed.x<0) ? -1 : 1;
+                    for(;!Objects.equals(this.location.x, destiny_location.x);this.location.x+=x_direction){
+                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                            return false;
+                        }
+                        for(Integer i=0;i<times;i++,this.location.x+=y_direction){
+                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                return false;
+                            }
+                        }
+                    }
+                    for(;!Objects.equals(this.location.y, destiny_location.y);this.location.y+=y_direction){
+                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                            return false;
+                        }
+                    }
+                }else{
+                    Integer x_direction = (this.speed.x<0) ? -1 : 1;
+                    for(Integer i=0;i<this.speed.x;i++,this.location.x+=x_direction){
+                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                return false;
+                        }
+                    }
+                    Integer y_direction = (this.speed.y<0) ? -1 : 1;
+                    for(Integer i=0;i<this.speed.y;i++,this.location.y+=y_direction){
+                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                return false;
+                        }
+                    }
+                }
             case None:
                 return false;
         }
