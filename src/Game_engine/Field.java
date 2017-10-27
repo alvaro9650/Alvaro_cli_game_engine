@@ -73,7 +73,7 @@ public class Field {
                 break;
             }
         }
-        if (coordinate.x > game_object.max_x_location || coordinate.x < game_object.min_x_location || coordinate.x < 0 || coordinate.x >= this.x_size || coordinate.y > game_object.max_y_location || coordinate.y < game_object.min_y_location || coordinate.y < 0 || coordinate.y >= this.y_size || need_space) {
+        if (coordinate.x > game_object.posible_location_area.max_coord.x || coordinate.x < game_object.posible_location_area.min_coord.x || coordinate.x < 0 || coordinate.x >= this.x_size || coordinate.y > game_object.posible_location_area.max_coord.y || coordinate.y < game_object.posible_location_area.min_coord.y || coordinate.y < 0 || coordinate.y >= this.y_size || need_space) {
             return false;
         }
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {

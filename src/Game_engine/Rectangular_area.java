@@ -22,7 +22,7 @@ public class Rectangular_area {
      * @param min_x Minimum x coordinate
      * @param min_y Minimum y coordinate
      */
-    public Rectangular_area(Integer max_x, Integer max_y, Integer min_x, Integer min_y) {
+    public Rectangular_area(Integer max_x, Integer min_x, Integer max_y, Integer min_y) {
         if (max_x >= min_x && max_y >= min_y) {
             this.max_coord = new Coordinate(max_x, max_y);
             this.min_coord = new Coordinate(min_x, min_y);

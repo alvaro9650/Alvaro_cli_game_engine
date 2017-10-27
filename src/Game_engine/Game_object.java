@@ -21,14 +21,8 @@ public class Game_object implements Closeable {
     Coordinate location;
     Speed speed;
     Field playing_field;
-    Integer max_x_location;
-    Integer min_x_location;
-    Integer max_y_location;
-    Integer min_y_location;
-    Integer max_x_respawn_area;
-    Integer min_x_respawn_area;
-    Integer max_y_respawn_area;
-    Integer min_y_respawn_area;
+    Rectangular_area posible_location_area;
+    Rectangular_area respawn_area;
     Integer height;
     Log_level log_level;
     char character;
@@ -49,18 +43,12 @@ public class Game_object implements Closeable {
         this.speed = new Speed(0, 0);
         this.move_type = Move_type.None;
         this.playing_field = field;
-        this.max_x_location = field.x_size - 1;
-        this.min_x_location = 0;
-        this.max_y_location = field.y_size - 1;
-        this.min_y_location = 0;
-        this.max_x_respawn_area = field.x_size - 1;
-        this.min_x_respawn_area = 0;
-        this.max_y_respawn_area = field.y_size - 1;
-        this.min_y_respawn_area = 0;
+        this.posible_location_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
+        this.respawn_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
         this.physical_state_type = Pysical_state_type.Ghost;
         this.out_of_bounds_move_type = Out_of_bounds_move_type.Circular_universe;
         this.log_level = Log_level.None;
-        this.location = new Coordinate(this.min_x_location, this.min_y_location);
+        this.location = new Coordinate(this.posible_location_area.min_coord.x, this.posible_location_area.min_coord.y);
     }
 
     /**
@@ -70,25 +58,19 @@ public class Game_object implements Closeable {
      * @param y y coordinate
      */
     public void RespawnPoint(Integer x, Integer y) {
-        this.max_x_respawn_area = x;
-        this.min_x_respawn_area = x;
-        this.max_y_respawn_area = y;
-        this.min_y_respawn_area = y;
+        this.respawn_area = new Rectangular_area(x, x, y, y);
     }
 
     /**
      * Creates a respawn area to use when it's going to be respawned
      *
-     * @param min_x Minumum x location of the area
      * @param max_x Maximum x location of the area
-     * @param min_y Minumum y location of the area
+     * @param min_x Minumum x location of the area
      * @param max_y Maximum y location of the area
+     * @param min_y Minumum y location of the area
      */
-    public void RespawnArea(Integer min_x, Integer max_x, Integer min_y, Integer max_y) {
-        this.min_x_respawn_area = min_x;
-        this.max_x_respawn_area = max_x;
-        this.min_y_respawn_area = min_y;
-        this.max_y_respawn_area = max_y;
+    public void RespawnArea(Integer max_x, Integer min_x, Integer max_y, Integer min_y) {
+        this.respawn_area = new Rectangular_area(max_x, min_x, max_y, min_y);
     }
 
     /**
@@ -116,22 +98,22 @@ public class Game_object implements Closeable {
                 object_log.append(this.speed.x);
                 object_log.append("\nspeed y = ");
                 object_log.append(this.speed.y);
-                object_log.append("\nmin_x_location = ");
-                object_log.append(this.min_x_location);
                 object_log.append("\nmax_x_location = ");
-                object_log.append(this.max_x_location);
-                object_log.append("\nmin_y_location = ");
-                object_log.append(this.min_y_location);
+                object_log.append(this.posible_location_area.max_coord.x);
+                object_log.append("\nmin_x_location = ");
+                object_log.append(this.posible_location_area.min_coord.x);
                 object_log.append("\nmax_y_location = ");
-                object_log.append(this.max_y_location);
-                object_log.append("\nmin_x_respawn_area = ");
-                object_log.append(this.min_x_respawn_area);
+                object_log.append(this.posible_location_area.max_coord.y);
+                object_log.append("\nmin_y_location = ");
+                object_log.append(this.posible_location_area.min_coord.y);
                 object_log.append("\nmax_x_respawn_area = ");
-                object_log.append(this.max_x_respawn_area);
-                object_log.append("\nmin_y_respawn_area = ");
-                object_log.append(this.min_y_respawn_area);
+                object_log.append(this.respawn_area.max_coord.x);
+                object_log.append("\nmin_x_respawn_area = ");
+                object_log.append(this.respawn_area.min_coord.x);
                 object_log.append("\nmax_y_respawn_area = ");
-                object_log.append(this.max_y_respawn_area);
+                object_log.append(this.respawn_area.max_coord.y);
+                object_log.append("\nmin_y_respawn_area = ");
+                object_log.append(this.respawn_area.min_coord.y);
                 object_log.append("\nout_of_bounds_move_type = ");
                 object_log.append(this.out_of_bounds_move_type);
             case Collision_related:
@@ -218,7 +200,7 @@ public class Game_object implements Closeable {
      */
     public Boolean WillBounce() {
         Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.max_y_location || resultcoord.y < this.min_y_location || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.max_x_location || resultcoord.x < this.min_x_location || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
     }
 
     /**
@@ -231,34 +213,34 @@ public class Game_object implements Closeable {
         Speed moving_speed;
         switch (this.move_type) {
             case Teleport:
-                if(this.max_x_location<this.playing_field.x_size&&this.max_x_location>=0&&this.min_x_location<this.playing_field.x_size&&this.min_x_location>=0&&this.max_y_location<this.playing_field.y_size&&this.max_y_location>=0&&this.min_y_location<this.playing_field.y_size&&this.min_y_location>=0){
+                if (this.posible_location_area.max_coord.x < this.playing_field.x_size && this.posible_location_area.max_coord.x >= 0 && this.posible_location_area.min_coord.x < this.playing_field.x_size && this.posible_location_area.min_coord.x >= 0 && this.posible_location_area.max_coord.y < this.playing_field.y_size && this.posible_location_area.max_coord.y >= 0 && this.posible_location_area.min_coord.y < this.playing_field.y_size && this.posible_location_area.min_coord.y >= 0) {
                     Coordinate last_dest;
-                    do{
-                        last_dest= new Coordinate(destiny_location.x,destiny_location.y);
-                        while(destiny_location.x>this.max_x_location||destiny_location.y>this.max_y_location||destiny_location.x>this.min_x_location||destiny_location.y>this.min_y_location){
-                            if(destiny_location.x>this.max_x_location){
-                                destiny_location.x-=this.max_x_location;
-                            }else if(destiny_location.y>this.max_y_location){
-                                destiny_location.y-=this.max_y_location;
-                            }else if(destiny_location.x<this.min_x_location){
-                                destiny_location.x=Math.abs(this.min_x_location-destiny_location.x);
-                            }else if(destiny_location.y<this.min_y_location){
-                                destiny_location.y=Math.abs(this.min_y_location-destiny_location.y);
+                    do {
+                        last_dest = new Coordinate(destiny_location.x, destiny_location.y);
+                        while (destiny_location.x > this.posible_location_area.max_coord.x || destiny_location.y > this.posible_location_area.max_coord.y || destiny_location.x > this.posible_location_area.min_coord.x || destiny_location.y > this.posible_location_area.min_coord.y) {
+                            if (destiny_location.x > this.posible_location_area.max_coord.x) {
+                                destiny_location.x -= this.posible_location_area.max_coord.x;
+                            } else if (destiny_location.y > this.posible_location_area.max_coord.y) {
+                                destiny_location.y -= this.posible_location_area.max_coord.y;
+                            } else if (destiny_location.x < this.posible_location_area.min_coord.x) {
+                                destiny_location.x = Math.abs(this.posible_location_area.min_coord.x - destiny_location.x);
+                            } else if (destiny_location.y < this.posible_location_area.min_coord.y) {
+                                destiny_location.y = Math.abs(this.posible_location_area.min_coord.y - destiny_location.y);
                             }
                         }
-                        while(destiny_location.x>=this.playing_field.x_size||destiny_location.y>=this.playing_field.y_size||destiny_location.x<this.playing_field.x_size||destiny_location.y<this.playing_field.y_size){
-                            if(destiny_location.x>this.playing_field.x_size){
-                                destiny_location.x-=this.playing_field.x_size;
-                            }else if(destiny_location.y>this.playing_field.y_size){
-                                destiny_location.y-=this.playing_field.y_size;
-                            }else if(destiny_location.x<0){
-                                destiny_location.x=Math.abs(destiny_location.x);
-                            }else if(destiny_location.y<0){
-                                destiny_location.y=Math.abs(destiny_location.y);
+                        while (destiny_location.x >= this.playing_field.x_size || destiny_location.y >= this.playing_field.y_size || destiny_location.x < this.playing_field.x_size || destiny_location.y < this.playing_field.y_size) {
+                            if (destiny_location.x > this.playing_field.x_size) {
+                                destiny_location.x -= this.playing_field.x_size;
+                            } else if (destiny_location.y > this.playing_field.y_size) {
+                                destiny_location.y -= this.playing_field.y_size;
+                            } else if (destiny_location.x < 0) {
+                                destiny_location.x = Math.abs(destiny_location.x);
+                            } else if (destiny_location.y < 0) {
+                                destiny_location.y = Math.abs(destiny_location.y);
                             }
                         }
-                    }while(!(Objects.equals(last_dest.x, destiny_location.x)&&Objects.equals(last_dest.y, destiny_location.y)));
-                }else{
+                    } while (!(Objects.equals(last_dest.x, destiny_location.x) && Objects.equals(last_dest.y, destiny_location.y)));
+                } else {
                     return false;
                 }
                 return this.playing_field.CanRelocateGame_object(this, destiny_location);
@@ -343,8 +325,9 @@ public class Game_object implements Closeable {
                 }
             case None:
                 return false;
+            default:
+                return false;
         }
-        return false;
     }
 
     public void UpdatebounceableLocation() {
@@ -353,10 +336,10 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatebounceablexLocation() {
-        if (this.location.x + this.speed.x > this.max_x_location) {
-            this.location.x -= (this.speed.x - (this.max_x_location - this.location.x));
+        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x) {
+            this.location.x -= (this.speed.x - (this.posible_location_area.max_coord.x - this.location.x));
             this.speed.x = -this.speed.x;
-        } else if (this.location.x + this.speed.x < this.min_y_location) {
+        } else if (this.location.x + this.speed.x < this.posible_location_area.min_coord.y) {
             this.location.x -= (this.speed.x + this.location.x);
             this.speed.x = -this.speed.x;
         } else {
@@ -365,10 +348,10 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatebounceableyLocation() {
-        if (this.location.y + this.speed.y > this.max_y_location) {
-            this.location.y -= (this.speed.y - (this.max_y_location - this.location.y));
+        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y) {
+            this.location.y -= (this.speed.y - (this.posible_location_area.max_coord.y - this.location.y));
             this.speed.y = -this.speed.y;
-        } else if (this.location.y + this.speed.y < this.min_y_location) {
+        } else if (this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
             this.location.y -= (this.speed.y + this.location.y);
             this.speed.y = -this.speed.y;
         } else {
@@ -383,7 +366,7 @@ public class Game_object implements Closeable {
      */
     public Boolean WillRespawn() {
         Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.max_y_location || resultcoord.y < this.min_y_location || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.max_x_location || resultcoord.x < this.min_x_location || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
     }
 
     /**
@@ -488,16 +471,16 @@ public class Game_object implements Closeable {
     }
 
     public void UpdaterespawnablexLocation() {
-        if (this.location.x + this.speed.x > this.max_x_location || this.location.x + this.speed.x < this.min_x_location) {
-            this.location.x = Mathcustomfuncs.random(this.min_x_respawn_area, this.max_x_respawn_area).intValue();
+        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x || this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
+            this.location.x = Mathcustomfuncs.random(this.posible_location_area.min_coord.x, this.posible_location_area.max_coord.x).intValue();
         } else {
             this.location.x += this.speed.x;
         }
     }
 
     public void UpdaterespawnableyLocation() {
-        if (this.location.y + this.speed.y > this.max_y_location || this.location.y + this.speed.y < this.min_y_location) {
-            this.location.y = Mathcustomfuncs.random(this.min_y_respawn_area, this.max_y_respawn_area).intValue();
+        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y || this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
+            this.location.y = Mathcustomfuncs.random(this.posible_location_area.min_coord.y, this.posible_location_area.max_coord.x).intValue();
         } else {
             this.location.y += this.speed.y;
         }
@@ -605,11 +588,11 @@ public class Game_object implements Closeable {
     }
 
     public void UpdateimpossiblexLocation() {
-        this.location.x += (this.location.x + this.speed.x > this.max_x_location || this.location.x + this.speed.x < this.min_x_location) ? 0 : this.speed.x;
+        this.location.x += (this.location.x + this.speed.x > this.posible_location_area.max_coord.x || this.location.x + this.speed.x < this.posible_location_area.min_coord.x) ? 0 : this.speed.x;
     }
 
     public void UpdateimpossibleyLocation() {
-        this.location.y += (this.location.y + this.speed.y > this.max_y_location || this.location.y + this.speed.y < this.min_y_location) ? 0 : this.speed.y;
+        this.location.y += (this.location.y + this.speed.y > this.posible_location_area.max_coord.y || this.location.y + this.speed.y < this.posible_location_area.min_coord.y) ? 0 : this.speed.y;
     }
 
     /**
@@ -715,11 +698,11 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatedestroyablexLocation() {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + this.speed.x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + this.speed.x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdatedestroyablexLocation() throws IOException {
-        if (this.location.x + this.speed.x > this.max_x_location || this.location.x + this.speed.x < this.min_x_location) {
+        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x || this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
             this.close();
         } else {
             this.location.x += this.speed.x;
@@ -728,11 +711,11 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatedestroyableyLocation() {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + this.speed.y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + this.speed.y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdatedestroyableyLocation() throws IOException {
-        if (this.location.y + this.speed.y > this.max_y_location || this.location.y + this.speed.y < this.min_y_location) {
+        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y || this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
             this.close();
         } else {
             this.location.y += this.speed.y;
@@ -768,7 +751,7 @@ public class Game_object implements Closeable {
      */
     public Boolean WillFarest() {
         Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.max_y_location || resultcoord.y < this.min_y_location || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.max_x_location || resultcoord.x < this.min_x_location || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
     }
 
     /**
@@ -873,20 +856,20 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatefarestxLocation() {
-        if (this.location.x + this.speed.x > this.max_x_location) {
-            this.location.x = this.max_x_location;
-        } else if (this.location.x + this.speed.x < this.min_x_location) {
-            this.location.x = this.min_x_location;
+        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x) {
+            this.location.x = this.posible_location_area.max_coord.x;
+        } else if (this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
+            this.location.x = this.posible_location_area.min_coord.x;
         } else {
             this.location.x += this.speed.x;
         }
     }
 
     public void UpdatefarestyLocation() {
-        if (this.location.y + this.speed.y > this.max_y_location) {
-            this.location.y = this.max_y_location;
-        } else if (this.location.y + this.speed.y < this.min_y_location) {
-            this.location.y = this.min_y_location;
+        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y) {
+            this.location.y = this.posible_location_area.max_coord.y;
+        } else if (this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
+            this.location.y = this.posible_location_area.min_coord.y;
         } else {
             this.location.y += this.speed.y;
         }
@@ -899,7 +882,7 @@ public class Game_object implements Closeable {
      */
     public Boolean WillCircularUniverse() {
         Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.max_y_location || resultcoord.y < this.min_y_location || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.max_x_location || resultcoord.x < this.min_x_location || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
     }
 
     /**
@@ -917,20 +900,20 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatecircularuniversexLocation() {
-        if (this.location.x + this.speed.x > this.max_x_location) {
-            this.location.x = this.min_x_location + (this.speed.x - (this.max_x_location - this.location.x));
-        } else if (this.location.x + this.speed.x < this.min_x_location) {
-            this.location.x = this.max_x_location + (this.speed.x + this.location.x);
+        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x) {
+            this.location.x = this.posible_location_area.min_coord.x + (this.speed.x - (this.posible_location_area.max_coord.x - this.location.x));
+        } else if (this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
+            this.location.x = this.posible_location_area.max_coord.x + (this.speed.x + this.location.x);
         } else {
             this.location.x += this.speed.x;
         }
     }
 
     public void UpdatecircularuniverseyLocation() {
-        if (this.location.y + this.speed.y > this.max_y_location) {
-            this.location.y = this.min_y_location + (this.speed.y - (this.max_y_location - this.location.y));
-        } else if (this.location.x + this.speed.x < this.min_x_location) {
-            this.location.y = this.max_y_location + (this.speed.y + this.location.y);
+        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y) {
+            this.location.y = this.posible_location_area.min_coord.y + (this.speed.y - (this.posible_location_area.max_coord.y - this.location.y));
+        } else if (this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
+            this.location.y = this.posible_location_area.max_coord.y + (this.speed.y + this.location.y);
         } else {
             this.location.y += this.speed.y;
         }
@@ -1003,13 +986,13 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatebounceablexLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdatebounceablexLocation(Integer x, Integer y) {
-        if (this.location.x + x > this.max_x_location) {
-            this.location.x -= (x - (this.max_x_location - this.location.x));
-        } else if (this.location.x + x < this.min_y_location) {
+        if (this.location.x + x > this.posible_location_area.max_coord.x) {
+            this.location.x -= (x - (this.posible_location_area.max_coord.x - this.location.x));
+        } else if (this.location.x + x < this.posible_location_area.min_coord.y) {
             this.location.x -= (x + this.location.x);
         } else {
             this.location.x += x;
@@ -1018,13 +1001,13 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatebounceableyLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdatebounceableyLocation(Integer x, Integer y) {
-        if (this.location.y + y > this.max_y_location) {
-            this.location.y -= (y - (this.max_y_location - this.location.y));
-        } else if (this.location.y + y < this.min_y_location) {
+        if (this.location.y + y > this.posible_location_area.max_coord.y) {
+            this.location.y -= (y - (this.posible_location_area.max_coord.y - this.location.y));
+        } else if (this.location.y + y < this.posible_location_area.min_coord.y) {
             this.location.y -= (y + this.location.y);
         } else {
             this.location.y += y;
@@ -1043,12 +1026,12 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdaterespawnablexLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdaterespawnablexLocation(Integer x, Integer y) {
-        if (this.location.x + x > this.max_x_location || this.location.x + x < this.min_x_location) {
-            this.location.x = Mathcustomfuncs.random(this.min_x_respawn_area, this.max_x_respawn_area).intValue();
+        if (this.location.x + x > this.posible_location_area.max_coord.x || this.location.x + x < this.posible_location_area.min_coord.x) {
+            this.location.x = Mathcustomfuncs.random(this.respawn_area.min_coord.x, this.respawn_area.max_coord.x).intValue();
         } else {
             this.location.x += x;
         }
@@ -1056,12 +1039,12 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdaterespawnableyLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdaterespawnableyLocation(Integer x, Integer y) {
-        if (this.location.y + y > this.max_y_location || this.location.y + y < this.min_y_location) {
-            this.location.y = Mathcustomfuncs.random(this.min_y_respawn_area, this.max_y_respawn_area).intValue();
+        if (this.location.y + y > this.posible_location_area.max_coord.y || this.location.y + y < this.posible_location_area.min_coord.y) {
+            this.location.y = Mathcustomfuncs.random(this.respawn_area.min_coord.y, this.respawn_area.max_coord.y).intValue();
         } else {
             this.location.y += y;
         }
@@ -1079,20 +1062,20 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdateimpossiblexLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdateimpossiblexLocation(Integer x, Integer y) {
-        this.location.x += (this.location.x + x > this.max_x_location || this.location.x + x < this.min_x_location) ? 0 : x;
+        this.location.x += (this.location.x + x > this.posible_location_area.max_coord.x || this.location.x + x < this.posible_location_area.min_coord.x) ? 0 : x;
     }
 
     public Boolean CanUpdateimpossibleyLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdateimpossibleyLocation(Integer x, Integer y) {
-        this.location.y += (this.location.y + y > this.max_y_location || this.location.y + y < this.min_y_location) ? 0 : y;
+        this.location.y += (this.location.y + y > this.posible_location_area.max_coord.y || this.location.y + y < this.posible_location_area.min_coord.y) ? 0 : y;
     }
 
     public Boolean[] CanUpdatedestroyableLocation(Integer x, Integer y) {
@@ -1107,11 +1090,11 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatedestroyablexLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdatedestroyablexLocation(Integer x, Integer y) throws IOException {
-        if (this.location.x + x > this.max_x_location || this.location.x + x < this.min_x_location) {
+        if (this.location.x + x > this.posible_location_area.max_coord.x || this.location.x + x < this.posible_location_area.min_coord.x) {
             this.close();
         } else {
             this.location.x += x;
@@ -1120,11 +1103,11 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatedestroyableyLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdatedestroyableyLocation(Integer x, Integer y) throws IOException {
-        if (this.location.y + y > this.max_y_location || this.location.y + y < this.min_y_location) {
+        if (this.location.y + y > this.posible_location_area.max_coord.y || this.location.y + y < this.posible_location_area.min_coord.y) {
             this.close();
         } else {
             this.location.y += y;
@@ -1169,14 +1152,14 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatefarestxLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.x + x) > this.max_x_location || resultcoord < this.min_x_location);
+        return !((resultcoord = this.location.x + x) > this.posible_location_area.max_coord.x || resultcoord < this.posible_location_area.min_coord.x);
     }
 
     public void UpdatefarestxLocation(Integer x, Integer y) {
-        if (this.location.x + x > this.max_x_location) {
-            this.location.x = this.max_x_location;
-        } else if (this.location.x + x < this.min_x_location) {
-            this.location.x = this.min_x_location;
+        if (this.location.x + x > this.posible_location_area.max_coord.x) {
+            this.location.x = this.posible_location_area.max_coord.x;
+        } else if (this.location.x + x < this.posible_location_area.min_coord.x) {
+            this.location.x = this.posible_location_area.min_coord.x;
         } else {
             this.location.x += x;
         }
@@ -1184,14 +1167,14 @@ public class Game_object implements Closeable {
 
     public Boolean CanUpdatefarestyLocation(Integer x, Integer y) {
         Integer resultcoord;
-        return !((resultcoord = this.location.y + y) > this.max_y_location || resultcoord < this.min_y_location);
+        return !((resultcoord = this.location.y + y) > this.posible_location_area.max_coord.y || resultcoord < this.posible_location_area.min_coord.y);
     }
 
     public void UpdatefarestyLocation(Integer x, Integer y) {
-        if (this.location.y + y > this.max_y_location) {
-            this.location.y = this.max_y_location;
-        } else if (this.location.y + y < this.min_y_location) {
-            this.location.y = this.min_y_location;
+        if (this.location.y + y > this.posible_location_area.max_coord.y) {
+            this.location.y = this.posible_location_area.max_coord.y;
+        } else if (this.location.y + y < this.posible_location_area.min_coord.y) {
+            this.location.y = this.posible_location_area.min_coord.y;
         } else {
             this.location.y += y;
         }
@@ -1212,10 +1195,10 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatecircularuniversexLocation(Integer x, Integer y) {
-        if (this.location.x + x > this.max_x_location) {
-            this.location.x = this.min_x_location + (x - (this.max_x_location - this.location.x));
-        } else if (this.location.x + x < this.min_x_location) {
-            this.location.x = this.max_x_location + (x + this.location.x);
+        if (this.location.x + x > this.posible_location_area.max_coord.x) {
+            this.location.x = this.posible_location_area.min_coord.x + (x - (this.posible_location_area.max_coord.x - this.location.x));
+        } else if (this.location.x + x < this.posible_location_area.min_coord.x) {
+            this.location.x = this.posible_location_area.max_coord.x + (x + this.location.x);
         } else {
             this.location.x += x;
         }
@@ -1226,10 +1209,10 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatecircularuniverseyLocation(Integer x, Integer y) {
-        if (this.location.y + y > this.max_y_location) {
-            this.location.y = this.min_y_location + (y - (this.max_y_location - this.location.y));
-        } else if (this.location.x + x < this.min_x_location) {
-            this.location.y = this.max_y_location + (y + this.location.y);
+        if (this.location.y + y > this.posible_location_area.max_coord.y) {
+            this.location.y = this.posible_location_area.min_coord.y + (y - (this.posible_location_area.max_coord.y - this.location.y));
+        } else if (this.location.x + x < this.posible_location_area.min_coord.x) {
+            this.location.y = this.posible_location_area.max_coord.y + (y + this.location.y);
         } else {
             this.location.y += y;
         }
