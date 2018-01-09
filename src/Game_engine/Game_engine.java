@@ -11,7 +11,7 @@ package Game_engine;
  */
 public class Game_engine {
 
-    Game_engine() {
+    public Game_engine() {
     }
 
     /**
