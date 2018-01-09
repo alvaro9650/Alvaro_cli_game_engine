@@ -12,9 +12,9 @@ package Game_engine;
  */
 public class Field {
 
-    Integer x_size;
-    Integer y_size;
-    Game_object[][][] game_objects;
+    public Integer x_size;
+    public Integer y_size;
+    public Game_object[][][] game_objects;
 
     /**
      * Costructor for field
@@ -73,7 +73,8 @@ public class Field {
                 break;
             }
         }
-        if (coordinate.x > game_object.posible_location_area.max_coord.x || coordinate.x < game_object.posible_location_area.min_coord.x || coordinate.x < 0 || coordinate.x >= this.x_size || coordinate.y > game_object.posible_location_area.max_coord.y || coordinate.y < game_object.posible_location_area.min_coord.y || coordinate.y < 0 || coordinate.y >= this.y_size || need_space) {
+        Rectangular_area possible_move_area = new Rectangular_area(this.x_size - 1, 0, this.y_size - 1, 0).CommonArea(game_object.posible_location_area);
+        if (coordinate.x > possible_move_area.max_coord.x || coordinate.x < possible_move_area.min_coord.x || coordinate.y > possible_move_area.max_coord.y || coordinate.y < possible_move_area.min_coord.y || need_space) {
             return false;
         }
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
