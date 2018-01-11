@@ -18,18 +18,20 @@ import java.util.logging.Logger;
  */
 public class Game_object implements Closeable {
 
-    Coordinate location;
-    Speed speed;
-    Field playing_field;
-    Rectangular_area posible_location_area;
-    Rectangular_area respawn_area;
-    Integer height;
-    Log_level log_level;
-    char character;
-    Out_of_bounds_move_type out_of_bounds_move_type;
-    Pysical_state_type physical_state_type;
-    Move_type move_type;
-    String object_type;
+    public Coordinate location;
+    public Speed speed;
+    public Field playing_field;
+    public Rectangular_area posible_location_area;
+    public Rectangular_area respawn_area;
+    public Integer height;
+    public Log_level log_level;
+    public char character;
+    public Out_of_bounds_move_type out_of_bounds_move_type;
+    public Physical_state_type physical_state_type;
+    public Move_type move_type;
+    public String object_type;
+    public Collision_type receiving_collision;
+    public Collision_type giving_collision;
 
     /**
      * Creates a basic game object , should be overriden
@@ -45,7 +47,7 @@ public class Game_object implements Closeable {
         this.playing_field = field;
         this.posible_location_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
         this.respawn_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
-        this.physical_state_type = Pysical_state_type.Ghost;
+        this.physical_state_type = Physical_state_type.Ghost;
         this.out_of_bounds_move_type = Out_of_bounds_move_type.Circular_universe;
         this.log_level = Log_level.None;
         this.location = new Coordinate(this.posible_location_area.min_coord.x, this.posible_location_area.min_coord.y);
@@ -199,8 +201,117 @@ public class Game_object implements Closeable {
      * @return A boolean containing the result
      */
     public Boolean WillBounce() {
-        Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
+        switch (this.move_type) {
+            case Teleport:
+                Rectangular_area possible_bounce_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
+                if ((destiny_location.x += this.speed.x) > possible_bounce_area.max_coord.x || destiny_location.x < possible_bounce_area.min_coord.x || (destiny_location.y += this.speed.y) > possible_bounce_area.max_coord.y || destiny_location.y < possible_bounce_area.min_coord.y) {
+                    return true;
+                }
+                return false;
+            case None:
+                return false;
+            default:
+                Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
+                switch (this.move_type) {
+                    case Horizontal_first:
+                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                return true;
+                            }
+                        }
+                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                return true;
+                            }
+                        }
+                        return false;
+                    case Vertical_first:
+                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                return true;
+                            }
+                        }
+                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                            } else {
+                                return true;
+                            }
+                        }
+                        return false;
+                    case Diagonal:
+                        if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
+                            Integer times = Math.abs(this.speed.x / this.speed.y);
+                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.y -= moving_speed.y;
+                                } else {
+                                    return true;
+                                }
+                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.x) {
+                                    if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                        remaining_speed.x -= moving_speed.x;
+                                    } else {
+                                        return true;
+                                    }
+                                }
+                            }
+                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.x -= moving_speed.x;
+                                } else {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
+                            Integer times = Math.abs(this.speed.y / this.speed.x);
+                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.x -= moving_speed.x;
+                                } else {
+                                    return true;
+                                }
+                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.y) {
+                                    if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                        remaining_speed.y -= moving_speed.y;
+                                    } else {
+                                        return true;
+                                    }
+                                }
+                            }
+                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.y -= moving_speed.y;
+                                } else {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        } else {
+                            do {
+                                destiny_location.x += moving_speed.x;
+                                destiny_location.y += moving_speed.y;
+                                remaining_speed.x -= moving_speed.x;
+                                remaining_speed.y -= moving_speed.y;
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                                } else {
+                                    return true;
+                                }
+                            } while (remaining_speed.x != 0 || remaining_speed.x != 0);
+                            return false;
+                        }
+                }
+        }
+        return false;
     }
 
     /**
@@ -209,153 +320,298 @@ public class Game_object implements Closeable {
      * @return A boolean containing the result
      */
     public Boolean CanUpdatebounceableLocation() {
-        Coordinate destiny_location = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        Speed moving_speed;
+        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
         switch (this.move_type) {
             case Teleport:
-                if (this.posible_location_area.max_coord.x < this.playing_field.x_size && this.posible_location_area.max_coord.x >= 0 && this.posible_location_area.min_coord.x < this.playing_field.x_size && this.posible_location_area.min_coord.x >= 0 && this.posible_location_area.max_coord.y < this.playing_field.y_size && this.posible_location_area.max_coord.y >= 0 && this.posible_location_area.min_coord.y < this.playing_field.y_size && this.posible_location_area.min_coord.y >= 0) {
-                    Coordinate last_dest;
-                    do {
-                        last_dest = new Coordinate(destiny_location.x, destiny_location.y);
-                        while (destiny_location.x > this.posible_location_area.max_coord.x || destiny_location.y > this.posible_location_area.max_coord.y || destiny_location.x > this.posible_location_area.min_coord.x || destiny_location.y > this.posible_location_area.min_coord.y) {
-                            if (destiny_location.x > this.posible_location_area.max_coord.x) {
-                                destiny_location.x -= this.posible_location_area.max_coord.x;
-                            } else if (destiny_location.y > this.posible_location_area.max_coord.y) {
-                                destiny_location.y -= this.posible_location_area.max_coord.y;
-                            } else if (destiny_location.x < this.posible_location_area.min_coord.x) {
-                                destiny_location.x = Math.abs(this.posible_location_area.min_coord.x - destiny_location.x);
-                            } else if (destiny_location.y < this.posible_location_area.min_coord.y) {
-                                destiny_location.y = Math.abs(this.posible_location_area.min_coord.y - destiny_location.y);
-                            }
-                        }
-                        while (destiny_location.x >= this.playing_field.x_size || destiny_location.y >= this.playing_field.y_size || destiny_location.x < this.playing_field.x_size || destiny_location.y < this.playing_field.y_size) {
-                            if (destiny_location.x > this.playing_field.x_size) {
-                                destiny_location.x -= this.playing_field.x_size;
-                            } else if (destiny_location.y > this.playing_field.y_size) {
-                                destiny_location.y -= this.playing_field.y_size;
-                            } else if (destiny_location.x < 0) {
-                                destiny_location.x = Math.abs(destiny_location.x);
-                            } else if (destiny_location.y < 0) {
-                                destiny_location.y = Math.abs(destiny_location.y);
-                            }
-                        }
-                    } while (!(Objects.equals(last_dest.x, destiny_location.x) && Objects.equals(last_dest.y, destiny_location.y)));
-                } else {
-                    return false;
-                }
+                Integer bouncing_space,
+                 teorical_destiny;
+                Rectangular_area possible_bounce_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
+                destiny_location.x = (((this.speed.x = ((teorical_destiny = destiny_location.x + this.speed.x) / (bouncing_space = possible_bounce_area.max_coord.x - possible_bounce_area.min_coord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possible_bounce_area.min_coord.x : possible_bounce_area.max_coord.x) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.x)).intValue();
+                destiny_location.y = (((this.speed.y = ((teorical_destiny = destiny_location.y + this.speed.y) / (bouncing_space = possible_bounce_area.max_coord.y - possible_bounce_area.min_coord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possible_bounce_area.min_coord.y : possible_bounce_area.max_coord.y) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.y)).intValue();
                 return this.playing_field.CanRelocateGame_object(this, destiny_location);
-            case Horizontal_first:
-                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
-                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += moving_speed.x) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += moving_speed.y) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                return true;
-            case Vertical_first:
-                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
-                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += moving_speed.y) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += moving_speed.x) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                return true;
-            case Diagonal:
-                if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
-                    Integer times = Math.abs(this.speed.x / this.speed.y);
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                        for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
-                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                                return false;
-                            }
-                        }
-                    }
-                    for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
-                    Integer times = Math.abs(this.speed.y / this.speed.x);
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                        for (Integer i = 0; i < times; i++, this.location.x += y_direction) {
-                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                                return false;
-                            }
-                        }
-                    }
-                    for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                } else {
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    for (Integer i = 0; i < this.speed.x; i++, this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    for (Integer i = 0; i < this.speed.y; i++, this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                }
             case None:
-                return false;
+                return this.playing_field.CanRelocateGame_object(this, destiny_location);
             default:
-                return false;
+                Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
+                switch (this.move_type) {
+                    case Horizontal_first:
+                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                moving_speed.x *= -1;
+                                remaining_speed.x *= -1;
+                                destiny_location.x += moving_speed.x;
+                            }
+                        }
+                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                moving_speed.y *= -1;
+                                remaining_speed.y *= -1;
+                                destiny_location.y += moving_speed.y;
+                            }
+                        }
+                        return this.playing_field.CanRelocateGame_object(this, destiny_location);
+                    case Vertical_first:
+                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                            } else {
+                                moving_speed.y *= -1;
+                                remaining_speed.y *= -1;
+                                destiny_location.y += moving_speed.y;
+                            }
+                        }
+                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                            if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                            } else {
+                                moving_speed.x *= -1;
+                                remaining_speed.x *= -1;
+                                destiny_location.x += moving_speed.x;
+                            }
+                        }
+                        return this.playing_field.CanRelocateGame_object(this, destiny_location);
+                    case Diagonal:
+                        if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
+                            Integer times = Math.abs(this.speed.x / this.speed.y);
+                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.y -= moving_speed.y;
+                                } else {
+                                    moving_speed.y *= -1;
+                                    remaining_speed.y *= -1;
+                                    destiny_location.y += moving_speed.y;
+                                    remaining_speed.y -= moving_speed.y;
+                                }
+                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.x) {
+                                    if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                        remaining_speed.x -= moving_speed.x;
+                                    } else {
+                                        moving_speed.x *= -1;
+                                        remaining_speed.x *= -1;
+                                        destiny_location.x += moving_speed.x;
+                                        remaining_speed.x -= moving_speed.x;
+                                    }
+                                }
+                            }
+                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.x -= moving_speed.x;
+                                } else {
+                                    moving_speed.x *= -1;
+                                    remaining_speed.x *= -1;
+                                    destiny_location.x += moving_speed.x;
+                                    remaining_speed.x -= moving_speed.x;
+                                }
+                            }
+                            return this.playing_field.CanRelocateGame_object(this, destiny_location);
+                        } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
+                            Integer times = Math.abs(this.speed.y / this.speed.x);
+                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.x -= moving_speed.x;
+                                } else {
+                                    moving_speed.x *= -1;
+                                    remaining_speed.x *= -1;
+                                    destiny_location.x += moving_speed.x;
+                                    remaining_speed.x -= moving_speed.x;
+                                }
+                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.y) {
+                                    if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                        remaining_speed.y -= moving_speed.y;
+                                    } else {
+                                        moving_speed.y *= -1;
+                                        remaining_speed.y *= -1;
+                                        destiny_location.y += moving_speed.y;
+                                        remaining_speed.y -= moving_speed.y;
+                                    }
+                                }
+                            }
+                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+                                    remaining_speed.y -= moving_speed.y;
+                                } else {
+                                    moving_speed.y *= -1;
+                                    remaining_speed.y *= -1;
+                                    destiny_location.y += moving_speed.y;
+                                    remaining_speed.y -= moving_speed.y;
+                                }
+                            }
+                            return this.playing_field.CanRelocateGame_object(this, destiny_location);
+                        } else {
+                            do {
+                                destiny_location.x += moving_speed.x;
+                                destiny_location.y += moving_speed.y;
+                                remaining_speed.x -= moving_speed.x;
+                                remaining_speed.y -= moving_speed.y;
+                                if (this.playing_field.CanRelocateGame_object(this, destiny_location)) {
+
+                                } else {
+                                    moving_speed.x *= -1;
+                                    remaining_speed.x *= -1;
+                                    moving_speed.y *= -1;
+                                    remaining_speed.y *= -1;
+                                    destiny_location.x += moving_speed.x;
+                                    destiny_location.y += moving_speed.y;
+                                }
+                            } while (remaining_speed.x != 0 || remaining_speed.x != 0);
+                            return this.playing_field.CanRelocateGame_object(this, destiny_location);
+                        }
+                }
         }
+        return false;
     }
 
     public void UpdatebounceableLocation() {
-        UpdatebounceablexLocation();
-        UpdatebounceableyLocation();
-    }
+        if (CanUpdatebounceableLocation()) {
+            this.playing_field.DeleteGame_object(this);
+            switch (this.move_type) {
+                case Teleport:
+                    Integer bouncing_space,
+                     teorical_destiny;
+                    Rectangular_area possible_bounce_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
+                    this.location.x = (((this.speed.x = ((teorical_destiny = this.location.x + this.speed.x) / (bouncing_space = possible_bounce_area.max_coord.x - possible_bounce_area.min_coord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possible_bounce_area.min_coord.x : possible_bounce_area.max_coord.x) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.x)).intValue();
+                    this.location.y = (((this.speed.y = ((teorical_destiny = this.location.y + this.speed.y) / (bouncing_space = possible_bounce_area.max_coord.y - possible_bounce_area.min_coord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possible_bounce_area.min_coord.y : possible_bounce_area.max_coord.y) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.y)).intValue();
+                    this.playing_field.AddGame_object(this);
+                    break;
+                case None:
+                    this.playing_field.AddGame_object(this);
+                    break;
+                default:
+                    Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                    ;
+                    Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
+                    switch (this.move_type) {
+                        case Horizontal_first:
+                            for (; remaining_speed.x != 0; this.location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, this.location)) {
 
-    public void UpdatebounceablexLocation() {
-        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x) {
-            this.location.x -= (this.speed.x - (this.posible_location_area.max_coord.x - this.location.x));
-            this.speed.x = -this.speed.x;
-        } else if (this.location.x + this.speed.x < this.posible_location_area.min_coord.y) {
-            this.location.x -= (this.speed.x + this.location.x);
-            this.speed.x = -this.speed.x;
-        } else {
-            this.location.x += this.speed.x;
-        }
-    }
+                                } else {
+                                    moving_speed.x *= -1;
+                                    remaining_speed.x *= -1;
+                                    this.location.x += moving_speed.x;
+                                }
+                            }
+                            for (; remaining_speed.y != 0; this.location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, this.location)) {
 
-    public void UpdatebounceableyLocation() {
-        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y) {
-            this.location.y -= (this.speed.y - (this.posible_location_area.max_coord.y - this.location.y));
-            this.speed.y = -this.speed.y;
-        } else if (this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
-            this.location.y -= (this.speed.y + this.location.y);
-            this.speed.y = -this.speed.y;
-        } else {
-            this.location.y += this.speed.y;
+                                } else {
+                                    moving_speed.y *= -1;
+                                    remaining_speed.y *= -1;
+                                    this.location.y += moving_speed.y;
+                                }
+                            }
+                            this.playing_field.AddGame_object(this);
+                        case Vertical_first:
+                            for (; remaining_speed.y != 0; this.location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
+                                if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+
+                                } else {
+                                    moving_speed.y *= -1;
+                                    remaining_speed.y *= -1;
+                                    this.location.y += moving_speed.y;
+                                }
+                            }
+                            for (; remaining_speed.x != 0; this.location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
+                                if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                } else {
+                                    moving_speed.x *= -1;
+                                    remaining_speed.x *= -1;
+                                    this.location.x += moving_speed.x;
+                                }
+                            }
+                            this.playing_field.AddGame_object(this);
+                        case Diagonal:
+                            if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
+                                Integer times = Math.abs(this.speed.x / this.speed.y);
+                                for (; remaining_speed.y != 0; this.location.y += moving_speed.y) {
+                                    if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                        remaining_speed.y -= moving_speed.y;
+                                    } else {
+                                        moving_speed.y *= -1;
+                                        remaining_speed.y *= -1;
+                                        this.location.y += moving_speed.y;
+                                        remaining_speed.y -= moving_speed.y;
+                                    }
+                                    for (Integer i = 0; i < times; i++, this.location.x += moving_speed.x) {
+                                        if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                            remaining_speed.x -= moving_speed.x;
+                                        } else {
+                                            moving_speed.x *= -1;
+                                            remaining_speed.x *= -1;
+                                            this.location.x += moving_speed.x;
+                                            remaining_speed.x -= moving_speed.x;
+                                        }
+                                    }
+                                }
+                                for (; remaining_speed.x != 0; this.location.x += moving_speed.x) {
+                                    if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                        remaining_speed.x -= moving_speed.x;
+                                    } else {
+                                        moving_speed.x *= -1;
+                                        remaining_speed.x *= -1;
+                                        this.location.x += moving_speed.x;
+                                        remaining_speed.x -= moving_speed.x;
+                                    }
+                                }
+                                this.playing_field.AddGame_object(this);
+                            } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
+                                Integer times = Math.abs(this.speed.y / this.speed.x);
+                                for (; remaining_speed.x != 0; this.location.x += moving_speed.x) {
+                                    if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                        remaining_speed.x -= moving_speed.x;
+                                    } else {
+                                        moving_speed.x *= -1;
+                                        remaining_speed.x *= -1;
+                                        this.location.x += moving_speed.x;
+                                        remaining_speed.x -= moving_speed.x;
+                                    }
+                                    for (Integer i = 0; i < times; i++, this.location.x += moving_speed.y) {
+                                        if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                            remaining_speed.y -= moving_speed.y;
+                                        } else {
+                                            moving_speed.y *= -1;
+                                            remaining_speed.y *= -1;
+                                            this.location.y += moving_speed.y;
+                                            remaining_speed.y -= moving_speed.y;
+                                        }
+                                    }
+                                }
+                                for (; remaining_speed.y != 0; this.location.y += moving_speed.y) {
+                                    if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+                                        remaining_speed.y -= moving_speed.y;
+                                    } else {
+                                        moving_speed.y *= -1;
+                                        remaining_speed.y *= -1;
+                                        this.location.y += moving_speed.y;
+                                        remaining_speed.y -= moving_speed.y;
+                                    }
+                                }
+                                this.playing_field.AddGame_object(this);
+                            } else {
+                                do {
+                                    this.location.x += moving_speed.x;
+                                    this.location.y += moving_speed.y;
+                                    remaining_speed.x -= moving_speed.x;
+                                    remaining_speed.y -= moving_speed.y;
+                                    if (this.playing_field.CanRelocateGame_object(this, this.location)) {
+
+                                    } else {
+                                        moving_speed.x *= -1;
+                                        remaining_speed.x *= -1;
+                                        moving_speed.y *= -1;
+                                        remaining_speed.y *= -1;
+                                        this.location.x += moving_speed.x;
+                                        this.location.y += moving_speed.y;
+                                    }
+                                } while (remaining_speed.x != 0 || remaining_speed.x != 0);
+                                this.playing_field.AddGame_object(this);
+                            }
+                    }
+            }
         }
     }
 
