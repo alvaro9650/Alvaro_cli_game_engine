@@ -25,4 +25,8 @@ public class Coordinate {
         this.x = x;
         this.y = y;
     }
+    public Coordinate(Coordinate coord) {
+        this.x = coord.x;
+        this.y = coord.y;
+    }
 }
