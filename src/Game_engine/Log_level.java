@@ -6,16 +6,29 @@
 package Game_engine;
 
 /**
+ * Log levels
  *
  * @author alumno1718_2
  */
 public enum Log_level {
-    Verbose(1),Draw_related(2),Move_related(3),Out_of_bounds_related(4),Collision_related(5),Position_related(6),None(7);             
+    Verbose(1), Draw_related(2), Move_related(3), Out_of_bounds_related(4), Collision_related(5), Position_related(6), None(7);
     private final int log_level;
+
+    /**
+     * Constructor for Log_level
+     *
+     * @param log_level int that identifies Log_level
+     */
     private Log_level(int log_level) {
         this.log_level = log_level;
     }
-    public int getLog_level(){
+
+    /**
+     * Getter for Log_level
+     *
+     * @return Returns int that identifies Log_level
+     */
+    public int getLog_level() {
         return this.log_level;
     }
 }

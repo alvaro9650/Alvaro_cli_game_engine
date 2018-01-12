@@ -6,22 +6,22 @@
 package Game_engine;
 
 /**
- * An object to save x direction speed and y direction speed
+ * A resolution has a horizontal resolution and vertical resolution
  *
  * @author alumno1718_2
  */
-public class Speed {
+public class Resolution {
 
-    public Integer x;
-    public Integer y;
+    Integer x;
+    Integer y;
 
     /**
-     * Creates an object to save speed
+     * Creates a resolution
      *
-     * @param x x speed
-     * @param y y speed
+     * @param x Horizontal resolution
+     * @param y Vertical resolution
      */
-    public Speed(Integer x, Integer y) {
+    public Resolution(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }
