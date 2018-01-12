@@ -615,14 +615,31 @@ public class Game_object implements Closeable {
         }
     }
 
+    public void Respawn() {
+        this.playing_field.DeleteGame_object(this);
+        Rectangular_area area = this.respawn_area.CommonArea(this.posible_location_area).CommonArea(new Rectangular_area(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
+        do {
+        } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.min_coord.x, area.max_coord.x).intValue(), Mathcustomfuncs.random(area.min_coord.y, area.max_coord.y).intValue())));
+        this.playing_field.AddGame_object(this);
+    }
+
     /**
      * Checks if it will respawn when it moves
      *
      * @return A boolean containing the result
      */
     public Boolean WillRespawn() {
-        Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        return resultcoord.y > this.posible_location_area.max_coord.y || resultcoord.y < this.posible_location_area.min_coord.y || resultcoord.y < 0 || resultcoord.y >= this.playing_field.y_size || resultcoord.x > this.posible_location_area.max_coord.x || resultcoord.x < this.posible_location_area.min_coord.x || resultcoord.x < 0 || resultcoord.x >= this.playing_field.x_size;
+        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
+        switch (this.move_type) {
+            case None:
+                return false;
+            default:
+                Rectangular_area possible_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
+                if ((destiny_location.x += this.speed.x) > possible_area.max_coord.x || destiny_location.x < possible_area.min_coord.x || (destiny_location.y += this.speed.y) > possible_area.max_coord.y || destiny_location.y < possible_area.min_coord.y) {
+                    return true;
+                }
+                return false;
+        }
     }
 
     /**
@@ -631,115 +648,27 @@ public class Game_object implements Closeable {
      * @return A boolean containing the result
      */
     public Boolean CanUpdaterespawnableLocation() {
-        Coordinate destiny_location = new Coordinate(this.location.x + this.speed.x, this.location.y + this.speed.y);
-        Speed moving_speed;
-        switch (this.move_type) {
-            case Teleport:
-                return this.playing_field.CanRelocateGame_object(this, destiny_location);
-            case Horizontal_first:
-                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
-                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += moving_speed.x) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += moving_speed.y) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
+        if (this.WillRespawn()) {
+            Rectangular_area area = this.respawn_area.CommonArea(this.posible_location_area).CommonArea(new Rectangular_area(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
+            Boolean can_relocate = false;
+            for (Integer i = 0; i < 200 || can_relocate; i++) {
+                can_relocate = this.playing_field.CanRelocateGame_object(this, new Coordinate(Mathcustomfuncs.random(area.min_coord.x, area.max_coord.x).intValue(), Mathcustomfuncs.random(area.min_coord.y, area.max_coord.y).intValue()));
+            }
+            if (can_relocate) {
                 return true;
-            case Vertical_first:
-                moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1, (destiny_location.y > this.location.y) ? 1 : -1);
-                for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += moving_speed.y) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += moving_speed.x) {
-                    if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                        return false;
-                    }
-                }
-                return true;
-            case Diagonal:
-                if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
-                    Integer times = Math.abs(this.speed.x / this.speed.y);
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                        for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
-                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                                return false;
-                            }
-                        }
-                    }
-                    for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
-                    Integer times = Math.abs(this.speed.y / this.speed.x);
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                        for (Integer i = 0; i < times; i++, this.location.x += y_direction) {
-                            if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                                return false;
-                            }
-                        }
-                    }
-                    for (; !Objects.equals(this.location.y, destiny_location.y); this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                } else {
-                    Integer x_direction = (this.speed.x < 0) ? -1 : 1;
-                    for (Integer i = 0; i < this.speed.x; i++, this.location.x += x_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                    Integer y_direction = (this.speed.y < 0) ? -1 : 1;
-                    for (Integer i = 0; i < this.speed.y; i++, this.location.y += y_direction) {
-                        if (!this.playing_field.CanRelocateGame_object(this, this.location)) {
-                            return false;
-                        }
-                    }
-                }
-            case None:
-                return false;
+            }
         }
         return false;
     }
 
     public void UpdaterespawnableLocation() {
-        UpdaterespawnablexLocation();
-        UpdaterespawnableyLocation();
-    }
-
-    public void UpdaterespawnablexLocation() {
-        if (this.location.x + this.speed.x > this.posible_location_area.max_coord.x || this.location.x + this.speed.x < this.posible_location_area.min_coord.x) {
-            this.location.x = Mathcustomfuncs.random(this.posible_location_area.min_coord.x, this.posible_location_area.max_coord.x).intValue();
-        } else {
-            this.location.x += this.speed.x;
+        this.playing_field.DeleteGame_object(this);
+        if (this.WillRespawn()) {
+            Rectangular_area area = this.respawn_area.CommonArea(this.posible_location_area).CommonArea(new Rectangular_area(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
+            do {
+            } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.min_coord.x, area.max_coord.x).intValue(), Mathcustomfuncs.random(area.min_coord.y, area.max_coord.y).intValue())));
         }
-    }
-
-    public void UpdaterespawnableyLocation() {
-        if (this.location.y + this.speed.y > this.posible_location_area.max_coord.y || this.location.y + this.speed.y < this.posible_location_area.min_coord.y) {
-            this.location.y = Mathcustomfuncs.random(this.posible_location_area.min_coord.y, this.posible_location_area.max_coord.x).intValue();
-        } else {
-            this.location.y += this.speed.y;
-        }
+        this.playing_field.AddGame_object(this);
     }
 
     /**
