@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package Example_game;
 
+import Example_game.Player;
+import Example_game.Ball;
+import Game_engine.Field;
+import Game_engine.Game_engine;
+import Game_engine.Game_object;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,7 +17,7 @@ import java.util.Scanner;
  *
  * @author alumno1718_2
  */
-public class example_game {
+public class ExampleGame {
 
     /**
      * @param args the command line arguments
