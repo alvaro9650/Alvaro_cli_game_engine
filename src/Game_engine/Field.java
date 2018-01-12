@@ -64,6 +64,23 @@ public class Field {
     }
 
     /**
+     * Checks if coordinate has space
+     *
+     * @param coordinate The coordinate you want to know if has space
+     * @return true if there is space to put an object in that Coordinate false if not
+     */
+    public Boolean CoordinateHasSpace(Coordinate coordinate) {
+        Boolean has_space = false;
+        for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
+            if (object == null) {
+                has_space = true;
+                break;
+            }
+        }
+        return has_space;
+    }
+
+    /**
      * Tells if the object can be relocated there
      *
      * @param game_object Object you want to know if can be relocated there
@@ -72,15 +89,8 @@ public class Field {
      * possible to relocate the object there
      */
     public Boolean CanRelocateGame_object(Game_object game_object, Coordinate coordinate) {
-        Boolean need_space = true;
-        for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
-            if (object == null) {
-                need_space = false;
-                break;
-            }
-        }
-        Rectangular_area possible_move_area = new Rectangular_area(this.x_size - 1, 0, this.y_size - 1, 0).CommonArea(game_object.posible_location_area);
-        if (coordinate.x > possible_move_area.max_coord.x || coordinate.x < possible_move_area.min_coord.x || coordinate.y > possible_move_area.max_coord.y || coordinate.y < possible_move_area.min_coord.y || need_space) {
+        Rectangular_area possible_move_area;
+        if (!CoordinateHasSpace(coordinate) || coordinate.x > (possible_move_area = new Rectangular_area(this.x_size - 1, 0, this.y_size - 1, 0).CommonArea(game_object.posible_location_area)).max_coord.x || coordinate.x < possible_move_area.min_coord.x || coordinate.y > possible_move_area.max_coord.y || coordinate.y < possible_move_area.min_coord.y) {
             return false;
         }
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
