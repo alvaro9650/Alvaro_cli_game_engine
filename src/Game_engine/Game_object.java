@@ -163,7 +163,6 @@ public class Game_object implements Closeable {
      */
     public void UpdateLocation() {
         if (this.speed.x != 0 || this.speed.y != 0) {
-            this.playing_field.DeleteGame_object(this);
             switch (this.out_of_bounds_move_type) {
                 case Bounceable:
                     UpdatebounceableLocation();
@@ -191,7 +190,6 @@ public class Game_object implements Closeable {
                     UpdatecircularuniverseLocation();
                     break;
             }
-            this.playing_field.AddGame_object(this);
         }
     }
 
@@ -466,8 +464,13 @@ public class Game_object implements Closeable {
     }
 
     public void UpdatebounceableLocation() {
+        Coordinate original_location = this.location;
         if (CanUpdatebounceableLocation()) {
-            this.playing_field.DeleteGame_object(this);
+            try {
+                this.playing_field.DeleteGame_object(this);
+            } catch (ImpossibleRelocationException ex) {
+                Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+            }
             switch (this.move_type) {
                 case Teleport:
                     Integer bouncing_space,
@@ -475,10 +478,20 @@ public class Game_object implements Closeable {
                     Rectangular_area possible_bounce_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
                     this.location.x = (((this.speed.x = ((teorical_destiny = this.location.x + this.speed.x) / (bouncing_space = possible_bounce_area.max_coord.x - possible_bounce_area.min_coord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possible_bounce_area.min_coord.x : possible_bounce_area.max_coord.x) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.x)).intValue();
                     this.location.y = (((this.speed.y = ((teorical_destiny = this.location.y + this.speed.y) / (bouncing_space = possible_bounce_area.max_coord.y - possible_bounce_area.min_coord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possible_bounce_area.min_coord.y : possible_bounce_area.max_coord.y) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.y)).intValue();
-                    this.playing_field.AddGame_object(this);
+                    try {
+                        this.playing_field.AddGame_object(this);
+                    } catch (ImpossibleRelocationException ex) {
+                        this.location = original_location;
+                        Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 case None:
-                    this.playing_field.AddGame_object(this);
+                    try {
+                        this.playing_field.AddGame_object(this);
+                    } catch (ImpossibleRelocationException ex) {
+                        this.location = original_location;
+                        Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 default:
                     Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
@@ -504,7 +517,12 @@ public class Game_object implements Closeable {
                                     this.location.y += moving_speed.y;
                                 }
                             }
-                            this.playing_field.AddGame_object(this);
+                            try {
+                                this.playing_field.AddGame_object(this);
+                            } catch (ImpossibleRelocationException ex) {
+                                this.location = original_location;
+                                Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         case Vertical_first:
                             for (; remaining_speed.y != 0; this.location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
                                 if (this.playing_field.CanRelocateGame_object(this, this.location)) {
@@ -523,7 +541,12 @@ public class Game_object implements Closeable {
                                     this.location.x += moving_speed.x;
                                 }
                             }
-                            this.playing_field.AddGame_object(this);
+                            try {
+                                this.playing_field.AddGame_object(this);
+                            } catch (ImpossibleRelocationException ex) {
+                                this.location = original_location;
+                                Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         case Diagonal:
                             if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
                                 Integer times = Math.abs(this.speed.x / this.speed.y);
@@ -557,7 +580,12 @@ public class Game_object implements Closeable {
                                         remaining_speed.x -= moving_speed.x;
                                     }
                                 }
-                                this.playing_field.AddGame_object(this);
+                                try {
+                                    this.playing_field.AddGame_object(this);
+                                } catch (ImpossibleRelocationException ex) {
+                                    this.location = original_location;
+                                    Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
                                 Integer times = Math.abs(this.speed.y / this.speed.x);
                                 for (; remaining_speed.x != 0; this.location.x += moving_speed.x) {
@@ -590,7 +618,12 @@ public class Game_object implements Closeable {
                                         remaining_speed.y -= moving_speed.y;
                                     }
                                 }
-                                this.playing_field.AddGame_object(this);
+                                try {
+                                    this.playing_field.AddGame_object(this);
+                                } catch (ImpossibleRelocationException ex) {
+                                    this.location = original_location;
+                                    Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             } else {
                                 do {
                                     this.location.x += moving_speed.x;
@@ -608,7 +641,12 @@ public class Game_object implements Closeable {
                                         this.location.y += moving_speed.y;
                                     }
                                 } while (remaining_speed.x != 0 || remaining_speed.x != 0);
-                                this.playing_field.AddGame_object(this);
+                                try {
+                                    this.playing_field.AddGame_object(this);
+                                } catch (ImpossibleRelocationException ex) {
+                                    this.location = original_location;
+                                    Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                     }
             }
@@ -616,11 +654,21 @@ public class Game_object implements Closeable {
     }
 
     public void Respawn() {
-        this.playing_field.DeleteGame_object(this);
+        Coordinate original_location = this.location;
+        try {
+            this.playing_field.DeleteGame_object(this);
+        } catch (ImpossibleLocationRemoveException ex) {
+            Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Rectangular_area area = this.respawn_area.CommonArea(this.posible_location_area).CommonArea(new Rectangular_area(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
         do {
         } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.min_coord.x, area.max_coord.x).intValue(), Mathcustomfuncs.random(area.min_coord.y, area.max_coord.y).intValue())));
-        this.playing_field.AddGame_object(this);
+        try {
+            this.playing_field.AddGame_object(this);
+        } catch (ImpossibleRelocationException ex) {
+            this.location = original_location;
+            Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -662,13 +710,23 @@ public class Game_object implements Closeable {
     }
 
     public void UpdaterespawnableLocation() {
-        this.playing_field.DeleteGame_object(this);
+        Coordinate original_location = this.location;
+        try {
+            this.playing_field.DeleteGame_object(this);
+        } catch (ImpossibleLocationRemoveException ex) {
+            Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (this.WillRespawn()) {
             Rectangular_area area = this.respawn_area.CommonArea(this.posible_location_area).CommonArea(new Rectangular_area(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
             do {
             } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.min_coord.x, area.max_coord.x).intValue(), Mathcustomfuncs.random(area.min_coord.y, area.max_coord.y).intValue())));
         }
-        this.playing_field.AddGame_object(this);
+        try {
+            this.playing_field.AddGame_object(this);
+        } catch (ImpossibleRelocationException ex) {
+            this.location = original_location;
+            Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1127,7 +1185,6 @@ public class Game_object implements Closeable {
 
     public void UpdateLocation(Integer x, Integer y) {
         if (x != 0 || y != 0) {
-            this.playing_field.DeleteGame_object(this);
             switch (this.out_of_bounds_move_type) {
                 case Bounceable:
                     UpdatebounceableLocation(x, y);
@@ -1155,7 +1212,6 @@ public class Game_object implements Closeable {
                     UpdatecircularuniverseLocation(x, y);
                     break;
             }
-            this.playing_field.AddGame_object(this);
         }
     }
 
@@ -1405,6 +1461,10 @@ public class Game_object implements Closeable {
 
     @Override
     public void close() throws IOException {
-        this.playing_field.DeleteGame_object(this);
+        try {
+            this.playing_field.DeleteGame_object(this);
+        } catch (ImpossibleLocationRemoveException ex) {
+            Logger.getLogger(Game_object.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

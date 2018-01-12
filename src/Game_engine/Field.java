@@ -33,13 +33,16 @@ public class Field {
      * Add an object to a location in the field
      *
      * @param game_object The object you want to delete
+     * @throws Game_engine.ImpossibleLocationRemoveException
      */
-    public void DeleteGame_object(Game_object game_object) {
-        for (int o_num = 0; o_num < this.game_objects[game_object.location.x][game_object.location.y].length; o_num++) {
-            if (this.game_objects[game_object.location.x][game_object.location.y][o_num] != null && this.game_objects[game_object.location.x][game_object.location.y][o_num].hashCode() == game_object.hashCode()) {
-                this.game_objects[game_object.location.x][game_object.location.y][o_num] = null;
-                break;
-            }
+    public void DeleteGame_object(Game_object game_object) throws ImpossibleLocationRemoveException {
+        int o_num = 0;
+        do {
+        } while (o_num++ < this.game_objects[game_object.location.x][game_object.location.y].length && !(this.game_objects[game_object.location.x][game_object.location.y][o_num] != null && this.game_objects[game_object.location.x][game_object.location.y][o_num].hashCode() == game_object.hashCode()));
+        if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
+            this.game_objects[game_object.location.x][game_object.location.y][o_num] = null;
+        } else {
+            throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
         }
     }
 
@@ -47,13 +50,16 @@ public class Field {
      * Add an object to a location in the field
      *
      * @param game_object The object you want to add
+     * @throws Game_engine.ImpossibleLocationAddException
      */
-    public void AddGame_object(Game_object game_object) {
-        for (int o_num = 0; o_num < this.game_objects[game_object.location.x][game_object.location.y].length; o_num++) {
-            if (this.game_objects[game_object.location.x][game_object.location.y][o_num] == null) {
-                this.game_objects[game_object.location.x][game_object.location.y][o_num] = game_object;
-                break;
-            }
+    public void AddGame_object(Game_object game_object) throws ImpossibleLocationAddException {
+        int o_num = 0;
+        do {
+        } while (o_num < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num++] != null);
+        if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
+            this.game_objects[game_object.location.x][game_object.location.y][o_num] = game_object;
+        } else {
+            throw new ImpossibleLocationAddException("No space available");
         }
     }
 
