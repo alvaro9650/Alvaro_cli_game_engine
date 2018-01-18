@@ -14,6 +14,7 @@ package Game_engine;
 public class Camera extends Game_object {
 
     Resolution resolution;
+    String frame;
 
     /**
      * Creates a camera
@@ -34,16 +35,23 @@ public class Camera extends Game_object {
     }
 
     /**
-     * Draws a frame form this camera
+     * Updates the frame of this camera
      */
-    public void DrawFrame() {
-        StringBuilder frame = new StringBuilder();
+    public void UpdateFrame() {
+        StringBuilder frame_creator = new StringBuilder();
         for (int y = this.location.y - this.resolution.y / 2; y < this.location.y + this.resolution.y - this.resolution.y / 2; y++) {
             for (int x = this.location.x - this.resolution.x / 2; y < this.location.x + this.location.x - this.location.x / 2; x++) {
-                frame.append((y >= 0 && x >= 0 && x < this.playing_field.x_size && y < this.playing_field.y_size) ? new Game_engine().ToDrawAt(this.playing_field, x, y) : ' ');
+                frame_creator.append((y >= 0 && x >= 0 && x < this.playing_field.x_size && y < this.playing_field.y_size) ? new Game_engine().ToDrawAt(this.playing_field, x, y) : ' ');
             }
-            frame.append("\n");
+            frame_creator.append("\n");
         }
-        System.out.println(frame.toString());
+        this.frame = frame_creator.toString();
+    }
+
+    /**
+     * Draws the frame of this camera
+     */
+    public void DrawFrame() {
+        System.out.println(this.frame);
     }
 }
