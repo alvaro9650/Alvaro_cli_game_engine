@@ -69,14 +69,12 @@ public class Field {
      * if not
      */
     public Boolean CoordinateHasSpace(Coordinate coordinate) {
-        Boolean has_space = false;
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
             if (object == null) {
-                has_space = true;
-                break;
+                return true;
             }
         }
-        return has_space;
+        return false;
     }
 
     /**
