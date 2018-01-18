@@ -496,7 +496,6 @@ public class Game_object implements Closeable {
                     break;
                 default:
                     Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                    ;
                     Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
                     switch (this.move_type) {
                         case Horizontal_first:
