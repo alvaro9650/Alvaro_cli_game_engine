@@ -91,7 +91,7 @@ public class Field {
             return false;
         }
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
-            if(object!=null){
+            if (object != null) {
                 switch (object.physical_state_type) {
                     case Solid:
                     case Solid_with_holes:
