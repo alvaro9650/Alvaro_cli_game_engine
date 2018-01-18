@@ -30,7 +30,7 @@ public class Field {
     }
 
     /**
-     * Add an object to a location in the field
+     * Remove an object from a location in the field
      *
      * @param game_object The object you want to delete
      * @throws Game_engine.ImpossibleLocationRemoveException
