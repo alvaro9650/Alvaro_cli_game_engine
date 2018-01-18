@@ -36,11 +36,8 @@ public class Field {
      * @throws Game_engine.ImpossibleLocationRemoveException
      */
     public void DeleteGame_object(Game_object game_object) throws ImpossibleLocationRemoveException {
-        int o_num = 0;
-        do {
-        } while (o_num++ < this.game_objects[game_object.location.x][game_object.location.y].length && !(this.game_objects[game_object.location.x][game_object.location.y][o_num] != null && this.game_objects[game_object.location.x][game_object.location.y][o_num].hashCode() == game_object.hashCode()));
-        if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
-            this.game_objects[game_object.location.x][game_object.location.y][o_num] = null;
+        if (game_object.array_position < this.game_objects[game_object.location.x][game_object.location.y].length && game_object.hashCode() == this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position].hashCode()) {
+            this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position] = null;
         } else {
             throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
         }
@@ -58,6 +55,7 @@ public class Field {
         } while (o_num < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num++] != null);
         if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
             this.game_objects[game_object.location.x][game_object.location.y][o_num] = game_object;
+            game_object.array_position = o_num;
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
@@ -67,7 +65,8 @@ public class Field {
      * Checks if coordinate has space
      *
      * @param coordinate The coordinate you want to know if has space
-     * @return true if there is space to put an object in that Coordinate false if not
+     * @return true if there is space to put an object in that Coordinate false
+     * if not
      */
     public Boolean CoordinateHasSpace(Coordinate coordinate) {
         Boolean has_space = false;

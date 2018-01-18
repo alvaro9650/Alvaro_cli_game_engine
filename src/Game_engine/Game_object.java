@@ -19,11 +19,12 @@ import java.util.logging.Logger;
 public class Game_object implements Closeable {
 
     public Coordinate location;
+    public Integer height;
+    public Integer array_position;
     public Speed speed;
     public Field playing_field;
     public Rectangular_area posible_location_area;
     public Rectangular_area respawn_area;
-    public Integer height;
     public Log_level log_level;
     public char character;
     public Out_of_bounds_move_type out_of_bounds_move_type;
