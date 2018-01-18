@@ -52,7 +52,7 @@ public class Field {
     public void AddGame_object(Game_object game_object) throws ImpossibleLocationAddException {
         int o_num = 0;
         do {
-        } while (o_num < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num++] != null);
+        } while (o_num++ < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num] != null);
         if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
             this.game_objects[game_object.location.x][game_object.location.y][o_num] = game_object;
             game_object.array_position = o_num;
