@@ -91,25 +91,27 @@ public class Field {
             return false;
         }
         for (Game_object object : this.game_objects[coordinate.x][coordinate.y]) {
-            switch (object.physical_state_type) {
-                case Solid:
-                case Solid_with_holes:
-                    switch (game_object.physical_state_type) {
-                        case Solid_with_holes:
-                        case Solid:
-                            return false;
-                    }
-                case Liquid:
-                    switch (game_object.physical_state_type) {
-                        case Solid:
-                            return false;
-                    }
-                case Gas:
-                    switch (game_object.physical_state_type) {
-                        case Solid:
-                        case Liquid:
-                            return false;
-                    }
+            if(object!=null){
+                switch (object.physical_state_type) {
+                    case Solid:
+                    case Solid_with_holes:
+                        switch (game_object.physical_state_type) {
+                            case Solid_with_holes:
+                            case Solid:
+                                return false;
+                        }
+                    case Liquid:
+                        switch (game_object.physical_state_type) {
+                            case Solid:
+                                return false;
+                        }
+                    case Gas:
+                        switch (game_object.physical_state_type) {
+                            case Solid:
+                            case Liquid:
+                                return false;
+                        }
+                }
             }
         }
         return true;
