@@ -654,6 +654,9 @@ public class Game_object implements Closeable {
         }
     }
 
+    /**
+     * Respawns the object
+     */
     public void Respawn() {
         Coordinate original_location = this.location;
         try {
