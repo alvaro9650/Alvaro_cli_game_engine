@@ -33,6 +33,8 @@ public class Game_object implements Closeable {
     public String object_type;
     public Collision_type receiving_collision;
     public Collision_type giving_collision;
+    public Integer move_direction_vertical;
+    public Integer move_direction_horizontal;
 
     /**
      * Creates a basic game object , should be overriden
@@ -133,7 +135,20 @@ public class Game_object implements Closeable {
         }
         System.out.println(object_log.toString());
     }
-    
+
+    /**
+     * Teleports an object to a location
+     * @param coord The coordinate you want to move this object to
+     * @throws ImpossibleLocationRemoveException
+     * @throws ImpossibleLocationAddException
+     */
+    public void move_to(Coordinate coord) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException{
+        this.playing_field.DeleteGame_object(this);
+        this.location.x=coord.x;
+        this.location.y=coord.y;
+        this.playing_field.AddGame_object(this);
+    }
+
     /**
      * Checks if location can be updated
      *
