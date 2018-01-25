@@ -26,7 +26,7 @@ public class Gameobject implements Closeable {
     public Rectangular_area respawn_area;
     public Log_level log_level;
     public char character;
-    public Out_of_bounds_move_type out_of_bounds_move_type;
+    public Outofboundsmovetype out_of_bounds_move_type;
     public Physical_state_type physical_state_type;
     public Move_type move_type;
     public String object_type;
@@ -50,7 +50,7 @@ public class Gameobject implements Closeable {
         this.posible_location_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
         this.respawn_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
         this.physical_state_type = Physical_state_type.Ghost;
-        this.out_of_bounds_move_type = Out_of_bounds_move_type.Circular_universe;
+        this.out_of_bounds_move_type = Outofboundsmovetype.Circular_universe;
         this.log_level = Log_level.None;
         this.location = new Coordinate(this.posible_location_area.min_coord.x, this.posible_location_area.min_coord.y);
     }

@@ -12,7 +12,7 @@ import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
 import Game_engine.Log_level;
 import Game_engine.Mathcustomfuncs;
-import Game_engine.Out_of_bounds_move_type;
+import Game_engine.Outofboundsmovetype;
 import Game_engine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +39,7 @@ public class Player extends Gameobject {
         this.speed = new Speed(0, 0);
         this.height = 2;
         this.character = character;
-        this.out_of_bounds_move_type = Out_of_bounds_move_type.Bounceable;
+        this.out_of_bounds_move_type = Outofboundsmovetype.Bounceable;
         this.move_points = 10;
         this.points = 0;
         this.log_level = Log_level.Verbose;
