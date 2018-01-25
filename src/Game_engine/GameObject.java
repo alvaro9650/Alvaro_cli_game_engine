@@ -30,8 +30,8 @@ public class GameObject implements Closeable {
     public PhysicalStateType physical_state_type;
     public Movetype move_type;
     public String object_type;
-    public Collision_type receiving_collision;
-    public Collision_type giving_collision;
+    public CollisionType receiving_collision;
+    public CollisionType giving_collision;
     public Integer move_direction_vertical;
     public Integer move_direction_horizontal;
 
