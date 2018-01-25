@@ -7,7 +7,7 @@ package Example_game;
 
 import Game_engine.Coordinate;
 import Game_engine.Field;
-import Game_engine.Gameobject;
+import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
 import Game_engine.Log_level;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author alumno1718_2
  */
-public class Player extends Gameobject {
+public class Player extends GameObject {
 
     Integer move_points;
     Integer points;

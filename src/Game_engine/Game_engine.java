@@ -28,8 +28,8 @@ public class Game_engine {
         char draw_character = '|';
         Integer character_height = 0;
         for (int y = 0; y < field.game_objects[0].length; y++) {
-            for (Gameobject[][] x : field.game_objects) {
-                for (Gameobject game_object : x[y]) {
+            for (GameObject[][] x : field.game_objects) {
+                for (GameObject game_object : x[y]) {
                     if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                         character_height = game_object.height;
                         draw_character = game_object.character;
@@ -55,8 +55,8 @@ public class Game_engine {
         for (Field field : fields) {
             char draw_character = '|';
             for (int y = 0; y < field.game_objects[0].length; y++) {
-                for (Gameobject[][] x : field.game_objects) {
-                    for (Gameobject game_object : x[y]) {
+                for (GameObject[][] x : field.game_objects) {
+                    for (GameObject game_object : x[y]) {
                         if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                             character_height = game_object.height;
                             draw_character = game_object.character;
@@ -79,9 +79,9 @@ public class Game_engine {
      * @param field the field that has to update locations
      */
     public void UpdateLocations(Field field) {
-        for (Gameobject[][] x : field.game_objects) {
-            for (Gameobject[] y : x) {
-                for (Gameobject game_object : y) {
+        for (GameObject[][] x : field.game_objects) {
+            for (GameObject[] y : x) {
+                for (GameObject game_object : y) {
                     if (game_object != null) {
                         game_object.UpdateLocation();
                     }
@@ -112,7 +112,7 @@ public class Game_engine {
     public char ToDrawAt(Field field, Integer x, Integer y) {
         char draw_character = ' ';
         Integer character_height = 0;
-        for (Gameobject game_object : field.game_objects[x][y]) {
+        for (GameObject game_object : field.game_objects[x][y]) {
             if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                 character_height = game_object.height;
                 draw_character = game_object.character;

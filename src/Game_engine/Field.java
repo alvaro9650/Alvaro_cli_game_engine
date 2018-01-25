@@ -19,7 +19,7 @@ public class Field {
 
     public Integer x_size;
     public Integer y_size;
-    public Gameobject[][][] game_objects;
+    public GameObject[][][] game_objects;
 
     /**
      * Costructor for field
@@ -31,7 +31,7 @@ public class Field {
     public Field(Integer x, Integer y, Integer max_objects_per_coord) {
         this.x_size = x;
         this.y_size = y;
-        this.game_objects = new Gameobject[this.x_size][this.y_size][max_objects_per_coord];
+        this.game_objects = new GameObject[this.x_size][this.y_size][max_objects_per_coord];
     }
 
     /**
@@ -40,7 +40,7 @@ public class Field {
      * @param game_object The object you want to delete
      * @throws Game_engine.ImpossibleLocationRemoveException
      */
-    public void DeleteGame_object(Gameobject game_object) throws ImpossibleLocationRemoveException {
+    public void DeleteGame_object(GameObject game_object) throws ImpossibleLocationRemoveException {
         if (game_object.array_position < this.game_objects[game_object.location.x][game_object.location.y].length && game_object.hashCode() == this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position].hashCode()) {
             this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position] = null;
         } else {
@@ -54,7 +54,7 @@ public class Field {
      * @param game_object The object you want to add
      * @throws Game_engine.ImpossibleLocationAddException
      */
-    public void AddGame_object(Gameobject game_object) throws ImpossibleLocationAddException {
+    public void AddGame_object(GameObject game_object) throws ImpossibleLocationAddException {
         int o_num = 0;
         do {
         } while (o_num++ < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num] != null);
@@ -74,7 +74,7 @@ public class Field {
      * if not
      */
     public Boolean CoordinateHasSpace(Coordinate coordinate) {
-        for (Gameobject object : this.game_objects[coordinate.x][coordinate.y]) {
+        for (GameObject object : this.game_objects[coordinate.x][coordinate.y]) {
             if (object == null) {
                 return true;
             }
@@ -90,12 +90,12 @@ public class Field {
      * @return Returns a boolean with true or false depending on if it's
      * possible to relocate the object there
      */
-    public Boolean CanRelocateGame_object(Gameobject game_object, Coordinate coordinate) {
+    public Boolean CanRelocateGame_object(GameObject game_object, Coordinate coordinate) {
         Rectangular_area possible_move_area;
         if (!CoordinateHasSpace(coordinate) || coordinate.x > (possible_move_area = new Rectangular_area(this.x_size - 1, 0, this.y_size - 1, 0).CommonArea(game_object.posible_location_area)).max_coord.x || coordinate.x < possible_move_area.min_coord.x || coordinate.y > possible_move_area.max_coord.y || coordinate.y < possible_move_area.min_coord.y) {
             return false;
         }
-        for (Gameobject object : this.game_objects[coordinate.x][coordinate.y]) {
+        for (GameObject object : this.game_objects[coordinate.x][coordinate.y]) {
             if (object != null) {
                 switch (object.physical_state_type) {
                     case Solid:
@@ -130,8 +130,8 @@ public class Field {
      * @return The object to collide with or null if it doesn't collide with
      * anything
      */
-    public Gameobject collidesWith(Gameobject objectlookingforcollider) {
-        for (Gameobject object : this.game_objects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
+    public GameObject collidesWith(GameObject objectlookingforcollider) {
+        for (GameObject object : this.game_objects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
             if (object != null && Objects.equals(object.height, objectlookingforcollider.height)) {
                 return object;
             }
@@ -145,7 +145,7 @@ public class Field {
      * @param receiving_collision_object Object which this object collides to
      * @param giving_collision_object
      */
-    public void processCollision(Gameobject giving_collision_object, Gameobject receiving_collision_object) {
+    public void processCollision(GameObject giving_collision_object, GameObject receiving_collision_object) {
         switch (receiving_collision_object.receiving_collision) {
             case Ghost:
                 switch (giving_collision_object.giving_collision) {
@@ -225,7 +225,7 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -264,7 +264,7 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -297,7 +297,7 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -331,7 +331,7 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -370,7 +370,7 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         receiving_collision_object.Respawn();
@@ -392,7 +392,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -403,7 +403,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -412,7 +412,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -421,7 +421,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -430,7 +430,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         giving_collision_object.Respawn();
@@ -440,14 +440,14 @@ public class Field {
                             try {
                                 giving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -458,7 +458,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
@@ -491,7 +491,7 @@ public class Field {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
-                                Logger.getLogger(Gameobject.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         break;
