@@ -127,7 +127,7 @@ public class Game_engine {
      * @param receiving_collision_object Object which this object collides to
      * @param giving_collision_object
      */
-    public void giveCollision(Game_object giving_collision_object, Game_object receiving_collision_object) {
+    public void processCollision(Game_object giving_collision_object, Game_object receiving_collision_object) {
         switch (receiving_collision_object.receiving_collision) {
             case Ghost:
                 switch (giving_collision_object.giving_collision) {
