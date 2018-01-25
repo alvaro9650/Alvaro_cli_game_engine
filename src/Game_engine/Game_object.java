@@ -220,6 +220,10 @@ public class Game_object implements Closeable {
         switch (this.move_type) {
             case Teleport:
                 Rectangular_area possible_bounce_area = new Rectangular_area(this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1, 0).CommonArea(this.posible_location_area);
+                Game_object collisionreceiver;
+                while ((collisionreceiver = this.playing_field.collidesWith(this)) != null) {
+                    this.playing_field.processCollision(this, collisionreceiver);
+                }
                 if ((destiny_location.x += this.speed.x) > possible_bounce_area.max_coord.x || destiny_location.x < possible_bounce_area.min_coord.x || (destiny_location.y += this.speed.y) > possible_bounce_area.max_coord.y || destiny_location.y < possible_bounce_area.min_coord.y) {
                     return true;
                 }
