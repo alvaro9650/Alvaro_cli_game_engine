@@ -28,7 +28,7 @@ public class Gameobject implements Closeable {
     public char character;
     public Outofboundsmovetype out_of_bounds_move_type;
     public Physical_state_type physical_state_type;
-    public Move_type move_type;
+    public Movetype move_type;
     public String object_type;
     public Collision_type receiving_collision;
     public Collision_type giving_collision;
@@ -45,7 +45,7 @@ public class Gameobject implements Closeable {
         this.height = 0;
         this.object_type = "Default";
         this.speed = new Speed(0, 0);
-        this.move_type = Move_type.None;
+        this.move_type = Movetype.None;
         this.playing_field = field;
         this.posible_location_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);
         this.respawn_area = new Rectangular_area(field.x_size - 1, 0, field.y_size - 1, 0);

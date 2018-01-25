@@ -10,7 +10,7 @@ package Game_engine;
  *
  * @author alumno1718_2
  */
-public enum Move_type {
+public enum Movetype {
     Teleport(1), Horizontal_first(2), Vertical_first(3), Diagonal(4), None(5);
     private final int move_type;
 
@@ -19,12 +19,12 @@ public enum Move_type {
      *
      * @param move_type An int that identifies the move type
      */
-    private Move_type(int move_type) {
+    private Movetype(int move_type) {
         this.move_type = move_type;
     }
 
     /**
-     * Getter for Move_type
+     * Getter for Movetype
      *
      * @return Returns an int that identifies the move type
      */
