@@ -1,1 +1,2 @@
 Change format to CamelCase
+Prevent collision from real moving objects when it's just for checking
