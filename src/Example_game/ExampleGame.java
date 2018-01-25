@@ -5,11 +5,12 @@
  */
 package Example_game;
 
-import Example_game.Player;
-import Example_game.Ball;
+import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.Game_engine;
 import Game_engine.Game_object;
+import Game_engine.ImpossibleLocationAddException;
+import Game_engine.ImpossibleLocationRemoveException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -40,10 +41,14 @@ public class ExampleGame {
                 System.out.append(player.character);
                 System.out.println(" input your move coordinates");
                 try {
-                    player.move(input.nextInt(), input.nextInt());
+                    player.move_to(new Coordinate(input.nextInt(), input.nextInt()));
                     input.nextLine();
                 } catch (InputMismatchException e) {
                     System.out.println("Thats not a coordinate , you loose your turn");
+                } catch (ImpossibleLocationRemoveException ex) {
+                    System.out.println("You can't move away from here");
+                } catch (ImpossibleLocationAddException ex) {
+                    System.out.println("You can't move there");
                 }
             }
             addPoints(field, players);
@@ -72,8 +77,8 @@ public class ExampleGame {
     public static void addPoints(Field field, Player[] players) {
         for (Player player : players) {
             for (Game_object game_object : field.game_objects[player.location.x][player.location.y]) {
-                if (game_object != null) {
-                    player.points += ("Ball".equals(game_object.object_type)) ? 1 : 0;
+                if (game_object != null && "Ball".equals(game_object.object_type)) {
+                    player.points += 1;
                 }
             }
         }
