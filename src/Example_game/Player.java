@@ -10,7 +10,7 @@ import Game_engine.Field;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
-import Game_engine.Log_level;
+import Game_engine.LogLevel;
 import Game_engine.Mathcustomfuncs;
 import Game_engine.OutOfBoundsMoveType;
 import Game_engine.Speed;
@@ -42,7 +42,7 @@ public class Player extends GameObject {
         this.out_of_bounds_move_type = OutOfBoundsMoveType.Bounceable;
         this.move_points = 10;
         this.points = 0;
-        this.log_level = Log_level.Verbose;
+        this.log_level = LogLevel.Verbose;
         do {
             this.location = new Coordinate(Mathcustomfuncs.random(0, playing_field.x_size - 1).intValue(), Mathcustomfuncs.random(0, playing_field.y_size - 1).intValue());
             try {
