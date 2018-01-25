@@ -9,6 +9,7 @@ import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.Game_object;
 import Game_engine.ImpossibleLocationAddException;
+import Game_engine.ImpossibleLocationRemoveException;
 import Game_engine.Log_level;
 import Game_engine.Mathcustomfuncs;
 import Game_engine.Out_of_bounds_move_type;
@@ -42,14 +43,13 @@ public class Player extends Game_object {
         this.move_points = 10;
         this.points = 0;
         this.log_level = Log_level.Verbose;
-        set_rand_coord:
         do {
             this.location = new Coordinate(Mathcustomfuncs.random(0, playing_field.x_size - 1).intValue(), Mathcustomfuncs.random(0, playing_field.y_size - 1).intValue());
             try {
                 this.playing_field.AddGame_object(this);
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
-                continue set_rand_coord;
+                continue;
             }
             break;
         } while (true);
@@ -58,16 +58,18 @@ public class Player extends Game_object {
     /**
      * Moves the player and calculates move points
      *
-     * @param x How much to move in x direction
-     * @param y How much to move in y direction
+     * @param location Location you want to move to
+     * @throws Game_engine.ImpossibleLocationRemoveException
+     * @throws Game_engine.ImpossibleLocationAddException
      */
-    public void move(Integer x, Integer y) {
-        this.move_points += (x < 0) ? x : -x;
-        this.move_points += (y < 0) ? y : -y;
+    @Override
+    public void move_to(Coordinate location) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
+        this.move_points += (location.x < 0) ? location.x : -location.x;
+        this.move_points += (location.y < 0) ? location.y : -location.y;
         if (this.move_points < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
         } else {
-            UpdateLocation(x, y);
+            super.move_to(location);
             this.move_points += 10;
         }
     }
