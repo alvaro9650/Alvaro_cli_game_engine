@@ -10,7 +10,7 @@ import Game_engine.Field;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.Mathcustomfuncs;
-import Game_engine.Outofboundsmovetype;
+import Game_engine.OutOfBoundsMoveType;
 import Game_engine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ public class Ball extends GameObject {
         this.object_type = "Ball";
         this.character = 'O';
         this.height = 1;
-        this.out_of_bounds_move_type = Outofboundsmovetype.Bounceable;
+        this.out_of_bounds_move_type = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(Mathcustomfuncs.random(6, 16).intValue(), Mathcustomfuncs.random(6, 16).intValue());
         set_rand_coord:
         do {
