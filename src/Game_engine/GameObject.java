@@ -61,7 +61,7 @@ public class GameObject implements Closeable {
      * @param x x coordinate
      * @param y y coordinate
      */
-    public void RespawnPoint(Integer x, Integer y) {
+    public void setRespawnPoint(Integer x, Integer y) {
         this.respawn_area = new Rectangular_area(x, x, y, y);
     }
 
