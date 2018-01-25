@@ -7,7 +7,6 @@ package Game_engine;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -209,7 +208,7 @@ public class Game_object implements Closeable {
             }
         }
     }
-
+    
     /**
      * Checks if it will bounce when it moves
      *
