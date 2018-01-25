@@ -7,7 +7,7 @@ package Example_game;
 
 import Game_engine.Coordinate;
 import Game_engine.Field;
-import Game_engine.Game_engine;
+import Game_engine.GameEngine;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
@@ -26,7 +26,7 @@ public class ExampleGame {
     public static void main(String[] args) {
         System.out.append("You are a character\nYou have to touch a ball to win a point\nYou have 10 move points each turn , if you don't use them all you will have them at the next turn\nYou get 10 move points each turn\nBall speed and position is generated randomly every match\nBalls bounce when they reach a border\nYou have to input your move coordinates in an x(right and left) y(down and up) format\nThe first player to reach 5 points wins\nThe character | means nothing in that position , the character O means ball in that position\n");
         Field field = new Field(79, 20, 50);
-        Game_engine game_engine = new Game_engine();
+        GameEngine game_engine = new GameEngine();
         Scanner input = new Scanner(System.in);
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
         System.out.println("Input the character you want to use");
