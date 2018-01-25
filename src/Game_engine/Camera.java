@@ -11,7 +11,7 @@ package Game_engine;
  *
  * @author alumno1718_2
  */
-public class Camera extends Game_object {
+public class Camera extends Gameobject {
 
     Resolution resolution;
     String frame;

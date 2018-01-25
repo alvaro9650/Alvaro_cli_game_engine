@@ -7,7 +7,7 @@ package Example_game;
 
 import Game_engine.Coordinate;
 import Game_engine.Field;
-import Game_engine.Game_object;
+import Game_engine.Gameobject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.Mathcustomfuncs;
 import Game_engine.Out_of_bounds_move_type;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author alumno1718_2
  */
-public class Ball extends Game_object {
+public class Ball extends Gameobject {
 
     /**
      * Constructor for Ball

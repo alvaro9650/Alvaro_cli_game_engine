@@ -8,7 +8,7 @@ package Example_game;
 import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.Game_engine;
-import Game_engine.Game_object;
+import Game_engine.Gameobject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
 import java.util.InputMismatchException;
@@ -76,7 +76,7 @@ public class ExampleGame {
 
     public static void addPoints(Field field, Player[] players) {
         for (Player player : players) {
-            for (Game_object game_object : field.game_objects[player.location.x][player.location.y]) {
+            for (Gameobject game_object : field.game_objects[player.location.x][player.location.y]) {
                 if (game_object != null && "Ball".equals(game_object.object_type)) {
                     player.points += 1;
                 }
