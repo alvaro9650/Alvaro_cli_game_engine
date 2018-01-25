@@ -5,6 +5,8 @@
  */
 package Game_engine;
 
+import java.util.Objects;
+
 /**
  * A field that has a x size y size and can contain game objects
  *
@@ -115,5 +117,22 @@ public class Field {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks if an object collides with something in that location
+     *
+     * @param objectlookingforcollider The object that you want to know if
+     * collides with something
+     * @return The object to collide with or null if it doesn't collide with
+     * anything
+     */
+    public Game_object collidesWith(Game_object objectlookingforcollider) {
+        for (Game_object object : this.game_objects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
+            if (object != null && Objects.equals(object.height, objectlookingforcollider.height)) {
+                return object;
+            }
+        }
+        return null;
     }
 }
