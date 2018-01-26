@@ -76,7 +76,7 @@ public class ExampleGame {
 
     public static void addPoints(Field field, Player[] players) {
         for (Player player : players) {
-            for (GameObject game_object : field.game_objects[player.location.x][player.location.y]) {
+            for (GameObject game_object : field.gameobjects[player.location.x][player.location.y]) {
                 if (game_object != null && "Ball".equals(game_object.object_type)) {
                     player.points += 1;
                 }

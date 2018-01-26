@@ -17,32 +17,32 @@ import java.util.logging.Logger;
  */
 public class Field {
 
-    public Integer x_size;
-    public Integer y_size;
-    public GameObject[][][] game_objects;
+    public Integer sizex;
+    public Integer sizey;
+    public GameObject[][][] gameobjects;
 
     /**
      * Costructor for field
      *
      * @param x X size of the field
      * @param y Y size of the field
-     * @param max_objects_per_coord Maximum number of objects per coord
+     * @param maxobjectspercoord Maximum number of objects per coord
      */
-    public Field(Integer x, Integer y, Integer max_objects_per_coord) {
-        this.x_size = x;
-        this.y_size = y;
-        this.game_objects = new GameObject[this.x_size][this.y_size][max_objects_per_coord];
+    public Field(Integer x, Integer y, Integer maxobjectspercoord) {
+        this.sizex = x;
+        this.sizey = y;
+        this.gameobjects = new GameObject[this.sizex][this.sizey][maxobjectspercoord];
     }
 
     /**
      * Remove an object from a location in the field
      *
-     * @param game_object The object you want to delete
+     * @param gameobject The object you want to delete
      * @throws Game_engine.ImpossibleLocationRemoveException
      */
-    public void DeleteGame_object(GameObject game_object) throws ImpossibleLocationRemoveException {
-        if (game_object.array_position < this.game_objects[game_object.location.x][game_object.location.y].length && game_object.hashCode() == this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position].hashCode()) {
-            this.game_objects[game_object.location.x][game_object.location.y][game_object.array_position] = null;
+    public void deleteGameObject(GameObject gameobject) throws ImpossibleLocationRemoveException {
+        if (gameobject.array_position < this.gameobjects[gameobject.location.x][gameobject.location.y].length && gameobject.hashCode() == this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.array_position].hashCode()) {
+            this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.array_position] = null;
         } else {
             throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
         }
@@ -51,30 +51,30 @@ public class Field {
     /**
      * Add an object to a location in the field
      *
-     * @param game_object The object you want to add
+     * @param gameobject The object you want to add
      * @throws Game_engine.ImpossibleLocationAddException
      */
-    public void AddGame_object(GameObject game_object) throws ImpossibleLocationAddException {
-        int o_num = 0;
+    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException {
+        Integer i = -1;
         do {
-        } while (o_num++ < this.game_objects[game_object.location.x][game_object.location.y].length && this.game_objects[game_object.location.x][game_object.location.y][o_num] != null);
-        if (o_num < this.game_objects[game_object.location.x][game_object.location.y].length) {
-            this.game_objects[game_object.location.x][game_object.location.y][o_num] = game_object;
-            game_object.array_position = o_num;
+        } while (i++ < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null);
+        if (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length) {
+            this.gameobjects[gameobject.location.x][gameobject.location.y][i] = gameobject;
+            gameobject.array_position = i;
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
     }
 
     /**
-     * Checks if coordinate has space
+     * Checks if coordinate has space available
      *
      * @param coordinate The coordinate you want to know if has space
      * @return true if there is space to put an object in that Coordinate false
      * if not
      */
-    public Boolean CoordinateHasSpace(Coordinate coordinate) {
-        for (GameObject object : this.game_objects[coordinate.x][coordinate.y]) {
+    public Boolean checkSpaceAvailable(Coordinate coordinate) {
+        for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
             if (object == null) {
                 return true;
             }
@@ -85,33 +85,33 @@ public class Field {
     /**
      * Tells if the object can be relocated there
      *
-     * @param game_object Object you want to know if can be relocated there
+     * @param gameobject Object you want to know if can be relocated there
      * @param coordinate Cordinate you want to know if can be relocated
      * @return Returns a boolean with true or false depending on if it's
      * possible to relocate the object there
      */
-    public Boolean CanRelocateGame_object(GameObject game_object, Coordinate coordinate) {
-        RectangularArea possible_move_area;
-        if (!CoordinateHasSpace(coordinate) || coordinate.x > (possible_move_area = new RectangularArea(this.x_size - 1, 0, this.y_size - 1, 0).getCommonArea(game_object.posible_location_area)).maxcoord.x || coordinate.x < possible_move_area.mincoord.x || coordinate.y > possible_move_area.maxcoord.y || coordinate.y < possible_move_area.mincoord.y) {
+    public Boolean canRelocateGameObject(GameObject gameobject, Coordinate coordinate) {
+        RectangularArea possiblemovearea;
+        if (!checkSpaceAvailable(coordinate) || coordinate.x > (possiblemovearea = new RectangularArea(this.sizex - 1, 0, this.sizey - 1, 0).getCommonArea(gameobject.posible_location_area)).maxcoord.x || coordinate.x < possiblemovearea.mincoord.x || coordinate.y > possiblemovearea.maxcoord.y || coordinate.y < possiblemovearea.mincoord.y) {
             return false;
         }
-        for (GameObject object : this.game_objects[coordinate.x][coordinate.y]) {
+        for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
             if (object != null) {
                 switch (object.physical_state_type) {
                     case Solid:
                     case Solid_with_holes:
-                        switch (game_object.physical_state_type) {
+                        switch (gameobject.physical_state_type) {
                             case Solid_with_holes:
                             case Solid:
                                 return false;
                         }
                     case Liquid:
-                        switch (game_object.physical_state_type) {
+                        switch (gameobject.physical_state_type) {
                             case Solid:
                                 return false;
                         }
                     case Gas:
-                        switch (game_object.physical_state_type) {
+                        switch (gameobject.physical_state_type) {
                             case Solid:
                             case Liquid:
                                 return false;
@@ -131,7 +131,7 @@ public class Field {
      * anything
      */
     public GameObject collidesWith(GameObject objectlookingforcollider) {
-        for (GameObject object : this.game_objects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
+        for (GameObject object : this.gameobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
             if (object != null && Objects.equals(object.height, objectlookingforcollider.height)) {
                 return object;
             }

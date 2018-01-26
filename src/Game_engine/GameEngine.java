@@ -27,8 +27,8 @@ public class GameEngine {
         StringBuilder frame = new StringBuilder();
         char draw_character = '|';
         Integer character_height = 0;
-        for (int y = 0; y < field.game_objects[0].length; y++) {
-            for (GameObject[][] x : field.game_objects) {
+        for (int y = 0; y < field.gameobjects[0].length; y++) {
+            for (GameObject[][] x : field.gameobjects) {
                 for (GameObject game_object : x[y]) {
                     if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                         character_height = game_object.height;
@@ -54,8 +54,8 @@ public class GameEngine {
         StringBuilder frame = new StringBuilder();
         for (Field field : fields) {
             char draw_character = '|';
-            for (int y = 0; y < field.game_objects[0].length; y++) {
-                for (GameObject[][] x : field.game_objects) {
+            for (int y = 0; y < field.gameobjects[0].length; y++) {
+                for (GameObject[][] x : field.gameobjects) {
                     for (GameObject game_object : x[y]) {
                         if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                             character_height = game_object.height;
@@ -79,7 +79,7 @@ public class GameEngine {
      * @param field the field that has to update locations
      */
     public void UpdateLocations(Field field) {
-        for (GameObject[][] x : field.game_objects) {
+        for (GameObject[][] x : field.gameobjects) {
             for (GameObject[] y : x) {
                 for (GameObject game_object : y) {
                     if (game_object != null) {
@@ -112,7 +112,7 @@ public class GameEngine {
     public char ToDrawAt(Field field, Integer x, Integer y) {
         char draw_character = ' ';
         Integer character_height = 0;
-        for (GameObject game_object : field.game_objects[x][y]) {
+        for (GameObject game_object : field.gameobjects[x][y]) {
             if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
                 character_height = game_object.height;
                 draw_character = game_object.character;

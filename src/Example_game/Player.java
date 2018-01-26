@@ -44,9 +44,9 @@ public class Player extends GameObject {
         this.points = 0;
         this.log_level = LogLevel.Verbose;
         do {
-            this.location = new Coordinate(MathCustomFuncs.random(0, playing_field.x_size - 1).intValue(), MathCustomFuncs.random(0, playing_field.y_size - 1).intValue());
+            this.location = new Coordinate(MathCustomFuncs.random(0, playing_field.sizex - 1).intValue(), MathCustomFuncs.random(0, playing_field.sizey - 1).intValue());
             try {
-                this.playing_field.AddGame_object(this);
+                this.playing_field.addGameObject(this);
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
