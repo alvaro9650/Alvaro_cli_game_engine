@@ -9,11 +9,13 @@ package Game_engine;
  *
  * @author alumno1718_2
  */
-public class ImpossibleRelocationException extends Exception{
-    public ImpossibleRelocationException(){
+public class ImpossibleRelocationException extends Exception {
+
+    public ImpossibleRelocationException() {
         super();
     }
-    public ImpossibleRelocationException(String exception_text){
+
+    public ImpossibleRelocationException(String exception_text) {
         super(exception_text);
     }
 }

@@ -9,11 +9,13 @@ package Game_engine;
  *
  * @author alumno1718_2
  */
-public class ImpossibleLocationRemoveException extends ImpossibleRelocationException{
-    public ImpossibleLocationRemoveException(){
+public class ImpossibleLocationRemoveException extends ImpossibleRelocationException {
+
+    public ImpossibleLocationRemoveException() {
         super();
     }
-    public ImpossibleLocationRemoveException(String exception_text){
-        super("Impossible to remove object from that location:"+exception_text);
+
+    public ImpossibleLocationRemoveException(String exception_text) {
+        super("Impossible to remove object from that location:" + exception_text);
     }
 }

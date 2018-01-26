@@ -9,11 +9,13 @@ package Game_engine;
  *
  * @author alumno1718_2
  */
-public class ImpossibleLocationAddException extends ImpossibleRelocationException{
-public ImpossibleLocationAddException(){
+public class ImpossibleLocationAddException extends ImpossibleRelocationException {
+
+    public ImpossibleLocationAddException() {
         super();
     }
-    public ImpossibleLocationAddException(String exception_text){
-        super("Impossible to add object to that location:"+exception_text);
+
+    public ImpossibleLocationAddException(String exception_text) {
+        super("Impossible to add object to that location:" + exception_text);
     }
 }
