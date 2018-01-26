@@ -34,14 +34,13 @@ public class Ball extends GameObject {
         this.height = 1;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
-        set_rand_coord:
         do {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
                 this.playingfield.addGameObject(this);
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
-                continue set_rand_coord;
+                continue;
             }
             break;
         } while (true);
