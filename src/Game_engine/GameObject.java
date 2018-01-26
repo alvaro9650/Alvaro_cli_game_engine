@@ -5,6 +5,7 @@
  */
 package Game_engine;
 
+import alvaro_tools.MathCustomFuncs;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -684,7 +685,7 @@ public class GameObject implements Closeable {
         }
         RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
         do {
-        } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), Mathcustomfuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
+        } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         try {
             this.playing_field.AddGame_object(this);
         } catch (ImpossibleRelocationException ex) {
@@ -722,7 +723,7 @@ public class GameObject implements Closeable {
             RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
             Boolean can_relocate = false;
             for (Integer i = 0; i < 200 || can_relocate; i++) {
-                can_relocate = this.playing_field.CanRelocateGame_object(this, new Coordinate(Mathcustomfuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), Mathcustomfuncs.random(area.mincoord.y, area.maxcoord.y).intValue()));
+                can_relocate = this.playing_field.CanRelocateGame_object(this, new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue()));
             }
             if (can_relocate) {
                 return true;
@@ -741,7 +742,7 @@ public class GameObject implements Closeable {
         if (this.WillRespawn()) {
             RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.x_size - 1, 0, this.playing_field.y_size - 1));
             do {
-            } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(Mathcustomfuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), Mathcustomfuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
+            } while (!this.playing_field.CanRelocateGame_object(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         }
         try {
             this.playing_field.AddGame_object(this);
@@ -1276,7 +1277,7 @@ public class GameObject implements Closeable {
  public void UpdaterespawnablexLocation(Integer x, Integer y) {
  if (this.location.x + x > this.posible_location_area.maxcoord.x ||
  this.location.x + x < this.posible_location_area.mincoord.x) {
- this.location.x = Mathcustomfuncs.random(this.respawn_area.mincoord.x, this.respawn_area.maxcoord.x).intValue();
+ this.location.x = MathCustomFuncs.random(this.respawn_area.mincoord.x, this.respawn_area.maxcoord.x).intValue();
  } else {
  this.location.x += x;
  }
@@ -1291,7 +1292,7 @@ public class GameObject implements Closeable {
  public void UpdaterespawnableyLocation(Integer x, Integer y) {
  if (this.location.y + y > this.posible_location_area.maxcoord.y ||
  this.location.y + y < this.posible_location_area.mincoord.y) {
- this.location.y = Mathcustomfuncs.random(this.respawn_area.mincoord.y, this.respawn_area.maxcoord.y).intValue();
+ this.location.y = MathCustomFuncs.random(this.respawn_area.mincoord.y, this.respawn_area.maxcoord.y).intValue();
  } else {
  this.location.y += y;
  }
