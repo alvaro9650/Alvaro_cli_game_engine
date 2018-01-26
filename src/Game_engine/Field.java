@@ -52,10 +52,13 @@ public class Field {
      * @param gameobject The object you want to add
      * @throws Game_engine.ImpossibleLocationAddException
      * @throws Game_engine.ObjectCollidesException
+     * @throws Game_engine.OutOfBoundsException
      */
-    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException {
+    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
         if (this.collidesWith(gameobject) != null) {
             throw new ObjectCollidesException();
+        } else if (new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location)) {
+            throw new OutOfBoundsException();
         }
         Integer i = 0;
         while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
