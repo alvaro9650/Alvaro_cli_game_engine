@@ -12,23 +12,23 @@ package Game_engine;
  */
 public enum CollisionType {
     Ghost(1), Bounce(2), Worm_hole(3), Imparable(4), Unmoveable(5), Respawnable(6), Destroyable(7), Farest(8);
-    private final int collision_type;
+    private final int collisiontype;
 
     /**
-     * Constructor for Collision_type
+     * Constructor for CollisionType
      *
-     * @param Collision_type An int that identifies Collision_type
+     * @param CollisionType An int that identifies CollisionType
      */
-    private CollisionType(int collision_type) {
-        this.collision_type = collision_type;
+    private CollisionType(int collisiontype) {
+        this.collisiontype = collisiontype;
     }
 
     /**
-     * Getter for Pysical_state_type
+     * Getter for CollisionType
      *
-     * @return Return an int that represents Pysical_state_type
+     * @return Return an int that represents CollisionType
      */
-    public int getCollision_type() {
-        return this.collision_type;
+    public int getCollisionType() {
+        return this.collisiontype;
     }
 }
