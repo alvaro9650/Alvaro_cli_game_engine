@@ -153,7 +153,7 @@ public class Field {
                         break;
                     case Bounce:
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         break;
                     case Imparable:
                         break;
@@ -177,7 +177,7 @@ public class Field {
                         giving_collision_object.speed.y /= -2;
                         receiving_collision_object.speed.x -= giving_collision_object.speed.y;
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
@@ -234,7 +234,7 @@ public class Field {
                         giving_collision_object.speed.y = 0;
                         break;
                 }
-            case Worm_hole:
+            case WormHole:
                 switch (giving_collision_object.givingcollision) {
                     case Ghost:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
@@ -244,7 +244,7 @@ public class Field {
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
@@ -281,7 +281,7 @@ public class Field {
                         giving_collision_object.speed.x = -giving_collision_object.speed.x;
                         giving_collision_object.speed.y = -giving_collision_object.speed.y;
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
@@ -315,7 +315,7 @@ public class Field {
                         giving_collision_object.speed.x = -giving_collision_object.speed.x;
                         giving_collision_object.speed.y = -giving_collision_object.speed.y;
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
@@ -350,7 +350,7 @@ public class Field {
                         giving_collision_object.speed.y /= -2;
                         receiving_collision_object.respawn();
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         receiving_collision_object.respawn();
@@ -396,7 +396,7 @@ public class Field {
                             }
                         }
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         {
@@ -471,7 +471,7 @@ public class Field {
                         receiving_collision_object.location.x += new Float(Math.signum(receiving_collision_object.speed.x)).intValue();
                         receiving_collision_object.location.y += new Float(Math.signum(receiving_collision_object.speed.y)).intValue();
                         break;
-                    case Worm_hole:
+                    case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
                         giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
                         break;
