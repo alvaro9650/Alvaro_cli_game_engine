@@ -99,9 +99,9 @@ public class Field {
             if (object != null) {
                 switch (object.physical_state_type) {
                     case Solid:
-                    case Solid_with_holes:
+                    case SolidWithHoles:
                         switch (gameobject.physical_state_type) {
-                            case Solid_with_holes:
+                            case SolidWithHoles:
                             case Solid:
                                 return false;
                         }

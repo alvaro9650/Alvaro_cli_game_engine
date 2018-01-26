@@ -11,7 +11,7 @@ package Game_engine;
  * @author alumno1718_2
  */
 public enum PhysicalStateType {
-    Ghost(1), Solid_with_holes(2), Liquid(3), Gas(4), Solid(5);
+    Ghost(1), SolidWithHoles(2), Liquid(3), Gas(4), Solid(5);
     private final int physicalstatetype;
 
     /**
