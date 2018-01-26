@@ -36,7 +36,7 @@ public class Ball extends GameObject {
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
         set_rand_coord:
         do {
-            this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.sizex - 1).intValue(), MathCustomFuncs.random(0, playingfield.sizey - 1).intValue());
+            this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
                 this.playingfield.addGameObject(this);
             } catch (ImpossibleLocationAddException ex) {

@@ -11,8 +11,8 @@ package Game_engine;
  */
 public class TwoDimensionsSize {
 
-    Integer x;
-    Integer y;
+    public Integer x;
+    public Integer y;
 
     /**
      * Creates an object to save a 2D size

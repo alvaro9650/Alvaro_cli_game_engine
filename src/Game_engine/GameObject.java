@@ -48,8 +48,8 @@ public class GameObject implements Closeable {
         this.speed = new Speed(0, 0);
         this.movetype = MoveType.None;
         this.playingfield = field;
-        this.posiblelocationarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
-        this.respawnarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
+        this.posiblelocationarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
+        this.respawnarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
         this.physicalstatetype = PhysicalStateType.Ghost;
         this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
         this.loglevel = LogLevel.None;
@@ -96,9 +96,9 @@ public class GameObject implements Closeable {
                 objectlog.append(this.movetype);
             case OutOfBoundsRelated:
                 objectlog.append("\nplaying_field x = ");
-                objectlog.append(this.playingfield.sizex);
+                objectlog.append(this.playingfield.size.x);
                 objectlog.append("\nplaying_field y = ");
-                objectlog.append(this.playingfield.sizey);
+                objectlog.append(this.playingfield.size.y);
                 objectlog.append("\nspeed x = ");
                 objectlog.append(this.speed.x);
                 objectlog.append("\nspeed y = ");
@@ -219,7 +219,7 @@ public class GameObject implements Closeable {
         Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
         switch (this.movetype) {
             case Teleport:
-                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1, 0).getCommonArea(this.posiblelocationarea);
                 GameObject collisionreceiver;
                 while ((collisionreceiver = this.playingfield.collidesWith(this)) != null) {
                     this.playingfield.processCollision(this, collisionreceiver);
@@ -344,7 +344,7 @@ public class GameObject implements Closeable {
             case Teleport:
                 Integer bouncingspace,
                  teoricaldestiny;
-                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1, 0).getCommonArea(this.posiblelocationarea);
                 destinylocation.x = (((this.speed.x = ((teoricaldestiny = destinylocation.x + this.speed.x) / (bouncingspace = possiblebouncearea.maxcoord.x - possiblebouncearea.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possiblebouncearea.mincoord.x : possiblebouncearea.maxcoord.x) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.x)).intValue();
                 destinylocation.y = (((this.speed.y = ((teoricaldestiny = destinylocation.y + this.speed.y) / (bouncingspace = possiblebouncearea.maxcoord.y - possiblebouncearea.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possiblebouncearea.mincoord.y : possiblebouncearea.maxcoord.y) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.y)).intValue();
                 return this.playingfield.canRelocateGameObject(this, destinylocation);
@@ -496,7 +496,7 @@ public class GameObject implements Closeable {
                 case Teleport:
                     Integer bouncingspace,
                      teoricaldestiny;
-                    RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                    RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1, 0).getCommonArea(this.posiblelocationarea);
                     this.location.x = (((this.speed.x = ((teoricaldestiny = this.location.x + this.speed.x) / (bouncingspace = possiblebouncearea.maxcoord.x - possiblebouncearea.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possiblebouncearea.mincoord.x : possiblebouncearea.maxcoord.x) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.x)).intValue();
                     this.location.y = (((this.speed.y = ((teoricaldestiny = this.location.y + this.speed.y) / (bouncingspace = possiblebouncearea.maxcoord.y - possiblebouncearea.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possiblebouncearea.mincoord.y : possiblebouncearea.maxcoord.y) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.y)).intValue();
                     try {
@@ -683,7 +683,7 @@ public class GameObject implements Closeable {
         } catch (ImpossibleLocationRemoveException ex) {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
+        RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1));
         do {
         } while (!this.playingfield.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         try {
@@ -705,7 +705,7 @@ public class GameObject implements Closeable {
             case None:
                 return false;
             default:
-                RectangularArea possiblearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                RectangularArea possiblearea = new RectangularArea(this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1, 0).getCommonArea(this.posiblelocationarea);
                 if ((destinylocation.x += this.speed.x) > possiblearea.maxcoord.x || destinylocation.x < possiblearea.mincoord.x || (destinylocation.y += this.speed.y) > possiblearea.maxcoord.y || destinylocation.y < possiblearea.mincoord.y) {
                     return true;
                 }
@@ -720,7 +720,7 @@ public class GameObject implements Closeable {
      */
     public Boolean canUpdateRespawnableLocation() {
         if (this.willRespawn()) {
-            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
+            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1));
             Boolean canrelocate = false;
             for (Integer i = 0; i < 200 || canrelocate; i++) {
                 canrelocate = this.playingfield.canRelocateGameObject(this, new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue()));
@@ -740,7 +740,7 @@ public class GameObject implements Closeable {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (this.willRespawn()) {
-            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
+            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.size.x - 1, 0, this.playingfield.size.y - 1));
             do {
             } while (!this.playingfield.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         }
@@ -755,8 +755,8 @@ public class GameObject implements Closeable {
     /**
      * public Boolean CanUpdateimpossibleLocation() { Coordinate destinylocation
  = new Coordinate(this.location.x, this.location.y); Rectangular_area
- possiblearea = new Rectangular_area(this.playingfield.sizex - 1, 0,
- this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+ possiblearea = new Rectangular_area(this.playingfield.size.x - 1, 0,
+ this.playingfield.size.y - 1, 0).getCommonArea(this.posiblelocationarea);
  switch (this.movetype) { case Teleport: if ((destinylocation.x =
  destinylocation.x + this.speed.x) > possiblearea.maxcoord.x) {
  destinylocation.x = possiblearea.maxcoord.x; } else if

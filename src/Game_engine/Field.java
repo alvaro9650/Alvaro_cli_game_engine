@@ -17,8 +17,7 @@ import java.util.logging.Logger;
  */
 public class Field {
 
-    public Integer sizex;
-    public Integer sizey;
+    public TwoDimensionsSize size;
     public GameObject[][][] gameobjects;
 
     /**
@@ -29,9 +28,8 @@ public class Field {
      * @param maxobjectspercoord Maximum number of objects per coord
      */
     public Field(Integer x, Integer y, Integer maxobjectspercoord) {
-        this.sizex = x;
-        this.sizey = y;
-        this.gameobjects = new GameObject[this.sizex][this.sizey][maxobjectspercoord];
+        this.size = new TwoDimensionsSize(x,y);
+        this.gameobjects = new GameObject[this.size.x][this.size.y][maxobjectspercoord];
     }
 
     /**
@@ -92,7 +90,7 @@ public class Field {
      */
     public Boolean canRelocateGameObject(GameObject gameobject, Coordinate coordinate) {
         RectangularArea possiblemovearea;
-        if (!checkSpaceAvailable(coordinate) || coordinate.x > (possiblemovearea = new RectangularArea(this.sizex - 1, 0, this.sizey - 1, 0).getCommonArea(gameobject.posiblelocationarea)).maxcoord.x || coordinate.x < possiblemovearea.mincoord.x || coordinate.y > possiblemovearea.maxcoord.y || coordinate.y < possiblemovearea.mincoord.y) {
+        if (!checkSpaceAvailable(coordinate) || coordinate.x > (possiblemovearea = new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea)).maxcoord.x || coordinate.x < possiblemovearea.mincoord.x || coordinate.y > possiblemovearea.maxcoord.y || coordinate.y < possiblemovearea.mincoord.y) {
             return false;
         }
         for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
