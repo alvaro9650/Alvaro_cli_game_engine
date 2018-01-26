@@ -2,3 +2,4 @@ Prevent collision from real moving objects when it's just for checking
 Create 3d size class
 Change logs to use Logger
 Add autor
+Set move direction in object
