@@ -92,7 +92,7 @@ public class Field {
      */
     public Boolean CanRelocateGame_object(GameObject game_object, Coordinate coordinate) {
         RectangularArea possible_move_area;
-        if (!CoordinateHasSpace(coordinate) || coordinate.x > (possible_move_area = new RectangularArea(this.x_size - 1, 0, this.y_size - 1, 0).CommonArea(game_object.posible_location_area)).max_coord.x || coordinate.x < possible_move_area.min_coord.x || coordinate.y > possible_move_area.max_coord.y || coordinate.y < possible_move_area.min_coord.y) {
+        if (!CoordinateHasSpace(coordinate) || coordinate.x > (possible_move_area = new RectangularArea(this.x_size - 1, 0, this.y_size - 1, 0).getCommonArea(game_object.posible_location_area)).maxcoord.x || coordinate.x < possible_move_area.mincoord.x || coordinate.y > possible_move_area.maxcoord.y || coordinate.y < possible_move_area.mincoord.y) {
             return false;
         }
         for (GameObject object : this.game_objects[coordinate.x][coordinate.y]) {

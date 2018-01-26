@@ -11,30 +11,30 @@ package Game_engine;
  */
 public class RectangularArea {
 
-    Coordinate max_coord;
-    Coordinate min_coord;
+    Coordinate maxcoord;
+    Coordinate mincoord;
 
     /**
      * Rectangular_area constructor , creates the object and fix wrong order
      *
-     * @param max_x Maximum x coordinate
-     * @param max_y Maximum y coordinate
-     * @param min_x Minimum x coordinate
-     * @param min_y Minimum y coordinate
+     * @param maxx Maximum x coordinate
+     * @param maxy Maximum y coordinate
+     * @param minx Minimum x coordinate
+     * @param miny Minimum y coordinate
      */
-    public RectangularArea(Integer max_x, Integer min_x, Integer max_y, Integer min_y) {
-        if (max_x >= min_x && max_y >= min_y) {
-            this.max_coord = new Coordinate(max_x, max_y);
-            this.min_coord = new Coordinate(min_x, min_y);
-        } else if (max_x < min_x && max_y >= min_y) {
-            this.max_coord = new Coordinate(min_x, max_y);
-            this.min_coord = new Coordinate(max_x, min_y);
-        } else if (max_x >= min_x && max_y < min_y) {
-            this.max_coord = new Coordinate(max_x, min_y);
-            this.min_coord = new Coordinate(min_x, max_y);
-        } else if (max_x < min_x && max_y < min_y) {
-            this.max_coord = new Coordinate(min_x, min_y);
-            this.min_coord = new Coordinate(max_x, max_y);
+    public RectangularArea(Integer maxx, Integer minx, Integer maxy, Integer miny) {
+        if (maxx >= minx && maxy >= miny) {
+            this.maxcoord = new Coordinate(maxx, maxy);
+            this.mincoord = new Coordinate(minx, miny);
+        } else if (maxx < minx && maxy >= miny) {
+            this.maxcoord = new Coordinate(minx, maxy);
+            this.mincoord = new Coordinate(maxx, miny);
+        } else if (maxx >= minx && maxy < miny) {
+            this.maxcoord = new Coordinate(maxx, miny);
+            this.mincoord = new Coordinate(minx, maxy);
+        } else if (maxx < minx && maxy < miny) {
+            this.maxcoord = new Coordinate(minx, miny);
+            this.mincoord = new Coordinate(maxx, maxy);
         }
 
     }
@@ -43,53 +43,53 @@ public class RectangularArea {
      * Rectangular_area constructor , creates the object and checks everything
      * is correct
      *
-     * @param max_coord Maximum coordinate
-     * @param min_coord Minimum coordinate
+     * @param maxcoord Maximum coordinate
+     * @param mincoord Minimum coordinate
      */
-    public RectangularArea(Coordinate max_coord, Coordinate min_coord) {
-        if (max_coord.x >= min_coord.x && max_coord.y >= min_coord.y) {
-            this.max_coord = new Coordinate(max_coord.x, max_coord.y);
-            this.min_coord = new Coordinate(min_coord.x, min_coord.y);
-        } else if (max_coord.x < min_coord.x && max_coord.y >= min_coord.y) {
-            this.max_coord = new Coordinate(min_coord.x, max_coord.y);
-            this.min_coord = new Coordinate(max_coord.x, min_coord.y);
-        } else if (max_coord.x >= min_coord.x && max_coord.y < min_coord.y) {
-            this.max_coord = new Coordinate(max_coord.x, min_coord.y);
-            this.min_coord = new Coordinate(min_coord.x, max_coord.y);
-        } else if (max_coord.x < min_coord.x && max_coord.y < min_coord.y) {
-            this.max_coord = new Coordinate(min_coord.x, min_coord.y);
-            this.min_coord = new Coordinate(max_coord.x, max_coord.y);
+    public RectangularArea(Coordinate maxcoord, Coordinate mincoord) {
+        if (maxcoord.x >= mincoord.x && maxcoord.y >= mincoord.y) {
+            this.maxcoord = new Coordinate(maxcoord.x, maxcoord.y);
+            this.mincoord = new Coordinate(mincoord.x, mincoord.y);
+        } else if (maxcoord.x < mincoord.x && maxcoord.y >= mincoord.y) {
+            this.maxcoord = new Coordinate(mincoord.x, maxcoord.y);
+            this.mincoord = new Coordinate(maxcoord.x, mincoord.y);
+        } else if (maxcoord.x >= mincoord.x && maxcoord.y < mincoord.y) {
+            this.maxcoord = new Coordinate(maxcoord.x, mincoord.y);
+            this.mincoord = new Coordinate(mincoord.x, maxcoord.y);
+        } else if (maxcoord.x < mincoord.x && maxcoord.y < mincoord.y) {
+            this.maxcoord = new Coordinate(mincoord.x, mincoord.y);
+            this.mincoord = new Coordinate(maxcoord.x, maxcoord.y);
         }
     }
 
     /**
      * Gets the area in common of this area and another one
      *
-     * @param ext_area Other area
+     * @param extarea Other area
      * @return The area that those 2 areas have in common
      */
-    public RectangularArea CommonArea(RectangularArea ext_area) {
+    public RectangularArea getCommonArea(RectangularArea extarea) {
         Coordinate commonmin = new Coordinate(0, 0);
         Coordinate commonmax = new Coordinate(0, 0);
-        if (this.min_coord.x <= ext_area.min_coord.x) {
-            commonmin.x = this.min_coord.x;
+        if (this.mincoord.x <= extarea.mincoord.x) {
+            commonmin.x = this.mincoord.x;
         } else {
-            commonmin.x = ext_area.min_coord.x;
+            commonmin.x = extarea.mincoord.x;
         }
-        if (this.min_coord.y <= ext_area.min_coord.y) {
-            commonmin.y = this.min_coord.y;
+        if (this.mincoord.y <= extarea.mincoord.y) {
+            commonmin.y = this.mincoord.y;
         } else {
-            commonmin.y = ext_area.min_coord.y;
+            commonmin.y = extarea.mincoord.y;
         }
-        if (this.max_coord.x >= ext_area.max_coord.x) {
-            commonmax.x = this.max_coord.x;
+        if (this.maxcoord.x >= extarea.maxcoord.x) {
+            commonmax.x = this.maxcoord.x;
         } else {
-            commonmax.x = ext_area.max_coord.x;
+            commonmax.x = extarea.maxcoord.x;
         }
-        if (this.max_coord.y >= ext_area.max_coord.y) {
-            commonmax.y = this.max_coord.y;
+        if (this.maxcoord.y >= extarea.maxcoord.y) {
+            commonmax.y = this.maxcoord.y;
         } else {
-            commonmax.y = ext_area.max_coord.y;
+            commonmax.y = extarea.maxcoord.y;
         }
         return new RectangularArea(commonmax, commonmin);
     }
