@@ -1,4 +1,3 @@
-Change format to CamelCase
 Prevent collision from real moving objects when it's just for checking
 Create 2d size class
 Create 3d size class
