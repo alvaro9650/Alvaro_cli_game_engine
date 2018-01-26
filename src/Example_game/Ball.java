@@ -9,7 +9,7 @@ import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
-import Game_engine.Mathcustomfuncs;
+import alvaro_tools.MathCustomFuncs;
 import Game_engine.OutOfBoundsMoveType;
 import Game_engine.Speed;
 import java.util.logging.Level;
@@ -33,10 +33,10 @@ public class Ball extends GameObject {
         this.character = 'O';
         this.height = 1;
         this.out_of_bounds_move_type = OutOfBoundsMoveType.Bounceable;
-        this.speed = new Speed(Mathcustomfuncs.random(6, 16).intValue(), Mathcustomfuncs.random(6, 16).intValue());
+        this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
         set_rand_coord:
         do {
-            this.location = new Coordinate(Mathcustomfuncs.random(0, playing_field.x_size - 1).intValue(), Mathcustomfuncs.random(0, playing_field.y_size - 1).intValue());
+            this.location = new Coordinate(MathCustomFuncs.random(0, playing_field.x_size - 1).intValue(), MathCustomFuncs.random(0, playing_field.y_size - 1).intValue());
             try {
                 this.playing_field.AddGame_object(this);
             } catch (ImpossibleLocationAddException ex) {
