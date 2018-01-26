@@ -28,7 +28,7 @@ public enum LogLevel {
      *
      * @return Returns int that identifies LogLevel
      */
-    public int getLog_level() {
+    public int getLogLevel() {
         return this.log_level;
     }
 }
