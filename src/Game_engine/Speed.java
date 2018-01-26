@@ -25,4 +25,14 @@ public class Speed {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Creates an object to save speed
+     *
+     * @param speed the new speed
+     */
+    public Speed(Speed speed) {
+        this.x = speed.x;
+        this.y = speed.y;
+    }
 }
