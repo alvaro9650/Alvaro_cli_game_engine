@@ -28,7 +28,7 @@ public class Field {
      * @param maxobjectspercoord Maximum number of objects per coord
      */
     public Field(Integer x, Integer y, Integer maxobjectspercoord) {
-        this.size = new TwoDimensionsSize(x,y);
+        this.size = new TwoDimensionsSize(x, y);
         this.gameobjects = new GameObject[this.size.x][this.size.y][maxobjectspercoord];
     }
 
@@ -51,11 +51,16 @@ public class Field {
      *
      * @param gameobject The object you want to add
      * @throws Game_engine.ImpossibleLocationAddException
+     * @throws Game_engine.ObjectCollidesException
      */
-    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException {
-        Integer i = -1;
-        do {
-        } while (i++ < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null);
+    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException {
+        if (this.collidesWith(gameobject) != null) {
+            throw new ObjectCollidesException();
+        }
+        Integer i = 0;
+        while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
+            i++;
+        }
         if (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length) {
             this.gameobjects[gameobject.location.x][gameobject.location.y][i] = gameobject;
             gameobject.arrayposition = i;
@@ -218,15 +223,14 @@ public class Field {
                     case Respawnable:
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.y = 0;
@@ -257,15 +261,14 @@ public class Field {
                     case Respawnable:
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.location.x += giving_collision_object.movedirection.x;
                         giving_collision_object.location.y += giving_collision_object.movedirection.y;
@@ -290,15 +293,14 @@ public class Field {
                     case Respawnable:
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.x = 0;
@@ -324,15 +326,14 @@ public class Field {
                     case Respawnable:
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.x = 0;
@@ -363,16 +364,15 @@ public class Field {
                         receiving_collision_object.respawn();
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        receiving_collision_object.respawn();
-                        break;
+                    }
+                    receiving_collision_object.respawn();
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.y = 0;
@@ -386,7 +386,7 @@ public class Field {
                     case Bounce:
                         giving_collision_object.speed.x /= -2;
                         giving_collision_object.speed.y /= -2;
-                        {
+                         {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
@@ -397,7 +397,7 @@ public class Field {
                     case WormHole:
                         giving_collision_object.location.x += giving_collision_object.movedirection.x;
                         giving_collision_object.location.y += giving_collision_object.movedirection.y;
-                        {
+                         {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
@@ -405,54 +405,50 @@ public class Field {
                             }
                         }
                         break;
-                    case Imparable:
-                        {
-                            try {
-                                receiving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Imparable: {
+                        try {
+                            receiving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
-                    case Unmoveable:
-                        {
-                            try {
-                                receiving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    }
+                    break;
+                    case Unmoveable: {
+                        try {
+                            receiving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
-                    case Respawnable:
-                        {
-                            try {
-                                receiving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    }
+                    break;
+                    case Respawnable: {
+                        try {
+                            receiving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        giving_collision_object.respawn();
-                        break;
-                    case Destroyable:
-                        {
-                            try {
-                                giving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    }
+                    giving_collision_object.respawn();
+                    break;
+                    case Destroyable: {
+                        try {
+                            giving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        {
-                            try {
-                                receiving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    }
+                     {
+                        try {
+                            receiving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.y = 0;
-                        {
+                         {
                             try {
                                 receiving_collision_object.close();
                             } catch (IOException ex) {
@@ -484,15 +480,14 @@ public class Field {
                     case Respawnable:
                         giving_collision_object.respawn();
                         break;
-                    case Destroyable:
-                        {
-                            try {
-                                receiving_collision_object.close();
-                            } catch (IOException ex) {
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    case Destroyable: {
+                        try {
+                            receiving_collision_object.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        break;
+                    }
+                    break;
                     case Farest:
                         giving_collision_object.speed.x = 0;
                         giving_collision_object.speed.y = 0;
