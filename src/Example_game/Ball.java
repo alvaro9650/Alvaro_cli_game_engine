@@ -9,6 +9,8 @@ import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
+import Game_engine.ObjectCollidesException;
+import Game_engine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
 import Game_engine.OutOfBoundsMoveType;
 import Game_engine.Speed;
@@ -41,6 +43,10 @@ public class Ball extends GameObject {
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
+            } catch (ObjectCollidesException ex) {
+                System.out.println("ball collide");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("ball out of bounds");
             }
             break;
         } while (true);

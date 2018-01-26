@@ -11,6 +11,8 @@ import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
 import Game_engine.LogLevel;
+import Game_engine.ObjectCollidesException;
+import Game_engine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
 import Game_engine.OutOfBoundsMoveType;
 import Game_engine.Speed;
@@ -50,6 +52,10 @@ public class Player extends GameObject {
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
+            } catch (ObjectCollidesException ex) {
+                System.out.println("player collide");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("player out of bounds");
             }
             break;
         } while (true);
@@ -69,7 +75,13 @@ public class Player extends GameObject {
         if (this.move_points < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
         } else {
-            super.moveTo(location);
+            try {
+                super.moveTo(location);
+            } catch (ObjectCollidesException ex) {
+                System.out.println("ball collide");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("ball out of bounds");
+            }
             this.move_points += 10;
         }
     }
