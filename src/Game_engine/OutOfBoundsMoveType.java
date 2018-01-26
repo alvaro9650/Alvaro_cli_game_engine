@@ -12,15 +12,15 @@ package Game_engine;
  */
 public enum OutOfBoundsMoveType {
     Bounceable(1), Respawnable(2), Impossible(3), Destroyable(4), Possible(5), Farest(6), Circular_universe(7);
-    private final int out_of_bounds_move_type;
+    private final int outofboundsmovetype;
 
     /**
-     * Constructor for Out_of_bounds_move_type
+     * Constructor for OutOfBoundsMoveType
      *
-     * @param out_of_bounds_move_type An int that identifies the type
+     * @param outofboundsmovetype An int that identifies the type
      */
-    private OutOfBoundsMoveType(int out_of_bounds_move_type) {
-        this.out_of_bounds_move_type = out_of_bounds_move_type;
+    private OutOfBoundsMoveType(int outofboundsmovetype) {
+        this.outofboundsmovetype = outofboundsmovetype;
     }
 
     /**
@@ -29,6 +29,6 @@ public enum OutOfBoundsMoveType {
      * @return Returns an int that identifies the type
      */
     public int getOutOfBoundsMoveType() {
-        return this.out_of_bounds_move_type;
+        return this.outofboundsmovetype;
     }
 }
