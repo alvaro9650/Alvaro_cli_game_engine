@@ -41,7 +41,7 @@ public class Camera extends GameObject {
         StringBuilder framecreator = new StringBuilder();
         for (int y = this.location.y - this.resolution.y / 2; y < this.location.y + this.resolution.y - this.resolution.y / 2; y++) {
             for (int x = this.location.x - this.resolution.x / 2; y < this.location.x + this.location.x - this.location.x / 2; x++) {
-                framecreator.append((y >= 0 && x >= 0 && x < this.playing_field.sizex && y < this.playing_field.sizey) ? new GameEngine().ToDrawAt(this.playing_field, x, y) : ' ');
+                framecreator.append((y >= 0 && x >= 0 && x < this.playing_field.sizex && y < this.playing_field.sizey) ? new GameEngine().toDrawAt(this.playing_field, x, y) : ' ');
             }
             framecreator.append("\n");
         }

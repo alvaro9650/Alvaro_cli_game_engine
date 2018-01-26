@@ -25,19 +25,19 @@ public class GameEngine {
      */
     public void DrawFrame(Field field) {
         StringBuilder frame = new StringBuilder();
-        char draw_character = '|';
-        Integer character_height = 0;
+        char drawcharacter = '|';
+        Integer characterheight = 0;
         for (int y = 0; y < field.gameobjects[0].length; y++) {
             for (GameObject[][] x : field.gameobjects) {
-                for (GameObject game_object : x[y]) {
-                    if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
-                        character_height = game_object.height;
-                        draw_character = game_object.character;
+                for (GameObject gameobject : x[y]) {
+                    if (gameobject != null && gameobject.height != null && gameobject.height > characterheight && gameobject.height > 0) {
+                        characterheight = gameobject.height;
+                        drawcharacter = gameobject.character;
                     }
                 }
-                frame.append(draw_character);
-                draw_character = '|';
-                character_height = 0;
+                frame.append(drawcharacter);
+                drawcharacter = '|';
+                characterheight = 0;
             }
             frame.append("\n");
         }
@@ -49,22 +49,22 @@ public class GameEngine {
      *
      * @param fields fields to draw
      */
-    public void DrawFrame(Field[] fields) {
-        Integer character_height = 0;
+    public void drawFrame(Field[] fields) {
+        Integer characterheight = 0;
         StringBuilder frame = new StringBuilder();
         for (Field field : fields) {
-            char draw_character = '|';
+            char drawcharacter = '|';
             for (int y = 0; y < field.gameobjects[0].length; y++) {
                 for (GameObject[][] x : field.gameobjects) {
-                    for (GameObject game_object : x[y]) {
-                        if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
-                            character_height = game_object.height;
-                            draw_character = game_object.character;
+                    for (GameObject gameobject : x[y]) {
+                        if (gameobject != null && gameobject.height != null && gameobject.height > characterheight && gameobject.height > 0) {
+                            characterheight = gameobject.height;
+                            drawcharacter = gameobject.character;
                         }
                     }
-                    frame.append(draw_character);
-                    draw_character = '|';
-                    character_height = 0;
+                    frame.append(drawcharacter);
+                    drawcharacter = '|';
+                    characterheight = 0;
                 }
                 frame.append("\n");
             }
@@ -78,7 +78,7 @@ public class GameEngine {
      *
      * @param field the field that has to update locations
      */
-    public void UpdateLocations(Field field) {
+    public void updateLocations(Field field) {
         for (GameObject[][] x : field.gameobjects) {
             for (GameObject[] y : x) {
                 for (GameObject game_object : y) {
@@ -95,9 +95,9 @@ public class GameEngine {
      *
      * @param fields fields that will update location
      */
-    public void UpdateLocations(Field[] fields) {
+    public void updateLocations(Field[] fields) {
         for (Field field : fields) {
-            this.UpdateLocations(field);
+            this.updateLocations(field);
         }
     }
 
@@ -109,16 +109,16 @@ public class GameEngine {
      * @param y y coordinate
      * @return Character to be drawn at that location
      */
-    public char ToDrawAt(Field field, Integer x, Integer y) {
-        char draw_character = ' ';
-        Integer character_height = 0;
-        for (GameObject game_object : field.gameobjects[x][y]) {
-            if (game_object != null && game_object.height != null && game_object.height > character_height && game_object.height > 0) {
-                character_height = game_object.height;
-                draw_character = game_object.character;
+    public char toDrawAt(Field field, Integer x, Integer y) {
+        char drawcharacter = ' ';
+        Integer characterheight = 0;
+        for (GameObject gameobject : field.gameobjects[x][y]) {
+            if (gameobject != null && gameobject.height != null && gameobject.height > characterheight && gameobject.height > 0) {
+                characterheight = gameobject.height;
+                drawcharacter = gameobject.character;
             }
         }
-        return draw_character;
+        return drawcharacter;
     }
 
 
