@@ -11,7 +11,7 @@ package Game_engine;
  * @author alumno1718_2
  */
 public enum LogLevel {
-    Verbose(1), Draw_related(2), Move_related(3), Out_of_bounds_related(4), Collision_related(5), Position_related(6), None(7);
+    Verbose(1), DrawRelated(2), MoveRelated(3), OutOfBoundsRelated(4), CollisionRelated(5), PositionRelated(6), None(7);
     private final int log_level;
 
     /**

@@ -87,11 +87,11 @@ public class Player extends GameObject {
                 object_log.append(this.move_points);
                 object_log.append("\npoints = ");
                 object_log.append(this.points);
-            case Draw_related:
-            case Move_related:
-            case Out_of_bounds_related:
-            case Collision_related:
-            case Position_related:
+            case DrawRelated:
+            case MoveRelated:
+            case OutOfBoundsRelated:
+            case CollisionRelated:
+            case PositionRelated:
             case None:
         }
     }

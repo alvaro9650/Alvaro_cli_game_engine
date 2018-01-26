@@ -11,7 +11,7 @@ package Game_engine;
  * @author alumno1718_2
  */
 public enum CollisionType {
-    Ghost(1), Bounce(2), Worm_hole(3), Imparable(4), Unmoveable(5), Respawnable(6), Destroyable(7), Farest(8);
+    Ghost(1), Bounce(2), WormHole(3), Imparable(4), Unmoveable(5), Respawnable(6), Destroyable(7), Farest(8);
     private final int collisiontype;
 
     /**

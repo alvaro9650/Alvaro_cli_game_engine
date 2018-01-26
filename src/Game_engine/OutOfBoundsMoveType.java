@@ -11,7 +11,7 @@ package Game_engine;
  * @author alumno1718_2
  */
 public enum OutOfBoundsMoveType {
-    Bounceable(1), Respawnable(2), Impossible(3), Destroyable(4), Possible(5), Farest(6), Circular_universe(7);
+    Bounceable(1), Respawnable(2), Impossible(3), Destroyable(4), Possible(5), Farest(6), CircularUniverse(7);
     private final int outofboundsmovetype;
 
     /**

@@ -11,7 +11,7 @@ package Game_engine;
  * @author alumno1718_2
  */
 public enum MoveType {
-    Teleport(1), Horizontal_first(2), Vertical_first(3), Diagonal(4), None(5);
+    Teleport(1), HorizontalFirst(2), VerticalFirst(3), Diagonal(4), None(5);
     private final int movetype;
 
     /**

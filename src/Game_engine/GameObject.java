@@ -51,7 +51,7 @@ public class GameObject implements Closeable {
         this.posiblelocationarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
         this.respawnarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
         this.physicalstatetype = PhysicalStateType.Ghost;
-        this.outofboundsmovetype = OutOfBoundsMoveType.Circular_universe;
+        this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
         this.loglevel = LogLevel.None;
         this.location = new Coordinate(this.posiblelocationarea.mincoord.x, this.posiblelocationarea.mincoord.y);
     }
@@ -88,13 +88,13 @@ public class GameObject implements Closeable {
         switch (this.loglevel) {
             case Verbose:
                 objectlog.append("\nlog_level = verbose");
-            case Draw_related:
+            case DrawRelated:
                 objectlog.append("\ncharacter = ");
                 objectlog.append(this.character);
-            case Move_related:
+            case MoveRelated:
                 objectlog.append("\nmove_type = ");
                 objectlog.append(this.movetype);
-            case Out_of_bounds_related:
+            case OutOfBoundsRelated:
                 objectlog.append("\nplaying_field x = ");
                 objectlog.append(this.playingfield.sizex);
                 objectlog.append("\nplaying_field y = ");
@@ -121,10 +121,10 @@ public class GameObject implements Closeable {
                 objectlog.append(this.respawnarea.mincoord.y);
                 objectlog.append("\nout_of_bounds_move_type = ");
                 objectlog.append(this.outofboundsmovetype);
-            case Collision_related:
+            case CollisionRelated:
                 objectlog.append("\ncollision_type = ");
                 objectlog.append(this.physicalstatetype);
-            case Position_related:
+            case PositionRelated:
                 objectlog.append("\ncoordinate x = ");
                 objectlog.append(location.x.toString());
                 objectlog.append("\ncoordinate y = ");
@@ -169,7 +169,7 @@ public class GameObject implements Closeable {
             //return CanUpdatepossibleLocation();
             case Farest:
             //return CanUpdatefarestLocation();
-            case Circular_universe:
+            case CircularUniverse:
             //return CanUpdatecircularuniverseLocation();
         }
         return false;
@@ -203,7 +203,7 @@ public class GameObject implements Closeable {
                 case Farest:
                     //UpdatefarestLocation();
                     break;
-                case Circular_universe:
+                case CircularUniverse:
                     //UpdatecircularuniverseLocation();
                     break;
             }
@@ -234,7 +234,7 @@ public class GameObject implements Closeable {
                 Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
                 Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
                 switch (this.movetype) {
-                    case Horizontal_first:
+                    case HorizontalFirst:
                         for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
                             if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
@@ -250,7 +250,7 @@ public class GameObject implements Closeable {
                             }
                         }
                         return false;
-                    case Vertical_first:
+                    case VerticalFirst:
                         for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
                             if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
@@ -354,7 +354,7 @@ public class GameObject implements Closeable {
                 Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
                 Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
                 switch (this.movetype) {
-                    case Horizontal_first:
+                    case HorizontalFirst:
                         for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
                             if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
@@ -374,7 +374,7 @@ public class GameObject implements Closeable {
                             }
                         }
                         return this.playingfield.canRelocateGameObject(this, destinylocation);
-                    case Vertical_first:
+                    case VerticalFirst:
                         for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
                             if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
@@ -518,7 +518,7 @@ public class GameObject implements Closeable {
                     Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
                     Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
                     switch (this.movetype) {
-                        case Horizontal_first:
+                        case HorizontalFirst:
                             for (; remainingspeed.x != 0; this.location.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
                                 if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
@@ -543,7 +543,7 @@ public class GameObject implements Closeable {
                                 this.location = originallocation;
                                 Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        case Vertical_first:
+                        case VerticalFirst:
                             for (; remainingspeed.y != 0; this.location.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
                                 if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
@@ -776,7 +776,7 @@ public class GameObject implements Closeable {
  Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
  Boolean canrelocate = true;
  switch (this.movetype) {
- case Horizontal_first:
+ case HorizontalFirst:
  for (; remainingspeed.x != 0 && (canrelocate = this.playingfield.canRelocateGameObject(this, destinylocation)); destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
      * }
      * destinylocation.x = (canrelocate) ? destinylocation.x : (this.speed.x
@@ -787,7 +787,7 @@ public class GameObject implements Closeable {
      * } destinylocation.y = (canrelocate) ? destinylocation.y : (this.speed.y >
  0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y; return
  this.playingfield.canRelocateGameObject(this, destinylocation); case
- Vertical_first: for (; remainingspeed.y != 0 && (canrelocate =
+ VerticalFirst: for (; remainingspeed.y != 0 && (canrelocate =
      * this.playingfield.canRelocateGameObject(this, destinylocation));
      * destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
      * } destinylocation.y = (canrelocate) ? destinylocation.y : (this.speed.y >
@@ -898,20 +898,20 @@ public class GameObject implements Closeable {
      * Checks if and UpdatedestroyableLocation can be done
      *
      * @return A boolean containing the result public Boolean
-     * CanUpdatedestroyableLocation() { Coordinate destinylocation = new
-     * Coordinate(this.location.x + this.speed.x, this.location.y +
-     * this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
-     * return this.playingfield.canRelocateGameObject(this, destinylocation);
-     * case Horizontal_first: movingspeed = new Speed((destinylocation.x >
+ CanUpdatedestroyableLocation() { Coordinate destinylocation = new
+ Coordinate(this.location.x + this.speed.x, this.location.y +
+ this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
+ return this.playingfield.canRelocateGameObject(this, destinylocation);
+ case HorizontalFirst: movingspeed = new Speed((destinylocation.x >
      * this.location.x) ? 1 : -1, (destinylocation.y > this.location.y) ? 1 :
-     * -1); for (; !Objects.equals(this.location.x, destinylocation.x);
-     * this.location.x += movingspeed.x) { if
-     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
-     * false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
-     * this.location.y += movingspeed.y) { if
-     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
-     * false; } } return true; case Vertical_first: movingspeed = new
-     * Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
+ -1); for (; !Objects.equals(this.location.x, destinylocation.x);
+ this.location.x += movingspeed.x) { if
+ (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+ false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
+ this.location.y += movingspeed.y) { if
+ (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+ false; } } return true; case VerticalFirst: movingspeed = new
+ Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
      * > this.location.y) ? 1 : -1); for (; !Objects.equals(this.location.y,
      * destinylocation.y); this.location.y += movingspeed.y) { if
      * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
@@ -1028,20 +1028,20 @@ public class GameObject implements Closeable {
      * Checks if and UpdaterespawneableLocation can be done
      *
      * @return A boolean containing the result public Boolean
-     * CanUpdatefarestLocation() { Coordinate destinylocation = new
-     * Coordinate(this.location.x + this.speed.x, this.location.y +
-     * this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
-     * return this.playingfield.canRelocateGameObject(this, destinylocation);
-     * case Horizontal_first: movingspeed = new Speed((destinylocation.x >
+ CanUpdatefarestLocation() { Coordinate destinylocation = new
+ Coordinate(this.location.x + this.speed.x, this.location.y +
+ this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
+ return this.playingfield.canRelocateGameObject(this, destinylocation);
+ case HorizontalFirst: movingspeed = new Speed((destinylocation.x >
      * this.location.x) ? 1 : -1, (destinylocation.y > this.location.y) ? 1 :
-     * -1); for (; !Objects.equals(this.location.x, destinylocation.x);
-     * this.location.x += movingspeed.x) { if
-     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
-     * false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
-     * this.location.y += movingspeed.y) { if
-     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
-     * false; } } return true; case Vertical_first: movingspeed = new
-     * Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
+ -1); for (; !Objects.equals(this.location.x, destinylocation.x);
+ this.location.x += movingspeed.x) { if
+ (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+ false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
+ this.location.y += movingspeed.y) { if
+ (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+ false; } } return true; case VerticalFirst: movingspeed = new
+ Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
      * > this.location.y) ? 1 : -1); for (; !Objects.equals(this.location.y,
      * destinylocation.y); this.location.y += movingspeed.y) { if
      * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
@@ -1157,73 +1157,73 @@ public class GameObject implements Closeable {
      * this.posiblelocationarea.mincoord.y + (this.speed.y -
      * (this.posiblelocationarea.maxcoord.y - this.location.y)); } else if
      * (this.location.x + this.speed.x < this.posiblelocationarea.mincoord.x) {
-     * this.location.y = this.posiblelocationarea.maxcoord.y + (this.speed.y + this.location.y);
-     * } else {
-     * this.location.y += this.speed.y;
-     * }
-     * }
-     * public Boolean[] canUpdateLocation(Integer x, Integer y) {
-     * switch (this.outofboundsmovetype) {
-     * case Bounceable:
-     * return CanUpdatecircularuniverseLocation(x, y);
-     * case Respawnable:
-     * return canUpdateRespawnableLocation(x, y);
-     * case Impossible:
-     * return CanUpdateimpossibleLocation(x, y);
-     * case Destroyable:
-     * return CanUpdatedestroyableLocation(x, y);
-     * case Possible:
-     * return CanUpdatepossibleLocation(x, y);
-     * case Farest:
-     * return CanUpdatefarestLocation(x, y);
-     * case Circular_universe:
-     * return CanUpdatecircularuniverseLocation(x, y);
-     * }
-     * Boolean[] no_out_of_bounds_move_type = {false, false};
-     * return no_out_of_bounds_move_type;
-     * }
-     * public void updateLocation(Integer x, Integer y) {
-     * if (x != 0 || y != 0) {
-     * switch (this.outofboundsmovetype) {
-     * case Bounceable:
-     * updateBounceableLocation(x, y);
-     * break;
-     * case Respawnable:
-     * updateRespawnableLocation(x, y);
-     * break;
-     * case Impossible:
-     * UpdateimpossibleLocation(x, y);
-     * break;
-     * case Destroyable:
-     * try {
-     * UpdatedestroyableLocation(x, y);
-     * } catch (IOException ex) {
-     * Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-     * }
-     * break;
-     * case Possible:
-     * UpdatepossibleLocation(x, y);
-     * break;
-     * case Farest:
-     * UpdatefarestLocation(x, y);
-     * break;
-     * case Circular_universe:
-     * UpdatecircularuniverseLocation(x, y);
-     * break;
-     * }
-     * }
-     * }
-     * public Boolean[] canUpdateBounceableLocation(Integer x, Integer y) {
-     * Boolean[] result = {CanUpdatebounceablexLocation(x, y), CanUpdatebounceableyLocation(x, y)};
-     * return result;
-     * }
-     * public void updateBounceableLocation(Integer x, Integer y) {
-     * UpdatebounceablexLocation(x, y);
-     * UpdatebounceableyLocation(x, y);
-     * }
-     * public Boolean CanUpdatebounceablexLocation(Integer x, Integer y) {
-     * Integer resultcoord;
-     * return !((resultcoord = this.location.x + x) >
+ this.location.y = this.posiblelocationarea.maxcoord.y + (this.speed.y + this.location.y);
+ } else {
+ this.location.y += this.speed.y;
+ }
+ }
+ public Boolean[] canUpdateLocation(Integer x, Integer y) {
+ switch (this.outofboundsmovetype) {
+ case Bounceable:
+ return CanUpdatecircularuniverseLocation(x, y);
+ case Respawnable:
+ return canUpdateRespawnableLocation(x, y);
+ case Impossible:
+ return CanUpdateimpossibleLocation(x, y);
+ case Destroyable:
+ return CanUpdatedestroyableLocation(x, y);
+ case Possible:
+ return CanUpdatepossibleLocation(x, y);
+ case Farest:
+ return CanUpdatefarestLocation(x, y);
+ case CircularUniverse:
+ return CanUpdatecircularuniverseLocation(x, y);
+ }
+ Boolean[] no_out_of_bounds_move_type = {false, false};
+ return no_out_of_bounds_move_type;
+ }
+ public void updateLocation(Integer x, Integer y) {
+ if (x != 0 || y != 0) {
+ switch (this.outofboundsmovetype) {
+ case Bounceable:
+ updateBounceableLocation(x, y);
+ break;
+ case Respawnable:
+ updateRespawnableLocation(x, y);
+ break;
+ case Impossible:
+ UpdateimpossibleLocation(x, y);
+ break;
+ case Destroyable:
+ try {
+ UpdatedestroyableLocation(x, y);
+ } catch (IOException ex) {
+ Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+ }
+ break;
+ case Possible:
+ UpdatepossibleLocation(x, y);
+ break;
+ case Farest:
+ UpdatefarestLocation(x, y);
+ break;
+ case CircularUniverse:
+ UpdatecircularuniverseLocation(x, y);
+ break;
+ }
+ }
+ }
+ public Boolean[] canUpdateBounceableLocation(Integer x, Integer y) {
+ Boolean[] result = {CanUpdatebounceablexLocation(x, y), CanUpdatebounceableyLocation(x, y)};
+ return result;
+ }
+ public void updateBounceableLocation(Integer x, Integer y) {
+ UpdatebounceablexLocation(x, y);
+ UpdatebounceableyLocation(x, y);
+ }
+ public Boolean CanUpdatebounceablexLocation(Integer x, Integer y) {
+ Integer resultcoord;
+ return !((resultcoord = this.location.x + x) >
      * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
      * }
      *
