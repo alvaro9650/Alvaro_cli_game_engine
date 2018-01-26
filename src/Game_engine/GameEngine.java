@@ -5,10 +5,6 @@
  */
 package Game_engine;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author alumno1718_2
@@ -120,6 +116,5 @@ public class GameEngine {
         }
         return drawcharacter;
     }
-
 
 }
