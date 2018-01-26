@@ -33,8 +33,7 @@ public class GameObject implements Closeable {
     public String objecttype;
     public CollisionType receivingcollision;
     public CollisionType givingcollision;
-    public Integer movedirectionvertical;
-    public Integer movedirectionhorizontal;
+    public Speed movedirection;
 
     /**
      * Creates a basic game object , should be overriden
@@ -46,6 +45,7 @@ public class GameObject implements Closeable {
         this.height = 0;
         this.objecttype = "Default";
         this.speed = new Speed(0, 0);
+        this.movedirection = new Speed(0, 0);
         this.movetype = MoveType.None;
         this.playingfield = field;
         this.posiblelocationarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);

@@ -176,20 +176,20 @@ public class Field {
                         receiving_collision_object.speed.x -= giving_collision_object.speed.y;
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Imparable:
-                        if (giving_collision_object.movedirectionhorizontal != 0) {
-                            if (giving_collision_object.movedirectionhorizontal == Math.signum(receiving_collision_object.speed.x)) {
+                        if (giving_collision_object.movedirection.x != 0) {
+                            if (giving_collision_object.movedirection.x == Math.signum(receiving_collision_object.speed.x)) {
                                 receiving_collision_object.speed.x = giving_collision_object.speed.x;
                             } else {
                                 receiving_collision_object.speed.x /= -2;
                                 receiving_collision_object.speed.x -= giving_collision_object.speed.x;
                             }
                         }
-                        if (giving_collision_object.movedirectionvertical != 0) {
-                            if (giving_collision_object.movedirectionvertical == Math.signum(receiving_collision_object.speed.y)) {
+                        if (giving_collision_object.movedirection.y != 0) {
+                            if (giving_collision_object.movedirection.y == Math.signum(receiving_collision_object.speed.y)) {
                                 receiving_collision_object.speed.y = giving_collision_object.speed.y;
                             } else {
                                 receiving_collision_object.speed.y /= -2;
@@ -198,16 +198,16 @@ public class Field {
                         }
                         break;
                     case Unmoveable:
-                        if (giving_collision_object.movedirectionhorizontal != 0) {
-                            if (giving_collision_object.movedirectionhorizontal == Math.signum(receiving_collision_object.speed.x)) {
+                        if (giving_collision_object.movedirection.x != 0) {
+                            if (giving_collision_object.movedirection.x == Math.signum(receiving_collision_object.speed.x)) {
                                 receiving_collision_object.speed.x = giving_collision_object.speed.x;
                             } else {
                                 receiving_collision_object.speed.x /= -2;
                                 receiving_collision_object.speed.x -= giving_collision_object.speed.x;
                             }
                         }
-                        if (giving_collision_object.movedirectionvertical != 0) {
-                            if (giving_collision_object.movedirectionvertical == Math.signum(receiving_collision_object.speed.y)) {
+                        if (giving_collision_object.movedirection.y != 0) {
+                            if (giving_collision_object.movedirection.y == Math.signum(receiving_collision_object.speed.y)) {
                                 receiving_collision_object.speed.y = giving_collision_object.speed.y;
                             } else {
                                 receiving_collision_object.speed.y /= -2;
@@ -235,24 +235,24 @@ public class Field {
             case WormHole:
                 switch (giving_collision_object.givingcollision) {
                     case Ghost:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Bounce:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Imparable:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Unmoveable:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Respawnable:
                         giving_collision_object.respawn();
@@ -267,8 +267,8 @@ public class Field {
                         }
                         break;
                     case Farest:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                 }
             case Imparable:
@@ -280,8 +280,8 @@ public class Field {
                         giving_collision_object.speed.y = -giving_collision_object.speed.y;
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Imparable:
                         break;
@@ -314,8 +314,8 @@ public class Field {
                         giving_collision_object.speed.y = -giving_collision_object.speed.y;
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Imparable:
                         break;
@@ -349,8 +349,8 @@ public class Field {
                         receiving_collision_object.respawn();
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         receiving_collision_object.respawn();
                         break;
                     case Imparable:
@@ -395,8 +395,8 @@ public class Field {
                         }
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         {
                             try {
                                 receiving_collision_object.close();
@@ -470,8 +470,8 @@ public class Field {
                         receiving_collision_object.location.y += new Float(Math.signum(receiving_collision_object.speed.y)).intValue();
                         break;
                     case WormHole:
-                        giving_collision_object.location.x += giving_collision_object.movedirectionhorizontal;
-                        giving_collision_object.location.y += giving_collision_object.movedirectionvertical;
+                        giving_collision_object.location.x += giving_collision_object.movedirection.x;
+                        giving_collision_object.location.y += giving_collision_object.movedirection.y;
                         break;
                     case Imparable:
                         receiving_collision_object.location.x += new Float(Math.signum(receiving_collision_object.speed.x)).intValue();
