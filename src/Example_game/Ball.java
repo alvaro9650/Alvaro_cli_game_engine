@@ -29,16 +29,16 @@ public class Ball extends GameObject {
      */
     public Ball(Field field) {
         super(field);
-        this.object_type = "Ball";
+        this.objecttype = "Ball";
         this.character = 'O';
         this.height = 1;
-        this.out_of_bounds_move_type = OutOfBoundsMoveType.Bounceable;
+        this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
         set_rand_coord:
         do {
-            this.location = new Coordinate(MathCustomFuncs.random(0, playing_field.sizex - 1).intValue(), MathCustomFuncs.random(0, playing_field.sizey - 1).intValue());
+            this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.sizex - 1).intValue(), MathCustomFuncs.random(0, playingfield.sizey - 1).intValue());
             try {
-                this.playing_field.addGameObject(this);
+                this.playingfield.addGameObject(this);
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
                 continue set_rand_coord;

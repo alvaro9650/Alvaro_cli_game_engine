@@ -79,7 +79,7 @@ public class GameEngine {
             for (GameObject[] y : x) {
                 for (GameObject game_object : y) {
                     if (game_object != null) {
-                        game_object.UpdateLocation();
+                        game_object.updateLocation();
                     }
                 }
             }

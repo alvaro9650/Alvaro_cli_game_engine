@@ -20,21 +20,21 @@ public class GameObject implements Closeable {
 
     public Coordinate location;
     public Integer height;
-    public Integer array_position;
+    public Integer arrayposition;
     public Speed speed;
-    public Field playing_field;
-    public RectangularArea posible_location_area;
-    public RectangularArea respawn_area;
-    public LogLevel log_level;
+    public Field playingfield;
+    public RectangularArea posiblelocationarea;
+    public RectangularArea respawnarea;
+    public LogLevel loglevel;
     public char character;
-    public OutOfBoundsMoveType out_of_bounds_move_type;
-    public PhysicalStateType physical_state_type;
-    public MoveType move_type;
-    public String object_type;
-    public CollisionType receiving_collision;
-    public CollisionType giving_collision;
-    public Integer move_direction_vertical;
-    public Integer move_direction_horizontal;
+    public OutOfBoundsMoveType outofboundsmovetype;
+    public PhysicalStateType physicalstatetype;
+    public MoveType movetype;
+    public String objecttype;
+    public CollisionType receivingcollision;
+    public CollisionType givingcollision;
+    public Integer movedirectionvertical;
+    public Integer movedirectionhorizontal;
 
     /**
      * Creates a basic game object , should be overriden
@@ -44,16 +44,16 @@ public class GameObject implements Closeable {
     public GameObject(Field field) {
         this.character = '|';
         this.height = 0;
-        this.object_type = "Default";
+        this.objecttype = "Default";
         this.speed = new Speed(0, 0);
-        this.move_type = MoveType.None;
-        this.playing_field = field;
-        this.posible_location_area = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
-        this.respawn_area = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
-        this.physical_state_type = PhysicalStateType.Ghost;
-        this.out_of_bounds_move_type = OutOfBoundsMoveType.Circular_universe;
-        this.log_level = LogLevel.None;
-        this.location = new Coordinate(this.posible_location_area.mincoord.x, this.posible_location_area.mincoord.y);
+        this.movetype = MoveType.None;
+        this.playingfield = field;
+        this.posiblelocationarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
+        this.respawnarea = new RectangularArea(field.sizex - 1, 0, field.sizey - 1, 0);
+        this.physicalstatetype = PhysicalStateType.Ghost;
+        this.outofboundsmovetype = OutOfBoundsMoveType.Circular_universe;
+        this.loglevel = LogLevel.None;
+        this.location = new Coordinate(this.posiblelocationarea.mincoord.x, this.posiblelocationarea.mincoord.y);
     }
 
     /**
@@ -63,77 +63,77 @@ public class GameObject implements Closeable {
      * @param y y coordinate
      */
     public void setRespawnPoint(Integer x, Integer y) {
-        this.respawn_area = new RectangularArea(x, x, y, y);
+        this.respawnarea = new RectangularArea(x, x, y, y);
     }
 
     /**
      * Creates a respawn area to use when it's going to be respawned
      *
-     * @param max_x Maximum x location of the area
-     * @param min_x Minumum x location of the area
-     * @param max_y Maximum y location of the area
-     * @param min_y Minumum y location of the area
+     * @param maxx Maximum x location of the area
+     * @param minx Minumum x location of the area
+     * @param maxy Maximum y location of the area
+     * @param miny Minumum y location of the area
      */
-    public void RespawnArea(Integer max_x, Integer min_x, Integer max_y, Integer min_y) {
-        this.respawn_area = new RectangularArea(max_x, min_x, max_y, min_y);
+    public void setRespawnArea(Integer maxx, Integer minx, Integer maxy, Integer miny) {
+        this.respawnarea = new RectangularArea(maxx, minx, maxy, miny);
     }
 
     /**
      * Logs the data in the object acording to LogLevel
      */
     public void log() {
-        StringBuilder object_log = new StringBuilder();
-        object_log.append("Object: ");
-        object_log.append(this.hashCode());
-        switch (this.log_level) {
+        StringBuilder objectlog = new StringBuilder();
+        objectlog.append("Object: ");
+        objectlog.append(this.hashCode());
+        switch (this.loglevel) {
             case Verbose:
-                object_log.append("\nlog_level = verbose");
+                objectlog.append("\nlog_level = verbose");
             case Draw_related:
-                object_log.append("\ncharacter = ");
-                object_log.append(this.character);
+                objectlog.append("\ncharacter = ");
+                objectlog.append(this.character);
             case Move_related:
-                object_log.append("\nmove_type = ");
-                object_log.append(this.move_type);
+                objectlog.append("\nmove_type = ");
+                objectlog.append(this.movetype);
             case Out_of_bounds_related:
-                object_log.append("\nplaying_field x = ");
-                object_log.append(this.playing_field.sizex);
-                object_log.append("\nplaying_field y = ");
-                object_log.append(this.playing_field.sizey);
-                object_log.append("\nspeed x = ");
-                object_log.append(this.speed.x);
-                object_log.append("\nspeed y = ");
-                object_log.append(this.speed.y);
-                object_log.append("\nmax_x_location = ");
-                object_log.append(this.posible_location_area.maxcoord.x);
-                object_log.append("\nmin_x_location = ");
-                object_log.append(this.posible_location_area.mincoord.x);
-                object_log.append("\nmax_y_location = ");
-                object_log.append(this.posible_location_area.maxcoord.y);
-                object_log.append("\nmin_y_location = ");
-                object_log.append(this.posible_location_area.mincoord.y);
-                object_log.append("\nmax_x_respawn_area = ");
-                object_log.append(this.respawn_area.maxcoord.x);
-                object_log.append("\nmin_x_respawn_area = ");
-                object_log.append(this.respawn_area.mincoord.x);
-                object_log.append("\nmax_y_respawn_area = ");
-                object_log.append(this.respawn_area.maxcoord.y);
-                object_log.append("\nmin_y_respawn_area = ");
-                object_log.append(this.respawn_area.mincoord.y);
-                object_log.append("\nout_of_bounds_move_type = ");
-                object_log.append(this.out_of_bounds_move_type);
+                objectlog.append("\nplaying_field x = ");
+                objectlog.append(this.playingfield.sizex);
+                objectlog.append("\nplaying_field y = ");
+                objectlog.append(this.playingfield.sizey);
+                objectlog.append("\nspeed x = ");
+                objectlog.append(this.speed.x);
+                objectlog.append("\nspeed y = ");
+                objectlog.append(this.speed.y);
+                objectlog.append("\nmax_x_location = ");
+                objectlog.append(this.posiblelocationarea.maxcoord.x);
+                objectlog.append("\nmin_x_location = ");
+                objectlog.append(this.posiblelocationarea.mincoord.x);
+                objectlog.append("\nmax_y_location = ");
+                objectlog.append(this.posiblelocationarea.maxcoord.y);
+                objectlog.append("\nmin_y_location = ");
+                objectlog.append(this.posiblelocationarea.mincoord.y);
+                objectlog.append("\nmax_x_respawn_area = ");
+                objectlog.append(this.respawnarea.maxcoord.x);
+                objectlog.append("\nmin_x_respawn_area = ");
+                objectlog.append(this.respawnarea.mincoord.x);
+                objectlog.append("\nmax_y_respawn_area = ");
+                objectlog.append(this.respawnarea.maxcoord.y);
+                objectlog.append("\nmin_y_respawn_area = ");
+                objectlog.append(this.respawnarea.mincoord.y);
+                objectlog.append("\nout_of_bounds_move_type = ");
+                objectlog.append(this.outofboundsmovetype);
             case Collision_related:
-                object_log.append("\ncollision_type = ");
-                object_log.append(this.physical_state_type);
+                objectlog.append("\ncollision_type = ");
+                objectlog.append(this.physicalstatetype);
             case Position_related:
-                object_log.append("\ncoordinate x = ");
-                object_log.append(location.x.toString());
-                object_log.append("\ncoordinate y = ");
-                object_log.append(location.y.toString());
+                objectlog.append("\ncoordinate x = ");
+                objectlog.append(location.x.toString());
+                objectlog.append("\ncoordinate y = ");
+                objectlog.append(location.y.toString());
                 break;
             case None:
-                object_log.delete(0, object_log.length());
+                objectlog.delete(0, objectlog.length());
         }
-        System.out.println(object_log.toString());
+        System.out.println(objectlog.toString());
     }
 
     /**
@@ -143,11 +143,11 @@ public class GameObject implements Closeable {
      * @throws ImpossibleLocationRemoveException
      * @throws ImpossibleLocationAddException
      */
-    public void move_to(Coordinate coord) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
-        this.playing_field.deleteGameObject(this);
+    public void moveTo(Coordinate coord) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
+        this.playingfield.deleteGameObject(this);
         this.location.x = coord.x;
         this.location.y = coord.y;
-        this.playing_field.addGameObject(this);
+        this.playingfield.addGameObject(this);
     }
 
     /**
@@ -155,12 +155,12 @@ public class GameObject implements Closeable {
      *
      * @return Returns an array contaning if x and y can be updated
      */
-    public Boolean CanUpdateLocation() {
-        switch (this.out_of_bounds_move_type) {
+    public Boolean canUpdateLocation() {
+        switch (this.outofboundsmovetype) {
             case Bounceable:
-                return CanUpdatebounceableLocation();
+                return canUpdateBounceableLocation();
             case Respawnable:
-                return CanUpdaterespawnableLocation();
+                return canUpdateRespawnableLocation();
             case Impossible:
             //return CanUpdateimpossibleLocation();
             case Destroyable:
@@ -178,14 +178,14 @@ public class GameObject implements Closeable {
     /**
      * Updates location in the object and the field
      */
-    public void UpdateLocation() {
+    public void updateLocation() {
         if (this.speed.x != 0 || this.speed.y != 0) {
-            switch (this.out_of_bounds_move_type) {
+            switch (this.outofboundsmovetype) {
                 case Bounceable:
-                    UpdatebounceableLocation();
+                    updateBounceableLocation();
                     break;
                 case Respawnable:
-                    UpdaterespawnableLocation();
+                    updateRespawnableLocation();
                     break;
                 case Impossible:
                     //UpdateimpossibleLocation();
@@ -215,35 +215,35 @@ public class GameObject implements Closeable {
      *
      * @return A boolean containing the result
      */
-    public Boolean WillBounceAgainstBounds() {
-        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
-        switch (this.move_type) {
+    public Boolean willBounceAgainstBounds() {
+        Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
+        switch (this.movetype) {
             case Teleport:
-                RectangularArea possible_bounce_area = new RectangularArea(this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1, 0).getCommonArea(this.posible_location_area);
+                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
                 GameObject collisionreceiver;
-                while ((collisionreceiver = this.playing_field.collidesWith(this)) != null) {
-                    this.playing_field.processCollision(this, collisionreceiver);
+                while ((collisionreceiver = this.playingfield.collidesWith(this)) != null) {
+                    this.playingfield.processCollision(this, collisionreceiver);
                 }
-                if ((destiny_location.x += this.speed.x) > possible_bounce_area.maxcoord.x || destiny_location.x < possible_bounce_area.mincoord.x || (destiny_location.y += this.speed.y) > possible_bounce_area.maxcoord.y || destiny_location.y < possible_bounce_area.mincoord.y) {
+                if ((destinylocation.x += this.speed.x) > possiblebouncearea.maxcoord.x || destinylocation.x < possiblebouncearea.mincoord.x || (destinylocation.y += this.speed.y) > possiblebouncearea.maxcoord.y || destinylocation.y < possiblebouncearea.mincoord.y) {
                     return true;
                 }
                 return false;
             case None:
                 return false;
             default:
-                Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
-                switch (this.move_type) {
+                Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
+                switch (this.movetype) {
                     case Horizontal_first:
-                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
                                 return true;
                             }
                         }
-                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
                                 return true;
@@ -251,15 +251,15 @@ public class GameObject implements Closeable {
                         }
                         return false;
                     case Vertical_first:
-                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
                                 return true;
                             }
                         }
-                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
                             } else {
                                 return true;
                             }
@@ -268,23 +268,23 @@ public class GameObject implements Closeable {
                     case Diagonal:
                         if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
                             Integer times = Math.abs(this.speed.x / this.speed.y);
-                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.y -= moving_speed.y;
+                            for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.y -= movingspeed.y;
                                 } else {
                                     return true;
                                 }
-                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.x) {
-                                    if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                        remaining_speed.x -= moving_speed.x;
+                                for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.x) {
+                                    if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                        remainingspeed.x -= movingspeed.x;
                                     } else {
                                         return true;
                                     }
                                 }
                             }
-                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.x -= moving_speed.x;
+                            for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.x -= movingspeed.x;
                                 } else {
                                     return true;
                                 }
@@ -292,23 +292,23 @@ public class GameObject implements Closeable {
                             return false;
                         } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
                             Integer times = Math.abs(this.speed.y / this.speed.x);
-                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.x -= moving_speed.x;
+                            for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.x -= movingspeed.x;
                                 } else {
                                     return true;
                                 }
-                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.y) {
-                                    if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                        remaining_speed.y -= moving_speed.y;
+                                for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.y) {
+                                    if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                        remainingspeed.y -= movingspeed.y;
                                     } else {
                                         return true;
                                     }
                                 }
                             }
-                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.y -= moving_speed.y;
+                            for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.y -= movingspeed.y;
                                 } else {
                                     return true;
                                 }
@@ -316,16 +316,16 @@ public class GameObject implements Closeable {
                             return false;
                         } else {
                             do {
-                                destiny_location.x += moving_speed.x;
-                                destiny_location.y += moving_speed.y;
-                                remaining_speed.x -= moving_speed.x;
-                                remaining_speed.y -= moving_speed.y;
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                                destinylocation.x += movingspeed.x;
+                                destinylocation.y += movingspeed.y;
+                                remainingspeed.x -= movingspeed.x;
+                                remainingspeed.y -= movingspeed.y;
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                                 } else {
                                     return true;
                                 }
-                            } while (remaining_speed.x != 0 || remaining_speed.x != 0);
+                            } while (remainingspeed.x != 0 || remainingspeed.x != 0);
                             return false;
                         }
                 }
@@ -334,337 +334,337 @@ public class GameObject implements Closeable {
     }
 
     /**
-     * Checks if and UpdatebounceableLocation can be done
+     * Checks if and updateBounceableLocation can be done
      *
      * @return A boolean containing the result
      */
-    public Boolean CanUpdatebounceableLocation() {
-        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
-        switch (this.move_type) {
+    public Boolean canUpdateBounceableLocation() {
+        Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
+        switch (this.movetype) {
             case Teleport:
-                Integer bouncing_space,
-                 teorical_destiny;
-                RectangularArea possible_bounce_area = new RectangularArea(this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1, 0).getCommonArea(this.posible_location_area);
-                destiny_location.x = (((this.speed.x = ((teorical_destiny = destiny_location.x + this.speed.x) / (bouncing_space = possible_bounce_area.maxcoord.x - possible_bounce_area.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possible_bounce_area.mincoord.x : possible_bounce_area.maxcoord.x) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.x)).intValue();
-                destiny_location.y = (((this.speed.y = ((teorical_destiny = destiny_location.y + this.speed.y) / (bouncing_space = possible_bounce_area.maxcoord.y - possible_bounce_area.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possible_bounce_area.mincoord.y : possible_bounce_area.maxcoord.y) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.y)).intValue();
-                return this.playing_field.canRelocateGameObject(this, destiny_location);
+                Integer bouncingspace,
+                 teoricaldestiny;
+                RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                destinylocation.x = (((this.speed.x = ((teoricaldestiny = destinylocation.x + this.speed.x) / (bouncingspace = possiblebouncearea.maxcoord.x - possiblebouncearea.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possiblebouncearea.mincoord.x : possiblebouncearea.maxcoord.x) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.x)).intValue();
+                destinylocation.y = (((this.speed.y = ((teoricaldestiny = destinylocation.y + this.speed.y) / (bouncingspace = possiblebouncearea.maxcoord.y - possiblebouncearea.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possiblebouncearea.mincoord.y : possiblebouncearea.maxcoord.y) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.y)).intValue();
+                return this.playingfield.canRelocateGameObject(this, destinylocation);
             case None:
-                return this.playing_field.canRelocateGameObject(this, destiny_location);
+                return this.playingfield.canRelocateGameObject(this, destinylocation);
             default:
-                Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
-                switch (this.move_type) {
+                Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
+                switch (this.movetype) {
                     case Horizontal_first:
-                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
-                                moving_speed.x *= -1;
-                                remaining_speed.x *= -1;
-                                destiny_location.x += moving_speed.x;
+                                movingspeed.x *= -1;
+                                remainingspeed.x *= -1;
+                                destinylocation.x += movingspeed.x;
                             }
                         }
-                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
-                                moving_speed.y *= -1;
-                                remaining_speed.y *= -1;
-                                destiny_location.y += moving_speed.y;
+                                movingspeed.y *= -1;
+                                remainingspeed.y *= -1;
+                                destinylocation.y += movingspeed.y;
                             }
                         }
-                        return this.playing_field.canRelocateGameObject(this, destiny_location);
+                        return this.playingfield.canRelocateGameObject(this, destinylocation);
                     case Vertical_first:
-                        for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                             } else {
-                                moving_speed.y *= -1;
-                                remaining_speed.y *= -1;
-                                destiny_location.y += moving_speed.y;
+                                movingspeed.y *= -1;
+                                remainingspeed.y *= -1;
+                                destinylocation.y += movingspeed.y;
                             }
                         }
-                        for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                            if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                        for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                            if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
                             } else {
-                                moving_speed.x *= -1;
-                                remaining_speed.x *= -1;
-                                destiny_location.x += moving_speed.x;
+                                movingspeed.x *= -1;
+                                remainingspeed.x *= -1;
+                                destinylocation.x += movingspeed.x;
                             }
                         }
-                        return this.playing_field.canRelocateGameObject(this, destiny_location);
+                        return this.playingfield.canRelocateGameObject(this, destinylocation);
                     case Diagonal:
                         if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
                             Integer times = Math.abs(this.speed.x / this.speed.y);
-                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.y -= moving_speed.y;
+                            for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.y -= movingspeed.y;
                                 } else {
-                                    moving_speed.y *= -1;
-                                    remaining_speed.y *= -1;
-                                    destiny_location.y += moving_speed.y;
-                                    remaining_speed.y -= moving_speed.y;
+                                    movingspeed.y *= -1;
+                                    remainingspeed.y *= -1;
+                                    destinylocation.y += movingspeed.y;
+                                    remainingspeed.y -= movingspeed.y;
                                 }
-                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.x) {
-                                    if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                        remaining_speed.x -= moving_speed.x;
+                                for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.x) {
+                                    if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                        remainingspeed.x -= movingspeed.x;
                                     } else {
-                                        moving_speed.x *= -1;
-                                        remaining_speed.x *= -1;
-                                        destiny_location.x += moving_speed.x;
-                                        remaining_speed.x -= moving_speed.x;
+                                        movingspeed.x *= -1;
+                                        remainingspeed.x *= -1;
+                                        destinylocation.x += movingspeed.x;
+                                        remainingspeed.x -= movingspeed.x;
                                     }
                                 }
                             }
-                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.x -= moving_speed.x;
+                            for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.x -= movingspeed.x;
                                 } else {
-                                    moving_speed.x *= -1;
-                                    remaining_speed.x *= -1;
-                                    destiny_location.x += moving_speed.x;
-                                    remaining_speed.x -= moving_speed.x;
+                                    movingspeed.x *= -1;
+                                    remainingspeed.x *= -1;
+                                    destinylocation.x += movingspeed.x;
+                                    remainingspeed.x -= movingspeed.x;
                                 }
                             }
-                            return this.playing_field.canRelocateGameObject(this, destiny_location);
+                            return this.playingfield.canRelocateGameObject(this, destinylocation);
                         } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
                             Integer times = Math.abs(this.speed.y / this.speed.x);
-                            for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.x -= moving_speed.x;
+                            for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.x -= movingspeed.x;
                                 } else {
-                                    moving_speed.x *= -1;
-                                    remaining_speed.x *= -1;
-                                    destiny_location.x += moving_speed.x;
-                                    remaining_speed.x -= moving_speed.x;
+                                    movingspeed.x *= -1;
+                                    remainingspeed.x *= -1;
+                                    destinylocation.x += movingspeed.x;
+                                    remainingspeed.x -= movingspeed.x;
                                 }
-                                for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.y) {
-                                    if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                        remaining_speed.y -= moving_speed.y;
+                                for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.y) {
+                                    if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                        remainingspeed.y -= movingspeed.y;
                                     } else {
-                                        moving_speed.y *= -1;
-                                        remaining_speed.y *= -1;
-                                        destiny_location.y += moving_speed.y;
-                                        remaining_speed.y -= moving_speed.y;
+                                        movingspeed.y *= -1;
+                                        remainingspeed.y *= -1;
+                                        destinylocation.y += movingspeed.y;
+                                        remainingspeed.y -= movingspeed.y;
                                     }
                                 }
                             }
-                            for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-                                    remaining_speed.y -= moving_speed.y;
+                            for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+                                    remainingspeed.y -= movingspeed.y;
                                 } else {
-                                    moving_speed.y *= -1;
-                                    remaining_speed.y *= -1;
-                                    destiny_location.y += moving_speed.y;
-                                    remaining_speed.y -= moving_speed.y;
+                                    movingspeed.y *= -1;
+                                    remainingspeed.y *= -1;
+                                    destinylocation.y += movingspeed.y;
+                                    remainingspeed.y -= movingspeed.y;
                                 }
                             }
-                            return this.playing_field.canRelocateGameObject(this, destiny_location);
+                            return this.playingfield.canRelocateGameObject(this, destinylocation);
                         } else {
                             do {
-                                destiny_location.x += moving_speed.x;
-                                destiny_location.y += moving_speed.y;
-                                remaining_speed.x -= moving_speed.x;
-                                remaining_speed.y -= moving_speed.y;
-                                if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
+                                destinylocation.x += movingspeed.x;
+                                destinylocation.y += movingspeed.y;
+                                remainingspeed.x -= movingspeed.x;
+                                remainingspeed.y -= movingspeed.y;
+                                if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
 
                                 } else {
-                                    moving_speed.x *= -1;
-                                    remaining_speed.x *= -1;
-                                    moving_speed.y *= -1;
-                                    remaining_speed.y *= -1;
-                                    destiny_location.x += moving_speed.x;
-                                    destiny_location.y += moving_speed.y;
+                                    movingspeed.x *= -1;
+                                    remainingspeed.x *= -1;
+                                    movingspeed.y *= -1;
+                                    remainingspeed.y *= -1;
+                                    destinylocation.x += movingspeed.x;
+                                    destinylocation.y += movingspeed.y;
                                 }
-                            } while (remaining_speed.x != 0 || remaining_speed.x != 0);
-                            return this.playing_field.canRelocateGameObject(this, destiny_location);
+                            } while (remainingspeed.x != 0 || remainingspeed.x != 0);
+                            return this.playingfield.canRelocateGameObject(this, destinylocation);
                         }
                 }
         }
         return false;
     }
 
-    public void UpdatebounceableLocation() {
-        Coordinate original_location = this.location;
-        if (CanUpdatebounceableLocation()) {
+    public void updateBounceableLocation() {
+        Coordinate originallocation = this.location;
+        if (canUpdateBounceableLocation()) {
             try {
-                this.playing_field.deleteGameObject(this);
+                this.playingfield.deleteGameObject(this);
             } catch (ImpossibleRelocationException ex) {
                 Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
             }
-            switch (this.move_type) {
+            switch (this.movetype) {
                 case Teleport:
-                    Integer bouncing_space,
-                     teorical_destiny;
-                    RectangularArea possible_bounce_area = new RectangularArea(this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1, 0).getCommonArea(this.posible_location_area);
-                    this.location.x = (((this.speed.x = ((teorical_destiny = this.location.x + this.speed.x) / (bouncing_space = possible_bounce_area.maxcoord.x - possible_bounce_area.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possible_bounce_area.mincoord.x : possible_bounce_area.maxcoord.x) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.x)).intValue();
-                    this.location.y = (((this.speed.y = ((teorical_destiny = this.location.y + this.speed.y) / (bouncing_space = possible_bounce_area.maxcoord.y - possible_bounce_area.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possible_bounce_area.mincoord.y : possible_bounce_area.maxcoord.y) + teorical_destiny % bouncing_space * new Float(Math.signum(this.speed.y)).intValue();
+                    Integer bouncingspace,
+                     teoricaldestiny;
+                    RectangularArea possiblebouncearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                    this.location.x = (((this.speed.x = ((teoricaldestiny = this.location.x + this.speed.x) / (bouncingspace = possiblebouncearea.maxcoord.x - possiblebouncearea.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possiblebouncearea.mincoord.x : possiblebouncearea.maxcoord.x) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.x)).intValue();
+                    this.location.y = (((this.speed.y = ((teoricaldestiny = this.location.y + this.speed.y) / (bouncingspace = possiblebouncearea.maxcoord.y - possiblebouncearea.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possiblebouncearea.mincoord.y : possiblebouncearea.maxcoord.y) + teoricaldestiny % bouncingspace * new Float(Math.signum(this.speed.y)).intValue();
                     try {
-                        this.playing_field.addGameObject(this);
+                        this.playingfield.addGameObject(this);
                     } catch (ImpossibleRelocationException ex) {
-                        this.location = original_location;
+                        this.location = originallocation;
                         Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 case None:
                     try {
-                        this.playing_field.addGameObject(this);
+                        this.playingfield.addGameObject(this);
                     } catch (ImpossibleRelocationException ex) {
-                        this.location = original_location;
+                        this.location = originallocation;
                         Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 default:
-                    Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                    Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
-                    switch (this.move_type) {
+                    Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                    Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
+                    switch (this.movetype) {
                         case Horizontal_first:
-                            for (; remaining_speed.x != 0; this.location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, this.location)) {
+                            for (; remainingspeed.x != 0; this.location.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
                                 } else {
-                                    moving_speed.x *= -1;
-                                    remaining_speed.x *= -1;
-                                    this.location.x += moving_speed.x;
+                                    movingspeed.x *= -1;
+                                    remainingspeed.x *= -1;
+                                    this.location.x += movingspeed.x;
                                 }
                             }
-                            for (; remaining_speed.y != 0; this.location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, this.location)) {
+                            for (; remainingspeed.y != 0; this.location.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
                                 } else {
-                                    moving_speed.y *= -1;
-                                    remaining_speed.y *= -1;
-                                    this.location.y += moving_speed.y;
+                                    movingspeed.y *= -1;
+                                    remainingspeed.y *= -1;
+                                    this.location.y += movingspeed.y;
                                 }
                             }
                             try {
-                                this.playing_field.addGameObject(this);
+                                this.playingfield.addGameObject(this);
                             } catch (ImpossibleRelocationException ex) {
-                                this.location = original_location;
+                                this.location = originallocation;
                                 Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         case Vertical_first:
-                            for (; remaining_speed.y != 0; this.location.y += moving_speed.y, remaining_speed.y -= moving_speed.y) {
-                                if (this.playing_field.canRelocateGameObject(this, this.location)) {
+                            for (; remainingspeed.y != 0; this.location.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+                                if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
                                 } else {
-                                    moving_speed.y *= -1;
-                                    remaining_speed.y *= -1;
-                                    this.location.y += moving_speed.y;
+                                    movingspeed.y *= -1;
+                                    remainingspeed.y *= -1;
+                                    this.location.y += movingspeed.y;
                                 }
                             }
-                            for (; remaining_speed.x != 0; this.location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
-                                if (this.playing_field.canRelocateGameObject(this, this.location)) {
+                            for (; remainingspeed.x != 0; this.location.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+                                if (this.playingfield.canRelocateGameObject(this, this.location)) {
                                 } else {
-                                    moving_speed.x *= -1;
-                                    remaining_speed.x *= -1;
-                                    this.location.x += moving_speed.x;
+                                    movingspeed.x *= -1;
+                                    remainingspeed.x *= -1;
+                                    this.location.x += movingspeed.x;
                                 }
                             }
                             try {
-                                this.playing_field.addGameObject(this);
+                                this.playingfield.addGameObject(this);
                             } catch (ImpossibleRelocationException ex) {
-                                this.location = original_location;
+                                this.location = originallocation;
                                 Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         case Diagonal:
                             if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
                                 Integer times = Math.abs(this.speed.x / this.speed.y);
-                                for (; remaining_speed.y != 0; this.location.y += moving_speed.y) {
-                                    if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                        remaining_speed.y -= moving_speed.y;
+                                for (; remainingspeed.y != 0; this.location.y += movingspeed.y) {
+                                    if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                        remainingspeed.y -= movingspeed.y;
                                     } else {
-                                        moving_speed.y *= -1;
-                                        remaining_speed.y *= -1;
-                                        this.location.y += moving_speed.y;
-                                        remaining_speed.y -= moving_speed.y;
+                                        movingspeed.y *= -1;
+                                        remainingspeed.y *= -1;
+                                        this.location.y += movingspeed.y;
+                                        remainingspeed.y -= movingspeed.y;
                                     }
-                                    for (Integer i = 0; i < times; i++, this.location.x += moving_speed.x) {
-                                        if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                            remaining_speed.x -= moving_speed.x;
+                                    for (Integer i = 0; i < times; i++, this.location.x += movingspeed.x) {
+                                        if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                            remainingspeed.x -= movingspeed.x;
                                         } else {
-                                            moving_speed.x *= -1;
-                                            remaining_speed.x *= -1;
-                                            this.location.x += moving_speed.x;
-                                            remaining_speed.x -= moving_speed.x;
+                                            movingspeed.x *= -1;
+                                            remainingspeed.x *= -1;
+                                            this.location.x += movingspeed.x;
+                                            remainingspeed.x -= movingspeed.x;
                                         }
                                     }
                                 }
-                                for (; remaining_speed.x != 0; this.location.x += moving_speed.x) {
-                                    if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                        remaining_speed.x -= moving_speed.x;
+                                for (; remainingspeed.x != 0; this.location.x += movingspeed.x) {
+                                    if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                        remainingspeed.x -= movingspeed.x;
                                     } else {
-                                        moving_speed.x *= -1;
-                                        remaining_speed.x *= -1;
-                                        this.location.x += moving_speed.x;
-                                        remaining_speed.x -= moving_speed.x;
+                                        movingspeed.x *= -1;
+                                        remainingspeed.x *= -1;
+                                        this.location.x += movingspeed.x;
+                                        remainingspeed.x -= movingspeed.x;
                                     }
                                 }
                                 try {
-                                    this.playing_field.addGameObject(this);
+                                    this.playingfield.addGameObject(this);
                                 } catch (ImpossibleRelocationException ex) {
-                                    this.location = original_location;
+                                    this.location = originallocation;
                                     Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y) >= Math.abs(this.speed.x)) {
                                 Integer times = Math.abs(this.speed.y / this.speed.x);
-                                for (; remaining_speed.x != 0; this.location.x += moving_speed.x) {
-                                    if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                        remaining_speed.x -= moving_speed.x;
+                                for (; remainingspeed.x != 0; this.location.x += movingspeed.x) {
+                                    if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                        remainingspeed.x -= movingspeed.x;
                                     } else {
-                                        moving_speed.x *= -1;
-                                        remaining_speed.x *= -1;
-                                        this.location.x += moving_speed.x;
-                                        remaining_speed.x -= moving_speed.x;
+                                        movingspeed.x *= -1;
+                                        remainingspeed.x *= -1;
+                                        this.location.x += movingspeed.x;
+                                        remainingspeed.x -= movingspeed.x;
                                     }
-                                    for (Integer i = 0; i < times; i++, this.location.x += moving_speed.y) {
-                                        if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                            remaining_speed.y -= moving_speed.y;
+                                    for (Integer i = 0; i < times; i++, this.location.x += movingspeed.y) {
+                                        if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                            remainingspeed.y -= movingspeed.y;
                                         } else {
-                                            moving_speed.y *= -1;
-                                            remaining_speed.y *= -1;
-                                            this.location.y += moving_speed.y;
-                                            remaining_speed.y -= moving_speed.y;
+                                            movingspeed.y *= -1;
+                                            remainingspeed.y *= -1;
+                                            this.location.y += movingspeed.y;
+                                            remainingspeed.y -= movingspeed.y;
                                         }
                                     }
                                 }
-                                for (; remaining_speed.y != 0; this.location.y += moving_speed.y) {
-                                    if (this.playing_field.canRelocateGameObject(this, this.location)) {
-                                        remaining_speed.y -= moving_speed.y;
+                                for (; remainingspeed.y != 0; this.location.y += movingspeed.y) {
+                                    if (this.playingfield.canRelocateGameObject(this, this.location)) {
+                                        remainingspeed.y -= movingspeed.y;
                                     } else {
-                                        moving_speed.y *= -1;
-                                        remaining_speed.y *= -1;
-                                        this.location.y += moving_speed.y;
-                                        remaining_speed.y -= moving_speed.y;
+                                        movingspeed.y *= -1;
+                                        remainingspeed.y *= -1;
+                                        this.location.y += movingspeed.y;
+                                        remainingspeed.y -= movingspeed.y;
                                     }
                                 }
                                 try {
-                                    this.playing_field.addGameObject(this);
+                                    this.playingfield.addGameObject(this);
                                 } catch (ImpossibleRelocationException ex) {
-                                    this.location = original_location;
+                                    this.location = originallocation;
                                     Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             } else {
                                 do {
-                                    this.location.x += moving_speed.x;
-                                    this.location.y += moving_speed.y;
-                                    remaining_speed.x -= moving_speed.x;
-                                    remaining_speed.y -= moving_speed.y;
-                                    if (this.playing_field.canRelocateGameObject(this, this.location)) {
+                                    this.location.x += movingspeed.x;
+                                    this.location.y += movingspeed.y;
+                                    remainingspeed.x -= movingspeed.x;
+                                    remainingspeed.y -= movingspeed.y;
+                                    if (this.playingfield.canRelocateGameObject(this, this.location)) {
 
                                     } else {
-                                        moving_speed.x *= -1;
-                                        remaining_speed.x *= -1;
-                                        moving_speed.y *= -1;
-                                        remaining_speed.y *= -1;
-                                        this.location.x += moving_speed.x;
-                                        this.location.y += moving_speed.y;
+                                        movingspeed.x *= -1;
+                                        remainingspeed.x *= -1;
+                                        movingspeed.y *= -1;
+                                        remainingspeed.y *= -1;
+                                        this.location.x += movingspeed.x;
+                                        this.location.y += movingspeed.y;
                                     }
-                                } while (remaining_speed.x != 0 || remaining_speed.x != 0);
+                                } while (remainingspeed.x != 0 || remainingspeed.x != 0);
                                 try {
-                                    this.playing_field.addGameObject(this);
+                                    this.playingfield.addGameObject(this);
                                 } catch (ImpossibleRelocationException ex) {
-                                    this.location = original_location;
+                                    this.location = originallocation;
                                     Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -676,20 +676,20 @@ public class GameObject implements Closeable {
     /**
      * Respawns the object
      */
-    public void Respawn() {
-        Coordinate original_location = this.location;
+    public void respawn() {
+        Coordinate originallocation = this.location;
         try {
-            this.playing_field.deleteGameObject(this);
+            this.playingfield.deleteGameObject(this);
         } catch (ImpossibleLocationRemoveException ex) {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1));
+        RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
         do {
-        } while (!this.playing_field.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
+        } while (!this.playingfield.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         try {
-            this.playing_field.addGameObject(this);
+            this.playingfield.addGameObject(this);
         } catch (ImpossibleRelocationException ex) {
-            this.location = original_location;
+            this.location = originallocation;
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -699,14 +699,14 @@ public class GameObject implements Closeable {
      *
      * @return A boolean containing the result
      */
-    public Boolean WillRespawn() {
-        Coordinate destiny_location = new Coordinate(this.location.x, this.location.y);
-        switch (this.move_type) {
+    public Boolean willRespawn() {
+        Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
+        switch (this.movetype) {
             case None:
                 return false;
             default:
-                RectangularArea possible_area = new RectangularArea(this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1, 0).getCommonArea(this.posible_location_area);
-                if ((destiny_location.x += this.speed.x) > possible_area.maxcoord.x || destiny_location.x < possible_area.mincoord.x || (destiny_location.y += this.speed.y) > possible_area.maxcoord.y || destiny_location.y < possible_area.mincoord.y) {
+                RectangularArea possiblearea = new RectangularArea(this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+                if ((destinylocation.x += this.speed.x) > possiblearea.maxcoord.x || destinylocation.x < possiblearea.mincoord.x || (destinylocation.y += this.speed.y) > possiblearea.maxcoord.y || destinylocation.y < possiblearea.mincoord.y) {
                     return true;
                 }
                 return false;
@@ -714,294 +714,290 @@ public class GameObject implements Closeable {
     }
 
     /**
-     * Checks if and UpdaterespawnableLocation can be done
+     * Checks if and updateRespawnableLocation can be done
      *
      * @return A boolean containing the result
      */
-    public Boolean CanUpdaterespawnableLocation() {
-        if (this.WillRespawn()) {
-            RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1));
-            Boolean can_relocate = false;
-            for (Integer i = 0; i < 200 || can_relocate; i++) {
-                can_relocate = this.playing_field.canRelocateGameObject(this, new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue()));
+    public Boolean canUpdateRespawnableLocation() {
+        if (this.willRespawn()) {
+            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
+            Boolean canrelocate = false;
+            for (Integer i = 0; i < 200 || canrelocate; i++) {
+                canrelocate = this.playingfield.canRelocateGameObject(this, new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue()));
             }
-            if (can_relocate) {
+            if (canrelocate) {
                 return true;
             }
         }
         return false;
     }
 
-    public void UpdaterespawnableLocation() {
-        Coordinate original_location = this.location;
+    public void updateRespawnableLocation() {
+        Coordinate originallocation = this.location;
         try {
-            this.playing_field.deleteGameObject(this);
+            this.playingfield.deleteGameObject(this);
         } catch (ImpossibleLocationRemoveException ex) {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (this.WillRespawn()) {
-            RectangularArea area = this.respawn_area.getCommonArea(this.posible_location_area).getCommonArea(new RectangularArea(0, this.playing_field.sizex - 1, 0, this.playing_field.sizey - 1));
+        if (this.willRespawn()) {
+            RectangularArea area = this.respawnarea.getCommonArea(this.posiblelocationarea).getCommonArea(new RectangularArea(0, this.playingfield.sizex - 1, 0, this.playingfield.sizey - 1));
             do {
-            } while (!this.playing_field.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
+            } while (!this.playingfield.canRelocateGameObject(this, this.location = new Coordinate(MathCustomFuncs.random(area.mincoord.x, area.maxcoord.x).intValue(), MathCustomFuncs.random(area.mincoord.y, area.maxcoord.y).intValue())));
         }
         try {
-            this.playing_field.addGameObject(this);
+            this.playingfield.addGameObject(this);
         } catch (ImpossibleRelocationException ex) {
-            this.location = original_location;
+            this.location = originallocation;
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * public Boolean CanUpdateimpossibleLocation() { Coordinate
- destiny_location = new Coordinate(this.location.x, this.location.y);
- Rectangular_area possible_area = new
- Rectangular_area(this.playing_field.sizex - 1, 0,
- this.playing_field.sizey - 1, 0).getCommonArea(this.posible_location_area);
- switch (this.move_type) { case Teleport: if ((destiny_location.x =
- destiny_location.x + this.speed.x) > possible_area.maxcoord.x) {
- destiny_location.x = possible_area.maxcoord.x; } else if
- (destiny_location.x < possible_area.mincoord.x) {
- destiny_location.x = possible_area.mincoord.x;
+     * public Boolean CanUpdateimpossibleLocation() { Coordinate destinylocation
+ = new Coordinate(this.location.x, this.location.y); Rectangular_area
+ possiblearea = new Rectangular_area(this.playingfield.sizex - 1, 0,
+ this.playingfield.sizey - 1, 0).getCommonArea(this.posiblelocationarea);
+ switch (this.movetype) { case Teleport: if ((destinylocation.x =
+ destinylocation.x + this.speed.x) > possiblearea.maxcoord.x) {
+ destinylocation.x = possiblearea.maxcoord.x; } else if
+ (destinylocation.x < possiblearea.mincoord.x) {
+ destinylocation.x = possiblearea.mincoord.x;
  }
- if ((destiny_location.y = destiny_location.y + this.speed.y) >
- possible_area.maxcoord.y) { destiny_location.y =
- possible_area.maxcoord.y; } else if (destiny_location.y < possible_area.mincoord.y) {
- destiny_location.y = possible_area.mincoord.y;
+ if ((destinylocation.y = destinylocation.y + this.speed.y) >
+ possiblearea.maxcoord.y) { destinylocation.y = possiblearea.maxcoord.y;
+ } else if (destinylocation.y < possiblearea.mincoord.y) {
+ destinylocation.y = possiblearea.mincoord.y;
  }
- return this.playing_field.canRelocateGameObject(this, destiny_location);
+ return this.playingfield.canRelocateGameObject(this, destinylocation);
  case None:
- return this.playing_field.canRelocateGameObject(this, destiny_location);
+ return this.playingfield.canRelocateGameObject(this, destinylocation);
  default:
- Speed moving_speed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
- Speed remaining_speed = new Speed(this.speed.x, this.speed.y);
- Boolean can_relocate = true;
- switch (this.move_type) {
+ Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+ Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
+ Boolean canrelocate = true;
+ switch (this.movetype) {
  case Horizontal_first:
- for (; remaining_speed.x != 0 && (can_relocate = this.playing_field.canRelocateGameObject(this, destiny_location)); destiny_location.x += moving_speed.x, remaining_speed.x -= moving_speed.x) {
- }
- destiny_location.x = (can_relocate) ? destiny_location.x : (this.speed.x
- > 0) ? possible_area.maxcoord.x : possible_area.mincoord.x; for (;
- remaining_speed.y != 0 && (can_relocate =
- this.playing_field.canRelocateGameObject(this, destiny_location));
- destiny_location.y += moving_speed.y, remaining_speed.y -=
- moving_speed.y) { } destiny_location.y = (can_relocate) ?
- destiny_location.y : (this.speed.y > 0) ? possible_area.maxcoord.y :
- possible_area.mincoord.y; return
- this.playing_field.canRelocateGameObject(this, destiny_location); case
- Vertical_first: for (; remaining_speed.y != 0 && (can_relocate =
- this.playing_field.canRelocateGameObject(this, destiny_location));
- destiny_location.y += moving_speed.y, remaining_speed.y -=
- moving_speed.y) { } destiny_location.y = (can_relocate) ?
- destiny_location.y : (this.speed.y > 0) ? possible_area.maxcoord.y :
- possible_area.mincoord.y; for (; remaining_speed.x != 0 && (can_relocate
- = this.playing_field.canRelocateGameObject(this, destiny_location));
- destiny_location.x += moving_speed.x, remaining_speed.x -=
- moving_speed.x) { } destiny_location.x = (can_relocate) ?
- destiny_location.x : (this.speed.x > 0) ? possible_area.maxcoord.x :
- possible_area.mincoord.x; return
- this.playing_field.canRelocateGameObject(this, destiny_location); case
+ for (; remainingspeed.x != 0 && (canrelocate = this.playingfield.canRelocateGameObject(this, destinylocation)); destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+     * }
+     * destinylocation.x = (canrelocate) ? destinylocation.x : (this.speed.x
+     * > 0) ? possiblearea.maxcoord.x : possiblearea.mincoord.x; for (;
+ remainingspeed.y != 0 && (canrelocate =
+     * this.playingfield.canRelocateGameObject(this, destinylocation));
+     * destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+     * } destinylocation.y = (canrelocate) ? destinylocation.y : (this.speed.y >
+ 0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y; return
+ this.playingfield.canRelocateGameObject(this, destinylocation); case
+ Vertical_first: for (; remainingspeed.y != 0 && (canrelocate =
+     * this.playingfield.canRelocateGameObject(this, destinylocation));
+     * destinylocation.y += movingspeed.y, remainingspeed.y -= movingspeed.y) {
+     * } destinylocation.y = (canrelocate) ? destinylocation.y : (this.speed.y >
+ 0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y; for (;
+ remainingspeed.x != 0 && (canrelocate =
+     * this.playingfield.canRelocateGameObject(this, destinylocation));
+     * destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
+     * } destinylocation.x = (canrelocate) ? destinylocation.x : (this.speed.x >
+ 0) ? possiblearea.maxcoord.x : possiblearea.mincoord.x; return
+ this.playingfield.canRelocateGameObject(this, destinylocation); case
  Diagonal: if (this.speed.x != 0 && this.speed.y != 0 &&
      * Math.abs(this.speed.x) >= Math.abs(this.speed.y)) { Integer times =
- Math.abs(this.speed.x / this.speed.y); for (; remaining_speed.y != 0;
- destiny_location.y += moving_speed.y) { if
- (this.playing_field.canRelocateGameObject(this, destiny_location)) {
- remaining_speed.y -= moving_speed.y; } else { moving_speed.y *= -1;
- remaining_speed.y *= -1; destiny_location.y += moving_speed.y;
- remaining_speed.y -= moving_speed.y; } for (Integer i = 0; i < times; i++, destiny_location.x += moving_speed.x) {
- if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
- remaining_speed.x -= moving_speed.x;
- } else {
- moving_speed.x *= -1;
- remaining_speed.x *= -1;
- destiny_location.x += moving_speed.x;
- remaining_speed.x -= moving_speed.x;
- }
- }
- }
- for (; remaining_speed.x != 0; destiny_location.x += moving_speed.x) {
- if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
- remaining_speed.x -= moving_speed.x;
- } else {
- moving_speed.x *= -1;
- remaining_speed.x *= -1;
- destiny_location.x += moving_speed.x;
- remaining_speed.x -= moving_speed.x;
- }
- }
- return this.playing_field.canRelocateGameObject(this, destiny_location);
- } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
+     * Math.abs(this.speed.x / this.speed.y); for (; remainingspeed.y != 0;
+     * destinylocation.y += movingspeed.y) { if
+     * (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     * remainingspeed.y -= movingspeed.y; } else { movingspeed.y *= -1;
+     * remainingspeed.y *= -1; destinylocation.y += movingspeed.y;
+     * remainingspeed.y -= movingspeed.y; } for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.x) {
+     * if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     * remainingspeed.x -= movingspeed.x;
+     * } else {
+     * movingspeed.x *= -1;
+     * remainingspeed.x *= -1;
+     * destinylocation.x += movingspeed.x;
+     * remainingspeed.x -= movingspeed.x;
+     * }
+     * }
+     * }
+     * for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x) {
+     * if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     * remainingspeed.x -= movingspeed.x;
+     * } else {
+     * movingspeed.x *= -1;
+     * remainingspeed.x *= -1;
+     * destinylocation.x += movingspeed.x;
+     * remainingspeed.x -= movingspeed.x;
+     * }
+     * }
+     * return this.playingfield.canRelocateGameObject(this, destinylocation);
+     * } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
      * >= Math.abs(this.speed.x)) { Integer times = Math.abs(this.speed.y /
- this.speed.x); for (; remaining_speed.x != 0; destiny_location.x +=
- moving_speed.x) { if (this.playing_field.canRelocateGameObject(this,
- destiny_location)) { remaining_speed.x -= moving_speed.x; } else {
- moving_speed.x *= -1; remaining_speed.x *= -1; destiny_location.x +=
- moving_speed.x; remaining_speed.x -= moving_speed.x; } for (Integer i =
- 0; i < times; i++, destiny_location.x += moving_speed.y) {
- if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
- remaining_speed.y -= moving_speed.y;
- } else {
- moving_speed.y *= -1;
- remaining_speed.y *= -1;
- destiny_location.y += moving_speed.y;
- remaining_speed.y -= moving_speed.y;
- }
- }
- }
- for (; remaining_speed.y != 0; destiny_location.y += moving_speed.y) {
- if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
- remaining_speed.y -= moving_speed.y;
- } else {
- moving_speed.y *= -1;
- remaining_speed.y *= -1;
- destiny_location.y += moving_speed.y;
- remaining_speed.y -= moving_speed.y;
- }
- }
- return this.playing_field.canRelocateGameObject(this, destiny_location);
- } else {
- do {
- destiny_location.x += moving_speed.x;
- destiny_location.y += moving_speed.y;
- remaining_speed.x -= moving_speed.x;
- remaining_speed.y -= moving_speed.y;
- if (this.playing_field.canRelocateGameObject(this, destiny_location)) {
-
- } else {
- moving_speed.x *= -1;
- remaining_speed.x *= -1;
- moving_speed.y *= -1;
- remaining_speed.y *= -1;
- destiny_location.x += moving_speed.x;
- destiny_location.y += moving_speed.y;
- }
- } while (remaining_speed.x != 0 || remaining_speed.x != 0);
- return this.playing_field.canRelocateGameObject(this, destiny_location);
- }
- }
- }
- return false;
- }
-
- public void UpdateimpossibleLocation() {
- UpdateimpossiblexLocation();
- UpdateimpossibleyLocation();
- }
-
- public void UpdateimpossiblexLocation() {
- this.location.x += (this.location.x + this.speed.x >
- this.posible_location_area.maxcoord.x || this.location.x + this.speed.x < this.posible_location_area.mincoord.x) ? 0 : this.speed.x;
- }
-
- public void UpdateimpossibleyLocation() {
- this.location.y += (this.location.y + this.speed.y >
- this.posible_location_area.maxcoord.y || this.location.y + this.speed.y
- < this.posible_location_area.mincoord.y) ? 0 : this.speed.y; }
-
- /**
- Checks if and UpdatedestroyableLocation can be done
+     * this.speed.x); for (; remainingspeed.x != 0; destinylocation.x +=
+     * movingspeed.x) { if (this.playingfield.canRelocateGameObject(this,
+     * destinylocation)) { remainingspeed.x -= movingspeed.x; } else {
+     * movingspeed.x *= -1; remainingspeed.x *= -1; destinylocation.x +=
+     * movingspeed.x; remainingspeed.x -= movingspeed.x; } for (Integer i = 0; i < times; i++, destinylocation.x += movingspeed.y) {
+     * if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     * remainingspeed.y -= movingspeed.y;
+     * } else {
+     * movingspeed.y *= -1;
+     * remainingspeed.y *= -1;
+     * destinylocation.y += movingspeed.y;
+     * remainingspeed.y -= movingspeed.y;
+     * }
+     * }
+     * }
+     * for (; remainingspeed.y != 0; destinylocation.y += movingspeed.y) {
+     * if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     * remainingspeed.y -= movingspeed.y;
+     * } else {
+     * movingspeed.y *= -1;
+     * remainingspeed.y *= -1;
+     * destinylocation.y += movingspeed.y;
+     * remainingspeed.y -= movingspeed.y;
+     * }
+     * }
+     * return this.playingfield.canRelocateGameObject(this, destinylocation);
+     * } else {
+     * do {
+     * destinylocation.x += movingspeed.x;
+     * destinylocation.y += movingspeed.y;
+     * remainingspeed.x -= movingspeed.x;
+     * remainingspeed.y -= movingspeed.y;
+     * if (this.playingfield.canRelocateGameObject(this, destinylocation)) {
+     *
+     * } else {
+     * movingspeed.x *= -1;
+     * remainingspeed.x *= -1;
+     * movingspeed.y *= -1;
+     * remainingspeed.y *= -1;
+     * destinylocation.x += movingspeed.x;
+     * destinylocation.y += movingspeed.y;
+     * }
+     * } while (remainingspeed.x != 0 || remainingspeed.x != 0);
+     * return this.playingfield.canRelocateGameObject(this, destinylocation);
+     * }
+     * }
+     * }
+     * return false;
+     * }
+     *
+     * public void UpdateimpossibleLocation() {
+     * UpdateimpossiblexLocation();
+     * UpdateimpossibleyLocation();
+     * }
+     *
+     * public void UpdateimpossiblexLocation() {
+     * this.location.x += (this.location.x + this.speed.x >
+     * this.posiblelocationarea.maxcoord.x || this.location.x + this.speed.x < this.posiblelocationarea.mincoord.x) ? 0 : this.speed.x;
+     * }
+     *
+     * public void UpdateimpossibleyLocation() {
+     * this.location.y += (this.location.y + this.speed.y >
+     * this.posiblelocationarea.maxcoord.y || this.location.y + this.speed.y <
+     * this.posiblelocationarea.mincoord.y) ? 0 : this.speed.y; }
+     *
+     * /**
+     * Checks if and UpdatedestroyableLocation can be done
      *
      * @return A boolean containing the result public Boolean
- CanUpdatedestroyableLocation() { Coordinate destiny_location = new
- Coordinate(this.location.x + this.speed.x, this.location.y +
- this.speed.y); Speed moving_speed; switch (this.move_type) { case
- Teleport: return this.playing_field.canRelocateGameObject(this,
- destiny_location); case Horizontal_first: moving_speed = new
- Speed((destiny_location.x > this.location.x) ? 1 : -1,
-     * (destiny_location.y > this.location.y) ? 1 : -1); for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- moving_speed.x) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- moving_speed.y) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } return true; case Vertical_first:
- moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1,
-     * (destiny_location.y > this.location.y) ? 1 : -1); for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- moving_speed.y) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- moving_speed.x) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } return true; case Diagonal: if
- (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >=
-     * Math.abs(this.speed.y)) { Integer times = Math.abs(this.speed.x /
-     * this.speed.y); Integer x_direction = (this.speed.x < 0) ? -1 : 1; Integer
-     * y_direction = (this.speed.y < 0) ? -1 : 1; for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- y_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- }
- for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
+     * CanUpdatedestroyableLocation() { Coordinate destinylocation = new
+     * Coordinate(this.location.x + this.speed.x, this.location.y +
+     * this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
+     * return this.playingfield.canRelocateGameObject(this, destinylocation);
+     * case Horizontal_first: movingspeed = new Speed((destinylocation.x >
+     * this.location.x) ? 1 : -1, (destinylocation.y > this.location.y) ? 1 :
+     * -1); for (; !Objects.equals(this.location.x, destinylocation.x);
+     * this.location.x += movingspeed.x) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
+     * this.location.y += movingspeed.y) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } return true; case Vertical_first: movingspeed = new
+     * Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
+     * > this.location.y) ? 1 : -1); for (; !Objects.equals(this.location.y,
+     * destinylocation.y); this.location.y += movingspeed.y) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } for (; !Objects.equals(this.location.x, destinylocation.x);
+     * this.location.x += movingspeed.x) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } return true; case Diagonal: if (this.speed.x != 0 &&
+     * this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
+     * Integer times = Math.abs(this.speed.x / this.speed.y); Integer
+     * x_direction = (this.speed.x < 0) ? -1 : 1; Integer y_direction =
+     * (this.speed.y < 0) ? -1 : 1; for (; !Objects.equals(this.location.y,
+     * destinylocation.y); this.location.y += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * }
+     * for (; !Objects.equals(this.location.x, destinylocation.x); this.location.x += x_direction) {
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
      * >= Math.abs(this.speed.x)) { Integer times = Math.abs(this.speed.y /
      * this.speed.x); Integer y_direction = (this.speed.y < 0) ? -1 : 1; Integer
      * x_direction = (this.speed.x < 0) ? -1 : 1; for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- x_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } for (Integer i = 0; i < times; i++,
- this.location.x += y_direction) { if
- (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false; } } } for (; !Objects.equals(this.location.y,
- destiny_location.y); this.location.y += y_direction) { if
- (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false; } } } else { Integer x_direction = (this.speed.x < 0) ? -1
-     * : 1; for (Integer i = 0; i < this.speed.x; i++, this.location.x +=
- x_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } Integer y_direction = (this.speed.y <
+     * !Objects.equals(this.location.x, destinylocation.x); this.location.x +=
+     * x_direction) { if (!this.playingfield.canRelocateGameObject(this,
+     * this.location)) { return false; } for (Integer i = 0; i < times; i++,
+     * this.location.x += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } } for (; !Objects.equals(this.location.y, destinylocation.y);
+     * this.location.y += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } } else { Integer x_direction = (this.speed.x < 0) ? -1 : 1;
+     * for (Integer i = 0; i < this.speed.x; i++, this.location.x +=
+     * x_direction) { if (!this.playingfield.canRelocateGameObject(this,
+     * this.location)) { return false; } } Integer y_direction = (this.speed.y <
      * 0) ? -1 : 1; for (Integer i = 0; i < this.speed.y; i++, this.location.y += y_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- }
- case None:
- return false;
- }
- return false;
- }
-
- public void UpdatedestroyableLocation() throws IOException {
- UpdatedestroyablexLocation();
- UpdatedestroyableyLocation();
- }
-
- public Boolean CanUpdatedestroyablexLocation() {
- Integer resultcoord;
- return !((resultcoord = this.location.x + this.speed.x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdatedestroyablexLocation() throws IOException {
- if (this.location.x + this.speed.x >
- this.posible_location_area.maxcoord.x || this.location.x + this.speed.x < this.posible_location_area.mincoord.x) {
- this.close();
- } else {
- this.location.x += this.speed.x;
- }
- }
-
- public Boolean CanUpdatedestroyableyLocation() {
- Integer resultcoord;
- return !((resultcoord = this.location.y + this.speed.y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdatedestroyableyLocation() throws IOException {
- if (this.location.y + this.speed.y >
- this.posible_location_area.maxcoord.y || this.location.y + this.speed.y
- < this.posible_location_area.mincoord.y) { this.close(); } else {
- this.location.y += this.speed.y; } }
-
- /**
- Checks if and UpdatepossibleLocation can be done
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * }
+     * case None:
+     * return false;
+     * }
+     * return false;
+     * }
+     *
+     * public void UpdatedestroyableLocation() throws IOException {
+     * UpdatedestroyablexLocation();
+     * UpdatedestroyableyLocation();
+     * }
+     *
+     * public Boolean CanUpdatedestroyablexLocation() {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + this.speed.x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdatedestroyablexLocation() throws IOException {
+     * if (this.location.x + this.speed.x >
+     * this.posiblelocationarea.maxcoord.x || this.location.x + this.speed.x < this.posiblelocationarea.mincoord.x) {
+     * this.close();
+     * } else {
+     * this.location.x += this.speed.x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdatedestroyableyLocation() {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + this.speed.y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdatedestroyableyLocation() throws IOException {
+     * if (this.location.y + this.speed.y >
+     * this.posiblelocationarea.maxcoord.y || this.location.y + this.speed.y <
+     * this.posiblelocationarea.mincoord.y) { this.close(); } else {
+     * this.location.y += this.speed.y; } }
+     *
+     * /**
+     * Checks if and UpdatepossibleLocation can be done
      *
      * @return A boolean containing the result public Boolean
      * CanUpdatepossibleLocation() { return true; }
@@ -1021,123 +1017,122 @@ public class GameObject implements Closeable {
      * @return A boolean containing the result public Boolean WillFarest() {
      * Coordinate resultcoord = new Coordinate(this.location.x + this.speed.x,
      * this.location.y + this.speed.y); return resultcoord.y >
- this.posible_location_area.maxcoord.y || resultcoord.y <
- this.posible_location_area.mincoord.y || resultcoord.y < 0 || resultcoord.y
-     * >= this.playing_field.sizey || resultcoord.x >
- this.posible_location_area.maxcoord.x || resultcoord.x <
- this.posible_location_area.mincoord.x || resultcoord.x < 0 || resultcoord.x
-     * >= this.playing_field.sizex; }
-
- /**
- Checks if and UpdaterespawneableLocation can be done
+     * this.posiblelocationarea.maxcoord.y || resultcoord.y <
+     * this.posiblelocationarea.mincoord.y || resultcoord.y < 0 || resultcoord.y
+     * >= this.playingfield.sizey || resultcoord.x >
+     * this.posiblelocationarea.maxcoord.x || resultcoord.x <
+     * this.posiblelocationarea.mincoord.x || resultcoord.x < 0 || resultcoord.x
+     * >= this.playingfield.sizex; }
+     *
+     * /**
+     * Checks if and UpdaterespawneableLocation can be done
      *
      * @return A boolean containing the result public Boolean
- CanUpdatefarestLocation() { Coordinate destiny_location = new
- Coordinate(this.location.x + this.speed.x, this.location.y +
- this.speed.y); Speed moving_speed; switch (this.move_type) { case
- Teleport: return this.playing_field.canRelocateGameObject(this,
- destiny_location); case Horizontal_first: moving_speed = new
- Speed((destiny_location.x > this.location.x) ? 1 : -1,
-     * (destiny_location.y > this.location.y) ? 1 : -1); for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- moving_speed.x) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- moving_speed.y) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } return true; case Vertical_first:
- moving_speed = new Speed((destiny_location.x > this.location.x) ? 1 : -1,
-     * (destiny_location.y > this.location.y) ? 1 : -1); for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- moving_speed.y) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- moving_speed.x) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } return true; case Diagonal: if
- (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.x) >=
-     * Math.abs(this.speed.y)) { Integer times = Math.abs(this.speed.x /
-     * this.speed.y); Integer x_direction = (this.speed.x < 0) ? -1 : 1; Integer
-     * y_direction = (this.speed.y < 0) ? -1 : 1; for (;
- !Objects.equals(this.location.y, destiny_location.y); this.location.y +=
- y_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- }
- for (; !Objects.equals(this.location.x, destiny_location.x); this.location.x += x_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
+     * CanUpdatefarestLocation() { Coordinate destinylocation = new
+     * Coordinate(this.location.x + this.speed.x, this.location.y +
+     * this.speed.y); Speed movingspeed; switch (this.movetype) { case Teleport:
+     * return this.playingfield.canRelocateGameObject(this, destinylocation);
+     * case Horizontal_first: movingspeed = new Speed((destinylocation.x >
+     * this.location.x) ? 1 : -1, (destinylocation.y > this.location.y) ? 1 :
+     * -1); for (; !Objects.equals(this.location.x, destinylocation.x);
+     * this.location.x += movingspeed.x) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } for (; !Objects.equals(this.location.y, destinylocation.y);
+     * this.location.y += movingspeed.y) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } return true; case Vertical_first: movingspeed = new
+     * Speed((destinylocation.x > this.location.x) ? 1 : -1, (destinylocation.y
+     * > this.location.y) ? 1 : -1); for (; !Objects.equals(this.location.y,
+     * destinylocation.y); this.location.y += movingspeed.y) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } for (; !Objects.equals(this.location.x, destinylocation.x);
+     * this.location.x += movingspeed.x) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } return true; case Diagonal: if (this.speed.x != 0 &&
+     * this.speed.y != 0 && Math.abs(this.speed.x) >= Math.abs(this.speed.y)) {
+     * Integer times = Math.abs(this.speed.x / this.speed.y); Integer
+     * x_direction = (this.speed.x < 0) ? -1 : 1; Integer y_direction =
+     * (this.speed.y < 0) ? -1 : 1; for (; !Objects.equals(this.location.y,
+     * destinylocation.y); this.location.y += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } for (Integer i = 0; i < times; i++, this.location.x += x_direction) {
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * }
+     * for (; !Objects.equals(this.location.x, destinylocation.x); this.location.x += x_direction) {
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * } else if (this.speed.x != 0 && this.speed.y != 0 && Math.abs(this.speed.y)
      * >= Math.abs(this.speed.x)) { Integer times = Math.abs(this.speed.y /
      * this.speed.x); Integer y_direction = (this.speed.y < 0) ? -1 : 1; Integer
      * x_direction = (this.speed.x < 0) ? -1 : 1; for (;
- !Objects.equals(this.location.x, destiny_location.x); this.location.x +=
- x_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } for (Integer i = 0; i < times; i++,
- this.location.x += y_direction) { if
- (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false; } } } for (; !Objects.equals(this.location.y,
- destiny_location.y); this.location.y += y_direction) { if
- (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false; } } } else { Integer x_direction = (this.speed.x < 0) ? -1
-     * : 1; for (Integer i = 0; i < this.speed.x; i++, this.location.x +=
- x_direction) { if (!this.playing_field.canRelocateGameObject(this,
- this.location)) { return false; } } Integer y_direction = (this.speed.y <
+     * !Objects.equals(this.location.x, destinylocation.x); this.location.x +=
+     * x_direction) { if (!this.playingfield.canRelocateGameObject(this,
+     * this.location)) { return false; } for (Integer i = 0; i < times; i++,
+     * this.location.x += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } } for (; !Objects.equals(this.location.y, destinylocation.y);
+     * this.location.y += y_direction) { if
+     * (!this.playingfield.canRelocateGameObject(this, this.location)) { return
+     * false; } } } else { Integer x_direction = (this.speed.x < 0) ? -1 : 1;
+     * for (Integer i = 0; i < this.speed.x; i++, this.location.x +=
+     * x_direction) { if (!this.playingfield.canRelocateGameObject(this,
+     * this.location)) { return false; } } Integer y_direction = (this.speed.y <
      * 0) ? -1 : 1; for (Integer i = 0; i < this.speed.y; i++, this.location.y += y_direction) {
- if (!this.playing_field.canRelocateGameObject(this, this.location)) {
- return false;
- }
- }
- }
- case None:
- return false;
- }
- return false;
- }
-
- public void UpdatefarestLocation() {
- UpdatefarestxLocation();
- UpdatefarestyLocation();
- }
-
- public void UpdatefarestxLocation() {
- if (this.location.x + this.speed.x >
- this.posible_location_area.maxcoord.x) { this.location.x =
- this.posible_location_area.maxcoord.x; } else if (this.location.x +
- this.speed.x < this.posible_location_area.mincoord.x) {
- this.location.x = this.posible_location_area.mincoord.x;
- } else {
- this.location.x += this.speed.x;
- }
- }
-
- public void UpdatefarestyLocation() {
- if (this.location.y + this.speed.y >
- this.posible_location_area.maxcoord.y) { this.location.y =
- this.posible_location_area.maxcoord.y; } else if (this.location.y +
- this.speed.y < this.posible_location_area.mincoord.y) { this.location.y
- = this.posible_location_area.mincoord.y; } else { this.location.y +=
- this.speed.y; } }
-
- /**
- Checks if it will make use of the circular universe when it moves
+     * if (!this.playingfield.canRelocateGameObject(this, this.location)) {
+     * return false;
+     * }
+     * }
+     * }
+     * case None:
+     * return false;
+     * }
+     * return false;
+     * }
+     *
+     * public void UpdatefarestLocation() {
+     * UpdatefarestxLocation();
+     * UpdatefarestyLocation();
+     * }
+     *
+     * public void UpdatefarestxLocation() {
+     * if (this.location.x + this.speed.x >
+     * this.posiblelocationarea.maxcoord.x) { this.location.x =
+     * this.posiblelocationarea.maxcoord.x; } else if (this.location.x +
+     * this.speed.x < this.posiblelocationarea.mincoord.x) {
+     * this.location.x = this.posiblelocationarea.mincoord.x;
+     * } else {
+     * this.location.x += this.speed.x;
+     * }
+     * }
+     *
+     * public void UpdatefarestyLocation() {
+     * if (this.location.y + this.speed.y >
+     * this.posiblelocationarea.maxcoord.y) { this.location.y =
+     * this.posiblelocationarea.maxcoord.y; } else if (this.location.y +
+     * this.speed.y < this.posiblelocationarea.mincoord.y) { this.location.y =
+     * this.posiblelocationarea.mincoord.y; } else { this.location.y +=
+     * this.speed.y; } }
+     *
+     * /**
+     * Checks if it will make use of the circular universe when it moves
      *
      * @return A boolean containing the result public Boolean
      * WillCircularUniverse() { Coordinate resultcoord = new
      * Coordinate(this.location.x + this.speed.x, this.location.y +
-     * this.speed.y); return resultcoord.y >
- this.posible_location_area.maxcoord.y || resultcoord.y <
- this.posible_location_area.mincoord.y || resultcoord.y < 0 || resultcoord.y
-     * >= this.playing_field.sizey || resultcoord.x >
- this.posible_location_area.maxcoord.x || resultcoord.x <
- this.posible_location_area.mincoord.x || resultcoord.x < 0 || resultcoord.x
-     * >= this.playing_field.sizex; }
-
- /**
- Checks if and UpdatecircularuniverseLocation can be done
+     * this.speed.y); return resultcoord.y > this.posiblelocationarea.maxcoord.y
+     * || resultcoord.y < this.posiblelocationarea.mincoord.y || resultcoord.y < 0 || resultcoord.y
+     * >= this.playingfield.sizey || resultcoord.x >
+     * this.posiblelocationarea.maxcoord.x || resultcoord.x <
+     * this.posiblelocationarea.mincoord.x || resultcoord.x < 0 || resultcoord.x
+     * >= this.playingfield.sizex; }
+     *
+     * /**
+     * Checks if and UpdatecircularuniverseLocation can be done
      *
      * @return A boolean containing the result public Boolean
      * CanUpdatecircularuniverseLocation() { return true; }
@@ -1146,340 +1141,340 @@ public class GameObject implements Closeable {
      * UpdatecircularuniversexLocation(); UpdatecircularuniverseyLocation(); }
      *
      * public void UpdatecircularuniversexLocation() { if (this.location.x +
-     * this.speed.x > this.posible_location_area.maxcoord.x) { this.location.x
- = this.posible_location_area.mincoord.x + (this.speed.x -
- (this.posible_location_area.maxcoord.x - this.location.x)); } else if
- (this.location.x + this.speed.x < this.posible_location_area.mincoord.x) {
- this.location.x = this.posible_location_area.maxcoord.x + (this.speed.x + this.location.x);
- } else {
- this.location.x += this.speed.x;
- }
- }
-
- public void UpdatecircularuniverseyLocation() {
- if (this.location.y + this.speed.y >
- this.posible_location_area.maxcoord.y) { this.location.y =
- this.posible_location_area.mincoord.y + (this.speed.y -
- (this.posible_location_area.maxcoord.y - this.location.y)); } else if
- (this.location.x + this.speed.x < this.posible_location_area.mincoord.x) {
- this.location.y = this.posible_location_area.maxcoord.y + (this.speed.y + this.location.y);
- } else {
- this.location.y += this.speed.y;
- }
- }
- public Boolean[] CanUpdateLocation(Integer x, Integer y) {
- switch (this.out_of_bounds_move_type) {
- case Bounceable:
- return CanUpdatecircularuniverseLocation(x, y);
- case Respawnable:
- return CanUpdaterespawnableLocation(x, y);
- case Impossible:
- return CanUpdateimpossibleLocation(x, y);
- case Destroyable:
- return CanUpdatedestroyableLocation(x, y);
- case Possible:
- return CanUpdatepossibleLocation(x, y);
- case Farest:
- return CanUpdatefarestLocation(x, y);
- case Circular_universe:
- return CanUpdatecircularuniverseLocation(x, y);
- }
- Boolean[] no_out_of_bounds_move_type = {false, false};
- return no_out_of_bounds_move_type;
- }
- public void UpdateLocation(Integer x, Integer y) {
- if (x != 0 || y != 0) {
- switch (this.out_of_bounds_move_type) {
- case Bounceable:
- UpdatebounceableLocation(x, y);
- break;
- case Respawnable:
- UpdaterespawnableLocation(x, y);
- break;
- case Impossible:
- UpdateimpossibleLocation(x, y);
- break;
- case Destroyable:
- try {
- UpdatedestroyableLocation(x, y);
- } catch (IOException ex) {
- Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
- }
- break;
- case Possible:
- UpdatepossibleLocation(x, y);
- break;
- case Farest:
- UpdatefarestLocation(x, y);
- break;
- case Circular_universe:
- UpdatecircularuniverseLocation(x, y);
- break;
- }
- }
- }
- public Boolean[] CanUpdatebounceableLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdatebounceablexLocation(x, y), CanUpdatebounceableyLocation(x, y)};
- return result;
- }
- public void UpdatebounceableLocation(Integer x, Integer y) {
- UpdatebounceablexLocation(x, y);
- UpdatebounceableyLocation(x, y);
- }
- public Boolean CanUpdatebounceablexLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.x + x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdatebounceablexLocation(Integer x, Integer y) {
- if (this.location.x + x > this.posible_location_area.maxcoord.x) {
- this.location.x -= (x - (this.posible_location_area.maxcoord.x -
- this.location.x)); } else if (this.location.x + x < this.posible_location_area.mincoord.y) {
- this.location.x -= (x + this.location.x);
- } else {
- this.location.x += x;
- }
- }
-
- public Boolean CanUpdatebounceableyLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.y + y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdatebounceableyLocation(Integer x, Integer y) {
- if (this.location.y + y > this.posible_location_area.maxcoord.y) {
- this.location.y -= (y - (this.posible_location_area.maxcoord.y -
- this.location.y)); } else if (this.location.y + y < this.posible_location_area.mincoord.y) {
- this.location.y -= (y + this.location.y);
- } else {
- this.location.y += y;
- }
- }
-
- public Boolean[] CanUpdaterespawnableLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdaterespawnablexLocation(x, y), CanUpdaterespawnableyLocation(x, y)};
- return result;
- }
-
- public void UpdaterespawnableLocation(Integer x, Integer y) {
- UpdaterespawnablexLocation(x, y);
- UpdaterespawnableyLocation(x, y);
- }
-
- public Boolean CanUpdaterespawnablexLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.x + x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdaterespawnablexLocation(Integer x, Integer y) {
- if (this.location.x + x > this.posible_location_area.maxcoord.x ||
- this.location.x + x < this.posible_location_area.mincoord.x) {
- this.location.x = MathCustomFuncs.random(this.respawn_area.mincoord.x, this.respawn_area.maxcoord.x).intValue();
- } else {
- this.location.x += x;
- }
- }
-
- public Boolean CanUpdaterespawnableyLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.y + y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdaterespawnableyLocation(Integer x, Integer y) {
- if (this.location.y + y > this.posible_location_area.maxcoord.y ||
- this.location.y + y < this.posible_location_area.mincoord.y) {
- this.location.y = MathCustomFuncs.random(this.respawn_area.mincoord.y, this.respawn_area.maxcoord.y).intValue();
- } else {
- this.location.y += y;
- }
- }
-
- public Boolean[] CanUpdateimpossibleLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdateimpossiblexLocation(x, y), CanUpdateimpossibleyLocation(x, y)};
- return result;
- }
-
- public void UpdateimpossibleLocation(Integer x, Integer y) {
- UpdateimpossiblexLocation(x, y);
- UpdateimpossibleyLocation(x, y);
- }
-
- public Boolean CanUpdateimpossiblexLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.x + x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdateimpossiblexLocation(Integer x, Integer y) {
- this.location.x += (this.location.x + x >
- this.posible_location_area.maxcoord.x || this.location.x + x < this.posible_location_area.mincoord.x) ? 0 : x;
- }
-
- public Boolean CanUpdateimpossibleyLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.y + y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdateimpossibleyLocation(Integer x, Integer y) {
- this.location.y += (this.location.y + y >
- this.posible_location_area.maxcoord.y || this.location.y + y < this.posible_location_area.mincoord.y) ? 0 : y;
- }
-
- public Boolean[] CanUpdatedestroyableLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdatedestroyablexLocation(x, y), CanUpdatedestroyableyLocation(x, y)};
- return result;
- }
-
- public void UpdatedestroyableLocation(Integer x, Integer y) throws IOException {
- UpdatedestroyablexLocation(x, y);
- UpdatedestroyableyLocation(x, y);
- }
-
- public Boolean CanUpdatedestroyablexLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.x + x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdatedestroyablexLocation(Integer x, Integer y) throws IOException {
- if (this.location.x + x > this.posible_location_area.maxcoord.x ||
- this.location.x + x < this.posible_location_area.mincoord.x) {
- this.close();
- } else {
- this.location.x += x;
- }
- }
-
- public Boolean CanUpdatedestroyableyLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.y + y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdatedestroyableyLocation(Integer x, Integer y) throws IOException {
- if (this.location.y + y > this.posible_location_area.maxcoord.y ||
- this.location.y + y < this.posible_location_area.mincoord.y) {
- this.close();
- } else {
- this.location.y += y;
- }
- }
-
- public Boolean[] CanUpdatepossibleLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdatepossiblexLocation(x, y), CanUpdatepossibleyLocation(x, y)};
- return result;
- }
-
- public void UpdatepossibleLocation(Integer x, Integer y) {
- UpdatepossiblexLocation(x, y);
- UpdatepossibleyLocation(x, y);
- }
-
- public Boolean CanUpdatepossiblexLocation(Integer x, Integer y) {
- return true;
- }
-
- public void UpdatepossiblexLocation(Integer x, Integer y) {
- this.location.x += x;
- }
-
- public Boolean CanUpdatepossibleyLocation(Integer x, Integer y) {
- return true;
- }
-
- public void UpdatepossibleyLocation(Integer x, Integer y) {
- this.location.y += y;
- }
-
- public Boolean[] CanUpdatefarestLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdatefarestxLocation(x, y), CanUpdatefarestyLocation(x, y)};
- return result;
- }
-
- public void UpdatefarestLocation(Integer x, Integer y) {
- UpdatefarestxLocation(x, y);
- UpdatefarestyLocation(x, y);
- }
-
- public Boolean CanUpdatefarestxLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.x + x) >
- this.posible_location_area.maxcoord.x || resultcoord < this.posible_location_area.mincoord.x);
- }
-
- public void UpdatefarestxLocation(Integer x, Integer y) {
- if (this.location.x + x > this.posible_location_area.maxcoord.x) {
- this.location.x = this.posible_location_area.maxcoord.x; } else if
- (this.location.x + x < this.posible_location_area.mincoord.x) {
- this.location.x = this.posible_location_area.mincoord.x;
- } else {
- this.location.x += x;
- }
- }
-
- public Boolean CanUpdatefarestyLocation(Integer x, Integer y) {
- Integer resultcoord;
- return !((resultcoord = this.location.y + y) >
- this.posible_location_area.maxcoord.y || resultcoord < this.posible_location_area.mincoord.y);
- }
-
- public void UpdatefarestyLocation(Integer x, Integer y) {
- if (this.location.y + y > this.posible_location_area.maxcoord.y) {
- this.location.y = this.posible_location_area.maxcoord.y; } else if
- (this.location.y + y < this.posible_location_area.mincoord.y) {
- this.location.y = this.posible_location_area.mincoord.y;
- } else {
- this.location.y += y;
- }
- }
-
- public Boolean[] CanUpdatecircularuniverseLocation(Integer x, Integer y) {
- Boolean[] result = {CanUpdatecircularuniversexLocation(x, y), CanUpdatecircularuniverseyLocation(x, y)};
- return result;
- }
-
- public void UpdatecircularuniverseLocation(Integer x, Integer y) {
- UpdatecircularuniversexLocation(x, y);
- UpdatecircularuniverseyLocation(x, y);
- }
-
- public Boolean CanUpdatecircularuniversexLocation(Integer x, Integer y) {
- return true;
- }
-
- public void UpdatecircularuniversexLocation(Integer x, Integer y) {
- if (this.location.x + x > this.posible_location_area.maxcoord.x) {
- this.location.x = this.posible_location_area.mincoord.x + (x -
- (this.posible_location_area.maxcoord.x - this.location.x)); } else if
- (this.location.x + x < this.posible_location_area.mincoord.x) {
- this.location.x = this.posible_location_area.maxcoord.x + (x + this.location.x);
- } else {
- this.location.x += x;
- }
- }
-
- public Boolean CanUpdatecircularuniverseyLocation(Integer x, Integer y) {
- return true;
- }
-
- public void UpdatecircularuniverseyLocation(Integer x, Integer y) {
- if (this.location.y + y > this.posible_location_area.maxcoord.y) {
- this.location.y = this.posible_location_area.mincoord.y + (y -
- (this.posible_location_area.maxcoord.y - this.location.y)); } else if
- (this.location.x + x < this.posible_location_area.mincoord.x) {
- this.location.y = this.posible_location_area.maxcoord.y + (y +
- this.location.y); } else { this.location.y += y; } }
+     * this.speed.x > this.posiblelocationarea.maxcoord.x) { this.location.x =
+     * this.posiblelocationarea.mincoord.x + (this.speed.x -
+     * (this.posiblelocationarea.maxcoord.x - this.location.x)); } else if
+     * (this.location.x + this.speed.x < this.posiblelocationarea.mincoord.x) {
+     * this.location.x = this.posiblelocationarea.maxcoord.x + (this.speed.x + this.location.x);
+     * } else {
+     * this.location.x += this.speed.x;
+     * }
+     * }
+     *
+     * public void UpdatecircularuniverseyLocation() {
+     * if (this.location.y + this.speed.y >
+     * this.posiblelocationarea.maxcoord.y) { this.location.y =
+     * this.posiblelocationarea.mincoord.y + (this.speed.y -
+     * (this.posiblelocationarea.maxcoord.y - this.location.y)); } else if
+     * (this.location.x + this.speed.x < this.posiblelocationarea.mincoord.x) {
+     * this.location.y = this.posiblelocationarea.maxcoord.y + (this.speed.y + this.location.y);
+     * } else {
+     * this.location.y += this.speed.y;
+     * }
+     * }
+     * public Boolean[] canUpdateLocation(Integer x, Integer y) {
+     * switch (this.outofboundsmovetype) {
+     * case Bounceable:
+     * return CanUpdatecircularuniverseLocation(x, y);
+     * case Respawnable:
+     * return canUpdateRespawnableLocation(x, y);
+     * case Impossible:
+     * return CanUpdateimpossibleLocation(x, y);
+     * case Destroyable:
+     * return CanUpdatedestroyableLocation(x, y);
+     * case Possible:
+     * return CanUpdatepossibleLocation(x, y);
+     * case Farest:
+     * return CanUpdatefarestLocation(x, y);
+     * case Circular_universe:
+     * return CanUpdatecircularuniverseLocation(x, y);
+     * }
+     * Boolean[] no_out_of_bounds_move_type = {false, false};
+     * return no_out_of_bounds_move_type;
+     * }
+     * public void updateLocation(Integer x, Integer y) {
+     * if (x != 0 || y != 0) {
+     * switch (this.outofboundsmovetype) {
+     * case Bounceable:
+     * updateBounceableLocation(x, y);
+     * break;
+     * case Respawnable:
+     * updateRespawnableLocation(x, y);
+     * break;
+     * case Impossible:
+     * UpdateimpossibleLocation(x, y);
+     * break;
+     * case Destroyable:
+     * try {
+     * UpdatedestroyableLocation(x, y);
+     * } catch (IOException ex) {
+     * Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+     * }
+     * break;
+     * case Possible:
+     * UpdatepossibleLocation(x, y);
+     * break;
+     * case Farest:
+     * UpdatefarestLocation(x, y);
+     * break;
+     * case Circular_universe:
+     * UpdatecircularuniverseLocation(x, y);
+     * break;
+     * }
+     * }
+     * }
+     * public Boolean[] canUpdateBounceableLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdatebounceablexLocation(x, y), CanUpdatebounceableyLocation(x, y)};
+     * return result;
+     * }
+     * public void updateBounceableLocation(Integer x, Integer y) {
+     * UpdatebounceablexLocation(x, y);
+     * UpdatebounceableyLocation(x, y);
+     * }
+     * public Boolean CanUpdatebounceablexLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdatebounceablexLocation(Integer x, Integer y) {
+     * if (this.location.x + x > this.posiblelocationarea.maxcoord.x) {
+     * this.location.x -= (x - (this.posiblelocationarea.maxcoord.x -
+     * this.location.x)); } else if (this.location.x + x < this.posiblelocationarea.mincoord.y) {
+     * this.location.x -= (x + this.location.x);
+     * } else {
+     * this.location.x += x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdatebounceableyLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdatebounceableyLocation(Integer x, Integer y) {
+     * if (this.location.y + y > this.posiblelocationarea.maxcoord.y) {
+     * this.location.y -= (y - (this.posiblelocationarea.maxcoord.y -
+     * this.location.y)); } else if (this.location.y + y < this.posiblelocationarea.mincoord.y) {
+     * this.location.y -= (y + this.location.y);
+     * } else {
+     * this.location.y += y;
+     * }
+     * }
+     *
+     * public Boolean[] canUpdateRespawnableLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdaterespawnablexLocation(x, y), CanUpdaterespawnableyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void updateRespawnableLocation(Integer x, Integer y) {
+     * UpdaterespawnablexLocation(x, y);
+     * UpdaterespawnableyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdaterespawnablexLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdaterespawnablexLocation(Integer x, Integer y) {
+     * if (this.location.x + x > this.posiblelocationarea.maxcoord.x ||
+     * this.location.x + x < this.posiblelocationarea.mincoord.x) {
+     * this.location.x = MathCustomFuncs.random(this.respawnarea.mincoord.x, this.respawnarea.maxcoord.x).intValue();
+     * } else {
+     * this.location.x += x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdaterespawnableyLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdaterespawnableyLocation(Integer x, Integer y) {
+     * if (this.location.y + y > this.posiblelocationarea.maxcoord.y ||
+     * this.location.y + y < this.posiblelocationarea.mincoord.y) {
+     * this.location.y = MathCustomFuncs.random(this.respawnarea.mincoord.y, this.respawnarea.maxcoord.y).intValue();
+     * } else {
+     * this.location.y += y;
+     * }
+     * }
+     *
+     * public Boolean[] CanUpdateimpossibleLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdateimpossiblexLocation(x, y), CanUpdateimpossibleyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void UpdateimpossibleLocation(Integer x, Integer y) {
+     * UpdateimpossiblexLocation(x, y);
+     * UpdateimpossibleyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdateimpossiblexLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdateimpossiblexLocation(Integer x, Integer y) {
+     * this.location.x += (this.location.x + x >
+     * this.posiblelocationarea.maxcoord.x || this.location.x + x < this.posiblelocationarea.mincoord.x) ? 0 : x;
+     * }
+     *
+     * public Boolean CanUpdateimpossibleyLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdateimpossibleyLocation(Integer x, Integer y) {
+     * this.location.y += (this.location.y + y >
+     * this.posiblelocationarea.maxcoord.y || this.location.y + y < this.posiblelocationarea.mincoord.y) ? 0 : y;
+     * }
+     *
+     * public Boolean[] CanUpdatedestroyableLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdatedestroyablexLocation(x, y), CanUpdatedestroyableyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void UpdatedestroyableLocation(Integer x, Integer y) throws IOException {
+     * UpdatedestroyablexLocation(x, y);
+     * UpdatedestroyableyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdatedestroyablexLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdatedestroyablexLocation(Integer x, Integer y) throws IOException {
+     * if (this.location.x + x > this.posiblelocationarea.maxcoord.x ||
+     * this.location.x + x < this.posiblelocationarea.mincoord.x) {
+     * this.close();
+     * } else {
+     * this.location.x += x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdatedestroyableyLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdatedestroyableyLocation(Integer x, Integer y) throws IOException {
+     * if (this.location.y + y > this.posiblelocationarea.maxcoord.y ||
+     * this.location.y + y < this.posiblelocationarea.mincoord.y) {
+     * this.close();
+     * } else {
+     * this.location.y += y;
+     * }
+     * }
+     *
+     * public Boolean[] CanUpdatepossibleLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdatepossiblexLocation(x, y), CanUpdatepossibleyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void UpdatepossibleLocation(Integer x, Integer y) {
+     * UpdatepossiblexLocation(x, y);
+     * UpdatepossibleyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdatepossiblexLocation(Integer x, Integer y) {
+     * return true;
+     * }
+     *
+     * public void UpdatepossiblexLocation(Integer x, Integer y) {
+     * this.location.x += x;
+     * }
+     *
+     * public Boolean CanUpdatepossibleyLocation(Integer x, Integer y) {
+     * return true;
+     * }
+     *
+     * public void UpdatepossibleyLocation(Integer x, Integer y) {
+     * this.location.y += y;
+     * }
+     *
+     * public Boolean[] CanUpdatefarestLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdatefarestxLocation(x, y), CanUpdatefarestyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void UpdatefarestLocation(Integer x, Integer y) {
+     * UpdatefarestxLocation(x, y);
+     * UpdatefarestyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdatefarestxLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.x + x) >
+     * this.posiblelocationarea.maxcoord.x || resultcoord < this.posiblelocationarea.mincoord.x);
+     * }
+     *
+     * public void UpdatefarestxLocation(Integer x, Integer y) {
+     * if (this.location.x + x > this.posiblelocationarea.maxcoord.x) {
+     * this.location.x = this.posiblelocationarea.maxcoord.x; } else if
+     * (this.location.x + x < this.posiblelocationarea.mincoord.x) {
+     * this.location.x = this.posiblelocationarea.mincoord.x;
+     * } else {
+     * this.location.x += x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdatefarestyLocation(Integer x, Integer y) {
+     * Integer resultcoord;
+     * return !((resultcoord = this.location.y + y) >
+     * this.posiblelocationarea.maxcoord.y || resultcoord < this.posiblelocationarea.mincoord.y);
+     * }
+     *
+     * public void UpdatefarestyLocation(Integer x, Integer y) {
+     * if (this.location.y + y > this.posiblelocationarea.maxcoord.y) {
+     * this.location.y = this.posiblelocationarea.maxcoord.y; } else if
+     * (this.location.y + y < this.posiblelocationarea.mincoord.y) {
+     * this.location.y = this.posiblelocationarea.mincoord.y;
+     * } else {
+     * this.location.y += y;
+     * }
+     * }
+     *
+     * public Boolean[] CanUpdatecircularuniverseLocation(Integer x, Integer y) {
+     * Boolean[] result = {CanUpdatecircularuniversexLocation(x, y), CanUpdatecircularuniverseyLocation(x, y)};
+     * return result;
+     * }
+     *
+     * public void UpdatecircularuniverseLocation(Integer x, Integer y) {
+     * UpdatecircularuniversexLocation(x, y);
+     * UpdatecircularuniverseyLocation(x, y);
+     * }
+     *
+     * public Boolean CanUpdatecircularuniversexLocation(Integer x, Integer y) {
+     * return true;
+     * }
+     *
+     * public void UpdatecircularuniversexLocation(Integer x, Integer y) {
+     * if (this.location.x + x > this.posiblelocationarea.maxcoord.x) {
+     * this.location.x = this.posiblelocationarea.mincoord.x + (x -
+     * (this.posiblelocationarea.maxcoord.x - this.location.x)); } else if
+     * (this.location.x + x < this.posiblelocationarea.mincoord.x) {
+     * this.location.x = this.posiblelocationarea.maxcoord.x + (x + this.location.x);
+     * } else {
+     * this.location.x += x;
+     * }
+     * }
+     *
+     * public Boolean CanUpdatecircularuniverseyLocation(Integer x, Integer y) {
+     * return true;
+     * }
+     *
+     * public void UpdatecircularuniverseyLocation(Integer x, Integer y) {
+     * if (this.location.y + y > this.posiblelocationarea.maxcoord.y) {
+     * this.location.y = this.posiblelocationarea.mincoord.y + (y -
+     * (this.posiblelocationarea.maxcoord.y - this.location.y)); } else if
+     * (this.location.x + x < this.posiblelocationarea.mincoord.x) {
+     * this.location.y = this.posiblelocationarea.maxcoord.y + (y +
+     * this.location.y); } else { this.location.y += y; } }
      *
      */
     @Override
     public void close() throws IOException {
         try {
-            this.playing_field.deleteGameObject(this);
+            this.playingfield.deleteGameObject(this);
         } catch (ImpossibleLocationRemoveException ex) {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }

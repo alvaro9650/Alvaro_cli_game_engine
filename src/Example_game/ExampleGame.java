@@ -41,7 +41,7 @@ public class ExampleGame {
                 System.out.append(player.character);
                 System.out.println(" input your move coordinates");
                 try {
-                    player.move_to(new Coordinate(input.nextInt(), input.nextInt()));
+                    player.moveTo(new Coordinate(input.nextInt(), input.nextInt()));
                     input.nextLine();
                 } catch (InputMismatchException e) {
                     System.out.println("Thats not a coordinate , you loose your turn");
@@ -77,7 +77,7 @@ public class ExampleGame {
     public static void addPoints(Field field, Player[] players) {
         for (Player player : players) {
             for (GameObject game_object : field.gameobjects[player.location.x][player.location.y]) {
-                if (game_object != null && "Ball".equals(game_object.object_type)) {
+                if (game_object != null && "Ball".equals(game_object.objecttype)) {
                     player.points += 1;
                 }
             }
