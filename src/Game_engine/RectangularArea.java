@@ -93,4 +93,13 @@ public class RectangularArea {
         }
         return new RectangularArea(commonmax, commonmin);
     }
+
+    /**
+     * Checks if a coordinate is inside the area
+     * @param coord the coordinate you want to check if it's in the area
+     * @return true if the coordinate is in the area
+     */
+    public Boolean isInside(Coordinate coord) {
+        return coord.x <= this.maxcoord.x && coord.y <= this.maxcoord.y && coord.x >= this.maxcoord.x && coord.y >= this.mincoord.y;
+    }
 }
