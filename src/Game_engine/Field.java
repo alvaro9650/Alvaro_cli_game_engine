@@ -158,7 +158,7 @@ public class Field {
      */
     public GameObject collidesWith(GameObject objectlookingforcollider) {
         for (GameObject object : this.gameobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
-            if (object != null && Objects.equals(object.height, objectlookingforcollider.height)) {
+            if (object != null && Objects.equals(object.height, objectlookingforcollider.height)&& !Objects.equals(object, objectlookingforcollider)) {
                 return object;
             }
         }
