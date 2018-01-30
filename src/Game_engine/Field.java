@@ -55,8 +55,28 @@ public class Field {
      * @throws Game_engine.OutOfBoundsException
      */
     public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
-        if (this.collidesWith(gameobject) != null) {
-            throw new ObjectCollidesException();
+        GameObject collider;
+        if ((collider = this.collidesWith(gameobject)) != null) {
+            switch (collider.physicalstatetype) {
+                    case Solid:
+                    case SolidWithHoles:
+                        switch (gameobject.physicalstatetype) {
+                            case SolidWithHoles:
+                            case Solid:
+                                throw new ObjectCollidesException();
+                        }
+                    case Liquid:
+                        switch (gameobject.physicalstatetype) {
+                            case Solid:
+                                throw new ObjectCollidesException();
+                        }
+                    case Gas:
+                        switch (gameobject.physicalstatetype) {
+                            case Solid:
+                            case Liquid:
+                                throw new ObjectCollidesException();
+                        }
+                }
         } else if (new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location)) {
             throw new OutOfBoundsException();
         }
