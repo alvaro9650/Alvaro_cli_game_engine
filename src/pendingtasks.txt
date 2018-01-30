@@ -3,3 +3,4 @@ Create 3d size class
 Change logs to use Logger
 Add autor
 Set move direction in object
+Check if the object is already located before adding a location
