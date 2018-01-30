@@ -117,33 +117,8 @@ public class Field {
      * possible to relocate the object there
      */
     public Boolean canRelocateGameObject(GameObject gameobject, Coordinate coordinate) {
-        RectangularArea possiblemovearea;
-        if (!checkSpaceAvailable(coordinate) || coordinate.x > (possiblemovearea = new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea)).maxcoord.x || coordinate.x < possiblemovearea.mincoord.x || coordinate.y > possiblemovearea.maxcoord.y || coordinate.y < possiblemovearea.mincoord.y) {
+        if (!checkSpaceAvailable(coordinate) || new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(coordinate) ) {
             return false;
-        }
-        for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
-            if (object != null) {
-                switch (object.physicalstatetype) {
-                    case Solid:
-                    case SolidWithHoles:
-                        switch (gameobject.physicalstatetype) {
-                            case SolidWithHoles:
-                            case Solid:
-                                return false;
-                        }
-                    case Liquid:
-                        switch (gameobject.physicalstatetype) {
-                            case Solid:
-                                return false;
-                        }
-                    case Gas:
-                        switch (gameobject.physicalstatetype) {
-                            case Solid:
-                            case Liquid:
-                                return false;
-                        }
-                }
-            }
         }
         return true;
     }
