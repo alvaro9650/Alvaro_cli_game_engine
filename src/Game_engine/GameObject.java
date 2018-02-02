@@ -31,6 +31,7 @@ public class GameObject implements Closeable {
     public PhysicalStateType physicalstatetype;
     public MoveType movetype;
     public String objecttype;
+    public String objectidentifier;
     public CollisionType receivingcollision;
     public CollisionType givingcollision;
     public Speed movedirection;
@@ -57,6 +58,7 @@ public class GameObject implements Closeable {
         this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
         this.loglevel = LogLevel.None;
         this.location = new Coordinate(this.posiblelocationarea.mincoord.x, this.posiblelocationarea.mincoord.y);
+        this.objectidentifier = Integer.toString(this.hashCode());
     }
 
     /**
@@ -141,6 +143,42 @@ public class GameObject implements Closeable {
                 objectlog.delete(0, objectlog.length());
         }
         System.out.println(objectlog.toString());
+    }
+
+    /**
+     * Function to add custom actions when colliding against a determined object
+     * or object type
+     *
+     * @param collisionreceiver The object that receives the collision
+     * @author alvaro9650
+     */
+    public void giveCollision(GameObject collisionreceiver) {
+        switch (collisionreceiver.objectidentifier) {
+            default:
+                break;
+        }
+        switch (collisionreceiver.objecttype) {
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Function to add custom actions when collided against a determined object
+     * or object type
+     *
+     * @param collisiongiver The object that gives the collision
+     * @author alvaro9650
+     */
+    public void receiveCollision(GameObject collisiongiver) {
+        switch (collisiongiver.objectidentifier) {
+            default:
+                break;
+        }
+        switch (collisiongiver.objecttype) {
+            default:
+                break;
+        }
     }
 
     /**
