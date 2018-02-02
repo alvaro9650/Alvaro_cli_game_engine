@@ -71,8 +71,8 @@ public class Player extends GameObject {
      * @author alvaro9650
      */
     public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
-        this.move_points += (location.x < 0) ? location.x : -location.x;
-        this.move_points += (location.y < 0) ? location.y : -location.y;
+        this.move_points -= Math.abs(speed.x);
+        this.move_points -= Math.abs(speed.y);
         if (this.move_points < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
         } else {
