@@ -16,12 +16,13 @@ import java.util.Scanner;
 
 /**
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class ExampleGame {
 
     /**
      * @param args the command line arguments
+     * @author alvaro9650
      */
     public static void main(String[] args) {
         System.out.append("You are a character\nYou have to touch a ball to win a point\nYou have 10 move points each turn , if you don't use them all you will have them at the next turn\nYou get 10 move points each turn\nBall speed and position is generated randomly every match\nBalls bounce when they reach a border\nYou have to input your move coordinates in an x(right and left) y(down and up) format\nThe first player to reach 5 points wins\nThe character | means nothing in that position , the character O means ball in that position\n");

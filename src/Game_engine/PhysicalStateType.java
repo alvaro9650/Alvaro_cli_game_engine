@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * Physical state types
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public enum PhysicalStateType {
     Ghost(1), SolidWithHoles(2), Liquid(3), Gas(4), Solid(5);
@@ -18,6 +18,7 @@ public enum PhysicalStateType {
      * Constructor for Physical_state_type
      *
      * @param physical_state_type An int that identifies Physical_state_type
+     * @author alvaro9650
      */
     private PhysicalStateType(int physicalstatetype) {
         this.physicalstatetype = physicalstatetype;
@@ -27,6 +28,7 @@ public enum PhysicalStateType {
      * Getter for PhysicalStateType
      *
      * @return Return an int that represents PhysicalStateType
+     * @author alvaro9650
      */
     public int getPysicalStateType() {
         return this.physicalstatetype;

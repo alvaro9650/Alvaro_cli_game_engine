@@ -7,7 +7,7 @@ package Game_engine;
 
 /**
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class OutOfBoundsException extends ImpossibleRelocationException {
 

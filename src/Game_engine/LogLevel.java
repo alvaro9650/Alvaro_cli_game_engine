@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * Log levels
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public enum LogLevel {
     Verbose(1), DrawRelated(2), MoveRelated(3), OutOfBoundsRelated(4), CollisionRelated(5), PositionRelated(6), None(7);

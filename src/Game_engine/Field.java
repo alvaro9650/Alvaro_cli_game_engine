@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * A field that has a x size y size and can contain game objects
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Field {
 
@@ -26,6 +26,7 @@ public class Field {
      * @param x X size of the field
      * @param y Y size of the field
      * @param maxobjectspercoord Maximum number of objects per coord
+     * @author alvaro9650
      */
     public Field(Integer x, Integer y, Integer maxobjectspercoord) {
         this.size = new TwoDimensionsSize(x, y);
@@ -37,6 +38,7 @@ public class Field {
      *
      * @param gameobject The object you want to delete
      * @throws Game_engine.ImpossibleLocationRemoveException
+     * @author alvaro9650
      */
     public void deleteGameObject(GameObject gameobject) throws ImpossibleLocationRemoveException {
         if (gameobject.arrayposition < this.gameobjects[gameobject.location.x][gameobject.location.y].length && gameobject.hashCode() == this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition].hashCode()) {
@@ -53,30 +55,31 @@ public class Field {
      * @throws Game_engine.ImpossibleLocationAddException
      * @throws Game_engine.ObjectCollidesException
      * @throws Game_engine.OutOfBoundsException
+     * @author alvaro9650
      */
     public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
         GameObject collider;
         if ((collider = this.collidesWith(gameobject)) != null) {
             switch (collider.physicalstatetype) {
-                    case Solid:
-                    case SolidWithHoles:
-                        switch (gameobject.physicalstatetype) {
-                            case SolidWithHoles:
-                            case Solid:
-                                throw new ObjectCollidesException();
-                        }
-                    case Liquid:
-                        switch (gameobject.physicalstatetype) {
-                            case Solid:
-                                throw new ObjectCollidesException();
-                        }
-                    case Gas:
-                        switch (gameobject.physicalstatetype) {
-                            case Solid:
-                            case Liquid:
-                                throw new ObjectCollidesException();
-                        }
-                }
+                case Solid:
+                case SolidWithHoles:
+                    switch (gameobject.physicalstatetype) {
+                        case SolidWithHoles:
+                        case Solid:
+                            throw new ObjectCollidesException();
+                    }
+                case Liquid:
+                    switch (gameobject.physicalstatetype) {
+                        case Solid:
+                            throw new ObjectCollidesException();
+                    }
+                case Gas:
+                    switch (gameobject.physicalstatetype) {
+                        case Solid:
+                        case Liquid:
+                            throw new ObjectCollidesException();
+                    }
+            }
         } else if (new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location)) {
             throw new OutOfBoundsException();
         }
@@ -98,6 +101,7 @@ public class Field {
      * @param coordinate The coordinate you want to know if has space
      * @return true if there is space to put an object in that Coordinate false
      * if not
+     * @author alvaro9650
      */
     public Boolean checkSpaceAvailable(Coordinate coordinate) {
         for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
@@ -115,9 +119,10 @@ public class Field {
      * @param coordinate Cordinate you want to know if can be relocated
      * @return Returns a boolean with true or false depending on if it's
      * possible to relocate the object there
+     * @author alvaro9650
      */
     public Boolean canRelocateGameObject(GameObject gameobject, Coordinate coordinate) {
-        if (!checkSpaceAvailable(coordinate) || new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(coordinate) ) {
+        if (!checkSpaceAvailable(coordinate) || new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(coordinate)) {
             return false;
         }
         return true;
@@ -130,10 +135,11 @@ public class Field {
      * collides with something
      * @return The object to collide with or null if it doesn't collide with
      * anything
+     * @author alvaro9650
      */
     public GameObject collidesWith(GameObject objectlookingforcollider) {
         for (GameObject object : this.gameobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
-            if (object != null && Objects.equals(object.height, objectlookingforcollider.height)&& !Objects.equals(object, objectlookingforcollider)) {
+            if (object != null && Objects.equals(object.height, objectlookingforcollider.height) && !Objects.equals(object, objectlookingforcollider)) {
                 return object;
             }
         }
@@ -145,6 +151,7 @@ public class Field {
      *
      * @param receiving_collision_object Object which this object collides to
      * @param giving_collision_object
+     * @author alvaro9650
      */
     public void processCollision(GameObject giving_collision_object, GameObject receiving_collision_object) {
         switch (receiving_collision_object.receivingcollision) {

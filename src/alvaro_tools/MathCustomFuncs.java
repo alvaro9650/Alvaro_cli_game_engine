@@ -8,7 +8,7 @@ package alvaro_tools;
 /**
  * Extra math funcs
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class MathCustomFuncs {
 
@@ -18,6 +18,7 @@ public class MathCustomFuncs {
      * @param min Minumum number
      * @param max Maximum number
      * @return Returns a random number between the max and the min
+     * @author alvaro9650
      */
     public static Double random(int min, int max) {
         return Math.random() * (max + 1 - min) + min;

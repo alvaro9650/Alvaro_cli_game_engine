@@ -9,7 +9,7 @@ package Game_engine;
  * The camera has a location and a resolution and it's located in a field , it
  * can draw frames
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Camera extends GameObject {
 
@@ -26,6 +26,7 @@ public class Camera extends GameObject {
      * located
      * @param resolutionx Horizontal resolution of the camera
      * @param resolutiony Vertical resolution of the camera
+     * @author alvaro9650
      */
     public Camera(Field field, Integer locationx, Integer locationy, Integer resolutionx, Integer resolutiony) {
         super(field);
@@ -36,6 +37,8 @@ public class Camera extends GameObject {
 
     /**
      * Updates the frame of this camera
+     *
+     * @author alvaro9650
      */
     public void updateFrame() {
         StringBuilder framecreator = new StringBuilder();
@@ -50,6 +53,8 @@ public class Camera extends GameObject {
 
     /**
      * Draws the frame of this camera
+     *
+     * @author alvaro9650
      */
     public void drawFrame() {
         System.out.println(this.frame);

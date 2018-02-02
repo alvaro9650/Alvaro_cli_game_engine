@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * Coordinate in 2d
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Coordinate {
 
@@ -20,11 +20,13 @@ public class Coordinate {
      *
      * @param x Coordinate in x dimension
      * @param y Coordinate in y dimension
+     * @author alvaro9650
      */
     public Coordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }
+
     public Coordinate(Coordinate coord) {
         this.x = coord.x;
         this.y = coord.y;

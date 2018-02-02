@@ -7,7 +7,7 @@ package Game_engine;
 
 /**
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class RectangularArea {
 
@@ -21,6 +21,7 @@ public class RectangularArea {
      * @param maxy Maximum y coordinate
      * @param minx Minimum x coordinate
      * @param miny Minimum y coordinate
+     * @author alvaro9650
      */
     public RectangularArea(Integer maxx, Integer minx, Integer maxy, Integer miny) {
         if (maxx >= minx && maxy >= miny) {
@@ -45,6 +46,7 @@ public class RectangularArea {
      *
      * @param maxcoord Maximum coordinate
      * @param mincoord Minimum coordinate
+     * @author alvaro9650
      */
     public RectangularArea(Coordinate maxcoord, Coordinate mincoord) {
         if (maxcoord.x >= mincoord.x && maxcoord.y >= mincoord.y) {
@@ -67,6 +69,7 @@ public class RectangularArea {
      *
      * @param extarea Other area
      * @return The area that those 2 areas have in common
+     * @author alvaro9650
      */
     public RectangularArea getCommonArea(RectangularArea extarea) {
         Coordinate commonmin = new Coordinate(0, 0);
@@ -96,8 +99,10 @@ public class RectangularArea {
 
     /**
      * Checks if a coordinate is inside the area
+     *
      * @param coord the coordinate you want to check if it's in the area
      * @return true if the coordinate is in the area
+     * @author alvaro9650
      */
     public Boolean isInside(Coordinate coord) {
         return coord.x <= this.maxcoord.x && coord.y <= this.maxcoord.y && coord.x >= this.maxcoord.x && coord.y >= this.mincoord.y;

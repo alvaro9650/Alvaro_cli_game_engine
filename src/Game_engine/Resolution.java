@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * A resolution has a horizontal resolution and vertical resolution
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Resolution {
 
@@ -20,6 +20,7 @@ public class Resolution {
      *
      * @param x Horizontal resolution
      * @param y Vertical resolution
+     * @author alvaro9650
      */
     public Resolution(Integer x, Integer y) {
         this.x = x;

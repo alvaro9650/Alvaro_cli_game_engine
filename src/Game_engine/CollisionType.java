@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * Collision aggainst other objects
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public enum CollisionType {
     Ghost(1), Bounce(2), WormHole(3), Imparable(4), Unmoveable(5), Respawnable(6), Destroyable(7), Farest(8);
@@ -18,6 +18,7 @@ public enum CollisionType {
      * Constructor for CollisionType
      *
      * @param CollisionType An int that identifies CollisionType
+     * @author alvaro9650
      */
     private CollisionType(int collisiontype) {
         this.collisiontype = collisiontype;
@@ -27,6 +28,7 @@ public enum CollisionType {
      * Getter for CollisionType
      *
      * @return Return an int that represents CollisionType
+     * @author alvaro9650
      */
     public int getCollisionType() {
         return this.collisiontype;

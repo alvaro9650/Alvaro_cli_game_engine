@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 /**
  * Ball for the object example game
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Ball extends GameObject {
 
@@ -28,6 +28,7 @@ public class Ball extends GameObject {
      * Constructor for Ball
      *
      * @param field Field where the ball is located
+     * @author alvaro9650
      */
     public Ball(Field field) {
         super(field);

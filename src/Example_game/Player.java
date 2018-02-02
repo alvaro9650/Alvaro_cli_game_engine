@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * A player for the example game
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class Player extends GameObject {
 
@@ -34,6 +34,7 @@ public class Player extends GameObject {
      *
      * @param character the character that represents the player
      * @param field The field where the player is located
+     * @author alvaro9650
      */
     public Player(char character, Field field) {
         super(field);
@@ -67,6 +68,7 @@ public class Player extends GameObject {
      * @param location Location you want to move to
      * @throws Game_engine.ImpossibleLocationRemoveException
      * @throws Game_engine.ImpossibleLocationAddException
+     * @author alvaro9650
      */
     @Override
     public void moveTo(Coordinate location) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
@@ -88,6 +90,8 @@ public class Player extends GameObject {
 
     /**
      * Logs the object data
+     *
+     * @author alvaro9650
      */
     @Override
     public void log() {

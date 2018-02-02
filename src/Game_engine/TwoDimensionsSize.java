@@ -7,7 +7,7 @@ package Game_engine;
 
 /**
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class TwoDimensionsSize {
 
@@ -19,6 +19,7 @@ public class TwoDimensionsSize {
      *
      * @param x X size
      * @param y Y size
+     * @author alvaro9650
      */
     public TwoDimensionsSize(Integer x, Integer y) {
         this.x = x;
