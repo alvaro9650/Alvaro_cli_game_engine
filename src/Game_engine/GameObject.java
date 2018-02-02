@@ -285,12 +285,23 @@ public class GameObject implements Closeable {
      */
     public void updateLocation() {
         Coordinate originallocation = new Coordinate(this.location);
+        this.movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+        this.remainingspeed = new Speed(this.speed.x, this.speed.y);
         try {
             this.playingfield.deleteGameObject(this);
         } catch (ImpossibleLocationRemoveException ex) {
             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
         }
         switch (this.movetype) {
+            case None:
+                try {
+                    this.playingfield.addGameObject(this);
+                } catch (ImpossibleLocationAddException | OutOfBoundsException ex) {
+                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ObjectCollidesException ex) {
+                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                }
+                break;
             case Teleport:
                 this.location.x += this.speed.x;
                 this.location.y += this.speed.y;
@@ -305,207 +316,193 @@ public class GameObject implements Closeable {
                     this.processOutOfBounds(originallocation);
                 }
                 break;
-            case None:
+            case HorizontalFirst:
+                this.movedirection.x = 1;
+                for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleLocationAddException ex) {
+                        this.movingspeed.y *= -1;
+                        this.remainingspeed.y *= -1;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ObjectCollidesException ex) {
+                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                    } catch (OutOfBoundsException ex) {
+                        this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                    }
+                }
+                this.movedirection.x = 0;
+                this.movedirection.y = 1;
+                for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleLocationAddException ex) {
+                        this.movingspeed.y *= -1;
+                        this.remainingspeed.y *= -1;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ObjectCollidesException ex) {
+                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                    } catch (OutOfBoundsException ex) {
+                        this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
+                    }
+                }
+                this.movedirection.y = 0;
+            case VerticalFirst:
+                this.movedirection.y = 1;
+                for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleLocationAddException ex) {
+                        this.movingspeed.y *= -1;
+                        this.remainingspeed.y *= -1;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ObjectCollidesException ex) {
+                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                    } catch (OutOfBoundsException ex) {
+                        this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
+                    }
+                }
+                this.movedirection.y = 0;
+                this.movedirection.x = 1;
+                for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleLocationAddException ex) {
+                        this.movingspeed.y *= -1;
+                        this.remainingspeed.y *= -1;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ObjectCollidesException ex) {
+                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                    } catch (OutOfBoundsException ex) {
+                        this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                    }
+                }
+                this.movedirection.x = 0;
                 try {
                     this.playingfield.addGameObject(this);
-                } catch (ImpossibleLocationAddException | OutOfBoundsException ex) {
+                } catch (ImpossibleRelocationException ex) {
+                    this.location = originallocation;
                     Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ObjectCollidesException ex) {
-                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                 }
-                break;
-            default:
-                this.movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                this.remainingspeed = new Speed(this.speed.x, this.speed.y);
-                switch (this.movetype) {
-                    case HorizontalFirst:
-                        this.movedirection.x = 1;
-                        for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleLocationAddException ex) {
-                                this.movingspeed.y *= -1;
-                                this.remainingspeed.y *= -1;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ObjectCollidesException ex) {
-                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                            } catch (OutOfBoundsException ex) {
-                                this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                            }
-                        }
-                        this.movedirection.x = 0;
-                        this.movedirection.y = 1;
-                        for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleLocationAddException ex) {
-                                this.movingspeed.y *= -1;
-                                this.remainingspeed.y *= -1;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ObjectCollidesException ex) {
-                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                            } catch (OutOfBoundsException ex) {
-                                this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
-                            }
-                        }
-                        this.movedirection.y = 0;
-                    case VerticalFirst:
-                        this.movedirection.y = 1;
-                        for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleLocationAddException ex) {
-                                this.movingspeed.y *= -1;
-                                this.remainingspeed.y *= -1;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ObjectCollidesException ex) {
-                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                            } catch (OutOfBoundsException ex) {
-                                this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
-                            }
-                        }
-                        this.movedirection.y = 0;
-                        this.movedirection.x = 1;
-                        for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleLocationAddException ex) {
-                                this.movingspeed.y *= -1;
-                                this.remainingspeed.y *= -1;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ObjectCollidesException ex) {
-                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                            } catch (OutOfBoundsException ex) {
-                                this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                            }
-                        }
-                        this.movedirection.x = 0;
+            case Diagonal:
+                if (this.speed.x != 0 && this.speed.y != 0 && this.movingspeed.x >= this.movingspeed.y) {
+                    Integer times = Math.abs(this.speed.x / this.speed.y);
+                    for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
+                        this.movedirection.y = this.movingspeed.y;
                         try {
                             this.playingfield.addGameObject(this);
-                        } catch (ImpossibleRelocationException ex) {
-                            this.location = originallocation;
+                        } catch (ImpossibleLocationAddException ex) {
                             Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ObjectCollidesException ex) {
+                            this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                        } catch (OutOfBoundsException ex) {
+                            this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
                         }
-                    case Diagonal:
-                        if (this.speed.x != 0 && this.speed.y != 0 && this.movingspeed.x >= this.movingspeed.y) {
-                            Integer times = Math.abs(this.speed.x / this.speed.y);
-                            for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
-                                this.movedirection.y = this.movingspeed.y;
-                                try {
-                                    this.playingfield.addGameObject(this);
-                                } catch (ImpossibleLocationAddException ex) {
-                                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ObjectCollidesException ex) {
-                                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                } catch (OutOfBoundsException ex) {
-                                    this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                }
-                                this.movedirection.y = 0;
-                                this.movedirection.x = this.movingspeed.x;
-                                for (Integer i = 0; i < times; i++, this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
-                                    try {
-                                        this.playingfield.addGameObject(this);
-                                    } catch (ImpossibleLocationAddException ex) {
-                                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (ObjectCollidesException ex) {
-                                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                    } catch (OutOfBoundsException ex) {
-                                        this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                    }
-                                }
-                                this.movedirection.x = 0;
-                            }
-                            this.movedirection.y = 0;
-                            for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
-                                this.movedirection.x = this.movingspeed.y;
-                                try {
-                                    this.playingfield.addGameObject(this);
-                                } catch (ImpossibleLocationAddException ex) {
-                                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ObjectCollidesException ex) {
-                                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                } catch (OutOfBoundsException ex) {
-                                    this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                }
-                            }
-                            this.movedirection.x = 0;
+                        this.movedirection.y = 0;
+                        this.movedirection.x = this.movingspeed.x;
+                        for (Integer i = 0; i < times; i++, this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
                             try {
                                 this.playingfield.addGameObject(this);
-                            } catch (ImpossibleRelocationException ex) {
-                                this.location = originallocation;
+                            } catch (ImpossibleLocationAddException ex) {
                                 Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else if (this.speed.x != 0 && this.speed.y != 0 && this.movingspeed.y >= this.movingspeed.x) {
-                            Integer times = Math.abs(this.speed.y / this.speed.x);
-                            for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
-                                this.movedirection.x = this.movingspeed.x;
-                                try {
-                                    this.playingfield.addGameObject(this);
-                                } catch (ImpossibleLocationAddException ex) {
-                                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ObjectCollidesException ex) {
-                                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                } catch (OutOfBoundsException ex) {
-                                    this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                }
-                                this.movedirection.x = 0;
-                                for (Integer i = 0; i < times; i++, this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
-                                    this.movedirection.y = this.movingspeed.y;
-                                    try {
-                                        this.playingfield.addGameObject(this);
-                                    } catch (ImpossibleLocationAddException ex) {
-                                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (ObjectCollidesException ex) {
-                                        this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                    } catch (OutOfBoundsException ex) {
-                                        this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                    }
-                                }
-                                this.movedirection.y = 0;
-                            }
-                            this.movedirection.x = 0;
-                            for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
-                                this.movedirection.y = this.movingspeed.y;
-                                try {
-                                    this.playingfield.addGameObject(this);
-                                } catch (ImpossibleLocationAddException ex) {
-                                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ObjectCollidesException ex) {
-                                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                } catch (OutOfBoundsException ex) {
-                                    this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                }
-                            }
-                            this.movedirection.y = 0;
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleRelocationException ex) {
-                                this.location = originallocation;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            for (; this.remainingspeed.y != 0 || this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.location.y += this.movingspeed.y, this.remainingspeed.x -= this.movingspeed.x, this.remainingspeed.y -= this.movingspeed.y) {
-                                this.movedirection.x = this.movingspeed.x;
-                                this.movedirection.y = this.movingspeed.y;
-                                try {
-                                    this.playingfield.addGameObject(this);
-                                } catch (ImpossibleLocationAddException ex) {
-                                    Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (ObjectCollidesException ex) {
-                                    this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
-                                } catch (OutOfBoundsException ex) {
-                                    this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
-                                }
-                            }
-                            this.movedirection.x = 0;
-                            this.movedirection.y = 0;
-                            try {
-                                this.playingfield.addGameObject(this);
-                            } catch (ImpossibleRelocationException ex) {
-                                this.location = originallocation;
-                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ObjectCollidesException ex) {
+                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                            } catch (OutOfBoundsException ex) {
+                                this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
                             }
                         }
+                        this.movedirection.x = 0;
+                    }
+                    this.movedirection.y = 0;
+                    for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
+                        this.movedirection.x = this.movingspeed.y;
+                        try {
+                            this.playingfield.addGameObject(this);
+                        } catch (ImpossibleLocationAddException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ObjectCollidesException ex) {
+                            this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                        } catch (OutOfBoundsException ex) {
+                            this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        }
+                    }
+                    this.movedirection.x = 0;
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleRelocationException ex) {
+                        this.location = originallocation;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else if (this.speed.x != 0 && this.speed.y != 0 && this.movingspeed.y >= this.movingspeed.x) {
+                    Integer times = Math.abs(this.speed.y / this.speed.x);
+                    for (; this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.remainingspeed.x -= this.movingspeed.x) {
+                        this.movedirection.x = this.movingspeed.x;
+                        try {
+                            this.playingfield.addGameObject(this);
+                        } catch (ImpossibleLocationAddException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ObjectCollidesException ex) {
+                            this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                        } catch (OutOfBoundsException ex) {
+                            this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        }
+                        this.movedirection.x = 0;
+                        for (Integer i = 0; i < times; i++, this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
+                            this.movedirection.y = this.movingspeed.y;
+                            try {
+                                this.playingfield.addGameObject(this);
+                            } catch (ImpossibleLocationAddException ex) {
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ObjectCollidesException ex) {
+                                this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                            } catch (OutOfBoundsException ex) {
+                                this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                            }
+                        }
+                        this.movedirection.y = 0;
+                    }
+                    this.movedirection.x = 0;
+                    for (; this.remainingspeed.y != 0; this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
+                        this.movedirection.y = this.movingspeed.y;
+                        try {
+                            this.playingfield.addGameObject(this);
+                        } catch (ImpossibleLocationAddException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ObjectCollidesException ex) {
+                            this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                        } catch (OutOfBoundsException ex) {
+                            this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        }
+                    }
+                    this.movedirection.y = 0;
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleRelocationException ex) {
+                        this.location = originallocation;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    for (; this.remainingspeed.y != 0 || this.remainingspeed.x != 0; this.location.x += this.movingspeed.x, this.location.y += this.movingspeed.y, this.remainingspeed.x -= this.movingspeed.x, this.remainingspeed.y -= this.movingspeed.y) {
+                        this.movedirection.x = this.movingspeed.x;
+                        this.movedirection.y = this.movingspeed.y;
+                        try {
+                            this.playingfield.addGameObject(this);
+                        } catch (ImpossibleLocationAddException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ObjectCollidesException ex) {
+                            this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                        } catch (OutOfBoundsException ex) {
+                            this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        }
+                    }
+                    this.movedirection.x = 0;
+                    this.movedirection.y = 0;
+                    try {
+                        this.playingfield.addGameObject(this);
+                    } catch (ImpossibleRelocationException ex) {
+                        this.location = originallocation;
+                        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
         }
     }
