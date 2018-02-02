@@ -237,8 +237,7 @@ public class Field {
                     }
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.y = 0;
+                        giving_collision_object.stop();
                         break;
                 }
             case WormHole:
@@ -307,8 +306,7 @@ public class Field {
                     }
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.x = 0;
+                        giving_collision_object.stop();
                         break;
                 }
                 break;
@@ -340,8 +338,7 @@ public class Field {
                     }
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.x = 0;
+                        giving_collision_object.stop();
                         break;
                 }
                 break;
@@ -379,8 +376,7 @@ public class Field {
                     receiving_collision_object.respawn();
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.y = 0;
+                        giving_collision_object.stop();
                         receiving_collision_object.respawn();
                         break;
                 }
@@ -451,8 +447,7 @@ public class Field {
                     }
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.y = 0;
+                        giving_collision_object.stop();
                          {
                             try {
                                 receiving_collision_object.close();
@@ -494,8 +489,7 @@ public class Field {
                     }
                     break;
                     case Farest:
-                        giving_collision_object.speed.x = 0;
-                        giving_collision_object.speed.y = 0;
+                        giving_collision_object.stop();
                         break;
                 }
         }
