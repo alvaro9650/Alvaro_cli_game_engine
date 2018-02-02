@@ -9,6 +9,7 @@ import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
+import Game_engine.MoveType;
 import Game_engine.ObjectCollidesException;
 import Game_engine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
@@ -37,6 +38,7 @@ public class Ball extends GameObject {
         this.height = 1;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
+        this.movetype = MoveType.Teleport;
         do {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
