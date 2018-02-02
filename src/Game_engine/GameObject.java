@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * Object to use in the game
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public class GameObject implements Closeable {
 
@@ -41,6 +41,7 @@ public class GameObject implements Closeable {
      * Creates a basic game object , should be overriden
      *
      * @param field The field where the object is located
+     * @author alvaro9650
      */
     public GameObject(Field field) {
         this.character = '|';
@@ -63,6 +64,7 @@ public class GameObject implements Closeable {
      *
      * @param x x coordinate
      * @param y y coordinate
+     * @author alvaro9650
      */
     public void setRespawnPoint(Integer x, Integer y) {
         this.respawnarea = new RectangularArea(x, x, y, y);
@@ -75,6 +77,7 @@ public class GameObject implements Closeable {
      * @param minx Minumum x location of the area
      * @param maxy Maximum y location of the area
      * @param miny Minumum y location of the area
+     * @author alvaro9650
      */
     public void setRespawnArea(Integer maxx, Integer minx, Integer maxy, Integer miny) {
         this.respawnarea = new RectangularArea(maxx, minx, maxy, miny);
@@ -82,6 +85,8 @@ public class GameObject implements Closeable {
 
     /**
      * Logs the data in the object acording to LogLevel
+     *
+     * @author alvaro9650
      */
     public void log() {
         StringBuilder objectlog = new StringBuilder();
@@ -146,6 +151,7 @@ public class GameObject implements Closeable {
      * @throws ImpossibleLocationAddException
      * @throws Game_engine.ObjectCollidesException
      * @throws Game_engine.OutOfBoundsException
+     * @author alvaro9650
      */
     public void moveTo(Coordinate coord) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
         this.playingfield.deleteGameObject(this);
@@ -158,6 +164,7 @@ public class GameObject implements Closeable {
      * Process object move when it goes out of bounds
      *
      * @param previouslocation The previous location of the object
+     * @author alvaro9650
      */
     public void processOutOfBounds(Coordinate previouslocation) {
         switch (this.outofboundsmovetype) {
@@ -224,7 +231,19 @@ public class GameObject implements Closeable {
     }
 
     /**
+     * Stops the object
+     *
+     * @author alvaro9650
+     */
+    public void stop() {
+        this.speed.x = 0;
+        this.speed.y = 0;
+    }
+
+    /**
      * Updates location in the object and the field
+     *
+     * @author alvaro9650
      */
     public void updateLocation() {
         Coordinate originallocation = new Coordinate(this.location);
@@ -457,6 +476,7 @@ public class GameObject implements Closeable {
      * Checks if it will bounce when it moves
      *
      * @return A boolean containing the result
+     * @author alvaro9650
      */
     public Boolean willBounceAgainstBounds() {
         Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
@@ -578,6 +598,8 @@ public class GameObject implements Closeable {
 
     /**
      * Respawns the object
+     *
+     * @author alvaro9650
      */
     public void respawn() {
         Coordinate originallocation = this.location;
@@ -601,6 +623,7 @@ public class GameObject implements Closeable {
      * Checks if it will respawn when it moves
      *
      * @return A boolean containing the result
+     * @author alvaro9650
      */
     public Boolean willRespawn() {
         Coordinate destinylocation = new Coordinate(this.location.x, this.location.y);
