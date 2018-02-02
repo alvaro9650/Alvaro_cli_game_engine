@@ -11,6 +11,7 @@ import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
 import Game_engine.LogLevel;
+import Game_engine.MoveType;
 import Game_engine.ObjectCollidesException;
 import Game_engine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
@@ -45,6 +46,7 @@ public class Player extends GameObject {
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.move_points = 10;
         this.points = 0;
+        this.movetype = MoveType.Teleport;
         this.loglevel = LogLevel.Verbose;
         do {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
