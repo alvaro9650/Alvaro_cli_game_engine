@@ -105,6 +105,6 @@ public class RectangularArea {
      * @author alvaro9650
      */
     public Boolean isInside(Coordinate coord) {
-        return coord.x <= this.maxcoord.x && coord.y <= this.maxcoord.y && coord.x >= this.maxcoord.x && coord.y >= this.mincoord.y;
+        return coord.x <= this.maxcoord.x && coord.y <= this.maxcoord.y && coord.x >= this.mincoord.x && coord.y >= this.mincoord.y;
     }
 }
