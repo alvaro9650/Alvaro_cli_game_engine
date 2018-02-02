@@ -11,6 +11,7 @@ import Game_engine.GameEngine;
 import Game_engine.GameObject;
 import Game_engine.ImpossibleLocationAddException;
 import Game_engine.ImpossibleLocationRemoveException;
+import Game_engine.Speed;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -42,7 +43,7 @@ public class ExampleGame {
                 System.out.append(player.character);
                 System.out.println(" input your move coordinates");
                 try {
-                    player.moveTo(new Coordinate(input.nextInt(), input.nextInt()));
+                    player.move(new Speed(input.nextInt(), input.nextInt()));
                     input.nextLine();
                 } catch (InputMismatchException e) {
                     System.out.println("Thats not a coordinate , you loose your turn");

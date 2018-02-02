@@ -40,7 +40,7 @@ public class Player extends GameObject {
         super(field);
         this.objecttype = "Player";
         this.speed = new Speed(0, 0);
-        this.height = 2;
+        this.height = 1;
         this.character = character;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.move_points = 10;
@@ -65,25 +65,20 @@ public class Player extends GameObject {
     /**
      * Moves the player and calculates move points
      *
-     * @param location Location you want to move to
+     * @param speed The speed for this turn
      * @throws Game_engine.ImpossibleLocationRemoveException
      * @throws Game_engine.ImpossibleLocationAddException
      * @author alvaro9650
      */
-    @Override
-    public void moveTo(Coordinate location) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
+    public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
         this.move_points += (location.x < 0) ? location.x : -location.x;
         this.move_points += (location.y < 0) ? location.y : -location.y;
         if (this.move_points < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
         } else {
-            try {
-                super.moveTo(location);
-            } catch (ObjectCollidesException ex) {
-                System.out.println("ball collide");
-            } catch (OutOfBoundsException ex) {
-                System.out.println("ball out of bounds");
-            }
+            this.speed = speed;
+            this.updateLocation();
+            this.stop();
             this.move_points += 10;
         }
     }
