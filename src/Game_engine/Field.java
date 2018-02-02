@@ -59,7 +59,9 @@ public class Field {
      */
     public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
         GameObject collider;
-        if ((collider = this.collidesWith(gameobject)) != null) {
+        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
+            throw new OutOfBoundsException();
+        } else if ((collider = this.collidesWith(gameobject)) != null) {
             switch (collider.physicalstatetype) {
                 case Solid:
                 case SolidWithHoles:
@@ -80,8 +82,6 @@ public class Field {
                             throw new ObjectCollidesException();
                     }
             }
-        } else if (new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location)) {
-            throw new OutOfBoundsException();
         }
         Integer i = 0;
         while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
