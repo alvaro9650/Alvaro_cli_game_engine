@@ -5,7 +5,6 @@
  */
 package Example_game;
 
-import Game_engine.Coordinate;
 import Game_engine.Field;
 import Game_engine.GameEngine;
 import Game_engine.GameObject;
