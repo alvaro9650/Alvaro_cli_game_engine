@@ -43,7 +43,7 @@ public class Player extends GameObject {
         this.speed = new Speed(0, 0);
         this.height = 1;
         this.character = character;
-        this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
+        this.outofboundsmovetype = OutOfBoundsMoveType.Farest;
         this.move_points = 10;
         this.points = 0;
         this.movetype = MoveType.Teleport;
