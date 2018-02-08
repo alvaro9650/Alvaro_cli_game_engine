@@ -72,7 +72,7 @@ public class Player extends GameObject {
      * @throws GameEngine.ImpossibleLocationAddException
      * @author alvaro9650
      */
-    public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {
+    public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException, PlayerHasWonException {
         this.move_points -= Math.abs(speed.x);
         this.move_points -= Math.abs(speed.y);
         if (this.move_points < 0) {
@@ -80,6 +80,9 @@ public class Player extends GameObject {
         } else {
             this.speed = speed;
             this.updateLocation();
+            if (this.points > 5) {
+                throw new PlayerHasWonException(String.valueOf(this.character));
+            }
             this.stop();
             this.move_points += 10;
         }
@@ -107,14 +110,16 @@ public class Player extends GameObject {
                 break;
         }
     }
+
     /**
      * Adds a point to the player
      *
      * @author alvaro9650
      */
-    public void addPoint(){
+    public void addPoint() {
         this.points += 1;
     }
+
     @Override
     public void log() {
         super.log();

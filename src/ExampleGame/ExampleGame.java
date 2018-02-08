@@ -13,6 +13,8 @@ import GameEngine.ImpossibleLocationRemoveException;
 import GameEngine.Speed;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -49,18 +51,13 @@ public class ExampleGame {
                     System.out.println("You can't move away from here");
                 } catch (ImpossibleLocationAddException ex) {
                     System.out.println("You can't move there");
+                } catch (PlayerHasWonException ex) {
+                    System.out.println(ex.getMessage());
+                    break game;
                 }
                 game_engine.DrawFrame(field);
             }
             showScore(players);
-            for (Player player : players) {
-                if (player.points >= 5) {
-                    System.out.append("Player ");
-                    System.out.append(player.character);
-                    System.out.println(" has won the match");
-                    break game;
-                }
-            }
         }
     }
 
