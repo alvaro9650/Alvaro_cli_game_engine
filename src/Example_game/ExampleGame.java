@@ -51,7 +51,6 @@ public class ExampleGame {
                     System.out.println("You can't move there");
                 }
             }
-            addPoints(field, players);
             showScore(players);
             for (Player player : players) {
                 if (player.points >= 5) {
@@ -74,13 +73,4 @@ public class ExampleGame {
         }
     }
 
-    public static void addPoints(Field field, Player[] players) {
-        for (Player player : players) {
-            for (GameObject game_object : field.gameobjects[player.location.x][player.location.y]) {
-                if (game_object != null && "Ball".equals(game_object.objecttype)) {
-                    player.points += 1;
-                }
-            }
-        }
-    }
 }
