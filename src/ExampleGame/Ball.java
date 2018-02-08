@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Example_game;
+package ExampleGame;
 
-import Game_engine.Coordinate;
-import Game_engine.Field;
-import Game_engine.GameObject;
-import Game_engine.ImpossibleLocationAddException;
-import Game_engine.MoveType;
-import Game_engine.ObjectCollidesException;
-import Game_engine.OutOfBoundsException;
+import GameEngine.Coordinate;
+import GameEngine.Field;
+import GameEngine.GameObject;
+import GameEngine.ImpossibleLocationAddException;
+import GameEngine.MoveType;
+import GameEngine.ObjectCollidesException;
+import GameEngine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
-import Game_engine.OutOfBoundsMoveType;
-import Game_engine.Speed;
+import GameEngine.OutOfBoundsMoveType;
+import GameEngine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

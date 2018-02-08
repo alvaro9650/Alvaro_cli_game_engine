@@ -3,26 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package GameEngine;
 
 /**
- * A resolution has a horizontal resolution and vertical resolution
  *
  * @author alvaro9650
  */
-public class Resolution {
+public class TwoDimensionsSize {
 
-    Integer x;
-    Integer y;
+    public Integer x;
+    public Integer y;
 
     /**
-     * Creates a resolution
+     * Creates an object to save a 2D size
      *
-     * @param x Horizontal resolution
-     * @param y Vertical resolution
+     * @param x X size
+     * @param y Y size
      * @author alvaro9650
      */
-    public Resolution(Integer x, Integer y) {
+    public TwoDimensionsSize(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }

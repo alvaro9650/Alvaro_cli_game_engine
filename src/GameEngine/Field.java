@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package GameEngine;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,7 +37,7 @@ public class Field {
      * Remove an object from a location in the field
      *
      * @param gameobject The object you want to delete
-     * @throws Game_engine.ImpossibleLocationRemoveException
+     * @throws GameEngine.ImpossibleLocationRemoveException
      * @author alvaro9650
      */
     public void deleteGameObject(GameObject gameobject) throws ImpossibleLocationRemoveException {
@@ -52,9 +52,9 @@ public class Field {
      * Add an object to a location in the field
      *
      * @param gameobject The object you want to add
-     * @throws Game_engine.ImpossibleLocationAddException
-     * @throws Game_engine.ObjectCollidesException
-     * @throws Game_engine.OutOfBoundsException
+     * @throws GameEngine.ImpossibleLocationAddException
+     * @throws GameEngine.ObjectCollidesException
+     * @throws GameEngine.OutOfBoundsException
      * @author alvaro9650
      */
     public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {

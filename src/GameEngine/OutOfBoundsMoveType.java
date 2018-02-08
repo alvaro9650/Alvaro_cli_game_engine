@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package GameEngine;
 
 /**
  * Move types to use when it's going out of bounds

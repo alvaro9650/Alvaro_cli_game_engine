@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package GameEngine;
 
 /**
  *
  * @author alvaro9650
  */
-public class ObjectCollidesException extends ImpossibleRelocationException {
+public class ImpossibleRelocationException extends Exception {
 
-    public ObjectCollidesException() {
+    public ImpossibleRelocationException() {
         super();
     }
 
-    public ObjectCollidesException(String exceptiontext) {
-        super(exceptiontext);
+    public ImpossibleRelocationException(String exception_text) {
+        super(exception_text);
     }
 }

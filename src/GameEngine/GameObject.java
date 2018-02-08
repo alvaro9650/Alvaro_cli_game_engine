@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Game_engine;
+package GameEngine;
 
 import alvaro_tools.MathCustomFuncs;
 import java.io.Closeable;
@@ -187,8 +187,8 @@ public class GameObject implements Closeable {
      * @param coord The coordinate you want to move this object to
      * @throws ImpossibleLocationRemoveException
      * @throws ImpossibleLocationAddException
-     * @throws Game_engine.ObjectCollidesException
-     * @throws Game_engine.OutOfBoundsException
+     * @throws GameEngine.ObjectCollidesException
+     * @throws GameEngine.OutOfBoundsException
      * @author alvaro9650
      */
     public void moveTo(Coordinate coord) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {

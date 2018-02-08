@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Example_game;
+package ExampleGame;
 
-import Game_engine.Coordinate;
-import Game_engine.Field;
-import Game_engine.GameObject;
-import Game_engine.ImpossibleLocationAddException;
-import Game_engine.ImpossibleLocationRemoveException;
-import Game_engine.LogLevel;
-import Game_engine.MoveType;
-import Game_engine.ObjectCollidesException;
-import Game_engine.OutOfBoundsException;
+import GameEngine.Coordinate;
+import GameEngine.Field;
+import GameEngine.GameObject;
+import GameEngine.ImpossibleLocationAddException;
+import GameEngine.ImpossibleLocationRemoveException;
+import GameEngine.LogLevel;
+import GameEngine.MoveType;
+import GameEngine.ObjectCollidesException;
+import GameEngine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
-import Game_engine.OutOfBoundsMoveType;
-import Game_engine.Speed;
+import GameEngine.OutOfBoundsMoveType;
+import GameEngine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,8 +68,8 @@ public class Player extends GameObject {
      * Moves the player and calculates move points
      *
      * @param speed The speed for this turn
-     * @throws Game_engine.ImpossibleLocationRemoveException
-     * @throws Game_engine.ImpossibleLocationAddException
+     * @throws GameEngine.ImpossibleLocationRemoveException
+     * @throws GameEngine.ImpossibleLocationAddException
      * @author alvaro9650
      */
     public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException {

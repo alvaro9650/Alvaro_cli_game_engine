@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Example_game;
+package ExampleGame;
 
-import Game_engine.Field;
-import Game_engine.GameEngine;
-import Game_engine.GameObject;
-import Game_engine.ImpossibleLocationAddException;
-import Game_engine.ImpossibleLocationRemoveException;
-import Game_engine.Speed;
+import GameEngine.Field;
+import GameEngine.GameEngine;
+import GameEngine.GameObject;
+import GameEngine.ImpossibleLocationAddException;
+import GameEngine.ImpossibleLocationRemoveException;
+import GameEngine.Speed;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
