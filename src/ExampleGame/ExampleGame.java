@@ -34,14 +34,15 @@ public class ExampleGame {
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
+        StringBuilder inputmvmsg = new StringBuilder();
+        inputmvmsg.append("Player   input your move coordinates");
         game:
         while (true) {
             game_engine.updateLocations(field);
             game_engine.DrawFrame(field);
             for (Player player : players) {
-                System.out.append("Player ");
-                System.out.append(player.character);
-                System.out.println(" input your move coordinates");
+                inputmvmsg.replace(7, 8, String.valueOf(player.character));
+                System.out.println(inputmvmsg.toString());
                 try {
                     player.move(new Speed(input.nextInt(), input.nextInt()));
                     input.nextLine();
