@@ -31,4 +31,16 @@ public class Coordinate {
         this.x = coord.x;
         this.y = coord.y;
     }
+
+    /**
+     * Returns a string containing the coordinates
+     *
+     * @author alvaro9650
+     * @return The string containing the coordinates
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Coordinate x = , y =  ").insert(15, this.x).insert(23, this.y).toString();
+    }
+
 }
