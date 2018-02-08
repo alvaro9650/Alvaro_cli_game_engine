@@ -86,10 +86,28 @@ public class Player extends GameObject {
     }
 
     /**
-     * Logs the object data
+     * Function to add custom actions when colliding against a determined object
+     * or object type
      *
+     * @param collisionreceiver The object that receives the collision
      * @author alvaro9650
      */
+    @Override
+    public void giveCollision(GameObject collisionreceiver) {
+        super.giveCollision(collisionreceiver);
+        switch (collisionreceiver.objectidentifier) {
+            default:
+                break;
+        }
+        switch (collisionreceiver.objecttype) {
+            case "Ball":
+                this.points += 1;
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     public void log() {
         super.log();
