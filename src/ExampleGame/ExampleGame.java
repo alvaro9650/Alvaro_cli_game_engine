@@ -34,8 +34,7 @@ public class ExampleGame {
         Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
-        StringBuilder inputmvmsg = new StringBuilder();
-        inputmvmsg.append("Player   input your move coordinates");
+        StringBuilder inputmvmsg = new StringBuilder("Player   input your move coordinates");
         game:
         while (true) {
             game_engine.updateLocations(field);
