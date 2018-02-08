@@ -8,7 +8,7 @@ package Game_engine;
 /**
  * Move types to use when it's going out of bounds
  *
- * @author alumno1718_2
+ * @author alvaro9650
  */
 public enum OutOfBoundsMoveType {
     Bounceable(1), Respawnable(2), Impossible(3), Destroyable(4), Possible(5), Farest(6), CircularUniverse(7);
@@ -18,6 +18,7 @@ public enum OutOfBoundsMoveType {
      * Constructor for OutOfBoundsMoveType
      *
      * @param outofboundsmovetype An int that identifies the type
+     * @author alvaro9650
      */
     private OutOfBoundsMoveType(int outofboundsmovetype) {
         this.outofboundsmovetype = outofboundsmovetype;
@@ -27,6 +28,7 @@ public enum OutOfBoundsMoveType {
      * Getter for OutOfBoundsMoveType
      *
      * @return Returns an int that identifies the type
+     * @author alvaro9650
      */
     public int getOutOfBoundsMoveType() {
         return this.outofboundsmovetype;
