@@ -101,13 +101,20 @@ public class Player extends GameObject {
         }
         switch (collisionreceiver.objecttype) {
             case "Ball":
-                this.points += 1;
+                this.addPoint();
                 break;
             default:
                 break;
         }
     }
-
+    /**
+     * Adds a point to the player
+     *
+     * @author alvaro9650
+     */
+    public void addPoint(){
+        this.points += 1;
+    }
     @Override
     public void log() {
         super.log();
