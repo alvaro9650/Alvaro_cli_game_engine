@@ -34,8 +34,8 @@ public class ExampleGame {
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
         game:
         while (true) {
-            game_engine.DrawFrame(field);
             game_engine.updateLocations(field);
+            game_engine.DrawFrame(field);
             for (Player player : players) {
                 System.out.append("Player ");
                 System.out.append(player.character);
@@ -50,6 +50,7 @@ public class ExampleGame {
                 } catch (ImpossibleLocationAddException ex) {
                     System.out.println("You can't move there");
                 }
+                game_engine.DrawFrame(field);
             }
             showScore(players);
             for (Player player : players) {
