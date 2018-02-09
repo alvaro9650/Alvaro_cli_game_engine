@@ -109,13 +109,13 @@ public class RectangularArea {
     }
 
     /**
-     * Returns a string containing the resolution
+     * Returns a string containing the rectangular area
      *
      * @author alvaro9650
-     * @return The string containing the resolution
+     * @return The string containing the rectangular area
      */
     @Override
     public String toString() {
-        return new StringBuilder("Resolution maxcoord = , mincoord = ").insert(35, this.mincoord.toString()).insert(22, this.maxcoord.toString()).toString();
+        return new StringBuilder("RectangularArea maxcoord = , mincoord = ").insert(35, this.mincoord.toString()).insert(22, this.maxcoord.toString()).toString();
     }
 }
