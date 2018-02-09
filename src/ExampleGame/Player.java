@@ -138,4 +138,15 @@ public class Player extends GameObject {
             case None:
         }
     }
+
+    /**
+     * Returns a string containing the player information
+     *
+     * @author alvaro9650
+     * @return The string containing the player information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Player location = , height = , arrayposition = , speed = , playingfield = , posiblelocationarea = , respawnarea = , loglevel = , character = , outofboundsmovetype = , physicalstatetype = , movetype = , objecttype = , objectidentifier = , receivingcollision = , givingcollision = , movedirection = , movingspeed = , remainingspeed = , movepoints = , points = :points").insert(347, this.movepoints).insert(332, this.remainingspeed.toString()).insert(313, this.movingspeed.toString()).insert(297, this.movedirection.toString()).insert(279, this.givingcollision).insert(259, this.receivingcollision).insert(236, this.objectidentifier).insert(215, this.objecttype).insert(200, this.movetype).insert(187, this.physicalstatetype).insert(165, this.outofboundsmovetype).insert(141, this.character).insert(127, this.loglevel).insert(114, this.respawnarea.toString()).insert(98, this.posiblelocationarea.toString()).insert(74, this.playingfield.toString()).insert(57, this.speed.toString()).insert(47, this.arrayposition).insert(29, this.height).insert(18, this.location.toString()).toString();
+    }
 }
