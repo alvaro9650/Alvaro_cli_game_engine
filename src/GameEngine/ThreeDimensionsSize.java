@@ -23,9 +23,20 @@ public class ThreeDimensionsSize {
      * @param z Z size
      * @author alvaro9650
      */
-    public ThreeDimensionsSize(Integer x, Integer y,Integer z) {
+    public ThreeDimensionsSize(Integer x, Integer y, Integer z) {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    /**
+     * Returns a string containing the 3d information
+     *
+     * @author alvaro9650
+     * @return The string containing the 3d information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("ThreeDimensionsSize x = , y = , z = ").insert(36, this.z).insert(30, this.y).insert(24, this.x).toString();
     }
 }
