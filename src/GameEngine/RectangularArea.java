@@ -107,4 +107,15 @@ public class RectangularArea {
     public Boolean isInside(Coordinate coord) {
         return coord.x <= this.maxcoord.x && coord.y <= this.maxcoord.y && coord.x >= this.mincoord.x && coord.y >= this.mincoord.y;
     }
+
+    /**
+     * Returns a string containing the resolution
+     *
+     * @author alvaro9650
+     * @return The string containing the resolution
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Resolution maxcoord = , mincoord = ").insert(35, this.mincoord.toString()).insert(22, this.maxcoord.toString()).toString();
+    }
 }
