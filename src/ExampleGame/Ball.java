@@ -54,4 +54,15 @@ public class Ball extends GameObject {
             break;
         } while (true);
     }
+
+    /**
+     * Returns a string containing the ball information
+     *
+     * @author alvaro9650
+     * @return The string containing the ball information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Ball location = , height = , arrayposition = , speed = , playingfield = , posiblelocationarea = , respawnarea = , loglevel = , character = , outofboundsmovetype = , physicalstatetype = , movetype = , objecttype = , objectidentifier = , receivingcollision = , givingcollision = , movedirection = , movingspeed = , remainingspeed = ").insert(330, this.remainingspeed.toString()).insert(311, this.movingspeed.toString()).insert(295, this.movedirection.toString()).insert(277, this.givingcollision).insert(257, this.receivingcollision).insert(234, this.objectidentifier).insert(213, this.objecttype).insert(198, this.movetype).insert(185, this.physicalstatetype).insert(163, this.outofboundsmovetype).insert(139, this.character).insert(125, this.loglevel).insert(112, this.respawnarea.toString()).insert(96, this.posiblelocationarea.toString()).insert(72, this.playingfield.toString()).insert(55, this.speed.toString()).insert(45, this.arrayposition).insert(27, this.height).insert(16, this.location.toString()).toString();
+    }
 }
