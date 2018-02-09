@@ -40,7 +40,7 @@ public class Coordinate {
      */
     @Override
     public String toString() {
-        return new StringBuilder("Coordinate x = , y =  ").insert(15, this.x).insert(23, this.y).toString();
+        return new StringBuilder("Coordinate x = , y = ").insert(21, this.y).insert(15, this.x).toString();
     }
 
 }
