@@ -494,4 +494,15 @@ public class Field {
                 }
         }
     }
+
+    /**
+     * Returns a string containing the field information
+     *
+     * @author alvaro9650
+     * @return The string containing the field information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Field resolution = ").insert(19, this.size.toString()).toString();
+    }
 }
