@@ -80,9 +80,9 @@ public class GameEngine {
     public void updateLocations(Field field) {
         for (GameObject[][] x : field.gameobjects) {
             for (GameObject[] y : x) {
-                for (GameObject game_object : y) {
-                    if (game_object != null) {
-                        game_object.updateLocation();
+                for (GameObject gameobject : y) {
+                    if (gameobject != null) {
+                        gameobject.updateLocation();
                     }
                 }
             }
