@@ -674,6 +674,17 @@ public class GameObject implements Closeable {
         }
     }
 
+    /**
+     * Returns a string containing the GameObject information
+     *
+     * @author alvaro9650
+     * @return The string containing the GameObject information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("GameObject location = , height = , arrayposition = , speed = , playingfield = , posiblelocationarea = , respawnarea = , loglevel = , character = , outofboundsmovetype = , physicalstatetype = , movetype = , objecttype = , objectidentifier = , receivingcollision = , givingcollision = , movedirection = , movingspeed = , remainingspeed = ").insert(336, this.remainingspeed.toString()).insert(317, this.movingspeed.toString()).insert(301, this.movedirection.toString()).insert(283, this.givingcollision).insert(263, this.receivingcollision).insert(240, this.objectidentifier).insert(219, this.objecttype).insert(204, this.movetype).insert(191, this.physicalstatetype).insert(169, this.outofboundsmovetype).insert(145, this.character).insert(131, this.loglevel).insert(118, this.respawnarea.toString()).insert(102, this.posiblelocationarea.toString()).insert(78, this.playingfield.toString()).insert(61, this.speed.toString()).insert(51, this.arrayposition).insert(33, this.height).insert(22, this.location.toString()).toString();
+    }
+
     @Override
     public void close() throws IOException {
         try {
