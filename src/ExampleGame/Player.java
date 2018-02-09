@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class Player extends GameObject {
 
-    Integer move_points;
+    Integer movepoints;
     Integer points;
 
     /**
@@ -44,7 +44,7 @@ public class Player extends GameObject {
         this.height = 1;
         this.character = character;
         this.outofboundsmovetype = OutOfBoundsMoveType.Farest;
-        this.move_points = 10;
+        this.movepoints = 10;
         this.points = 0;
         this.movetype = MoveType.Teleport;
         this.loglevel = LogLevel.Verbose;
@@ -73,9 +73,9 @@ public class Player extends GameObject {
      * @author alvaro9650
      */
     public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException, PlayerHasWonException {
-        this.move_points -= Math.abs(speed.x);
-        this.move_points -= Math.abs(speed.y);
-        if (this.move_points < 0) {
+        this.movepoints -= Math.abs(speed.x);
+        this.movepoints -= Math.abs(speed.y);
+        if (this.movepoints < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
         } else {
             this.speed = speed;
@@ -84,7 +84,7 @@ public class Player extends GameObject {
                 throw new PlayerHasWonException(String.valueOf(this.character));
             }
             this.stop();
-            this.move_points += 10;
+            this.movepoints += 10;
         }
     }
 
@@ -127,7 +127,7 @@ public class Player extends GameObject {
         switch (this.loglevel) {
             case Verbose:
                 object_log.append("\nmove_points = ");
-                object_log.append(this.move_points);
+                object_log.append(this.movepoints);
                 object_log.append("\npoints = ");
                 object_log.append(this.points);
             case DrawRelated:
