@@ -25,4 +25,15 @@ public class TwoDimensionsSize {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Returns a string containing the 2d information
+     *
+     * @author alvaro9650
+     * @return The string containing the 2d information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("TwoDimensionsSize x = , y = ").insert(28, this.y).insert(22, this.x).toString();
+    }
 }
