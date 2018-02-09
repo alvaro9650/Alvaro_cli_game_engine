@@ -2,4 +2,3 @@ Prevent collision from real moving objects when it's just for checking
 Change logs to use Logger
 Check if the object is already located before adding a location
 Add identifiers to objects
-Add toString methods
