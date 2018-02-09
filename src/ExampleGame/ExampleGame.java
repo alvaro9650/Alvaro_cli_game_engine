@@ -7,14 +7,11 @@ package ExampleGame;
 
 import GameEngine.Field;
 import GameEngine.GameEngine;
-import GameEngine.GameObject;
 import GameEngine.ImpossibleLocationAddException;
 import GameEngine.ImpossibleLocationRemoveException;
 import GameEngine.Speed;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
