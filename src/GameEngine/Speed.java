@@ -37,4 +37,15 @@ public class Speed {
         this.x = speed.x;
         this.y = speed.y;
     }
+
+    /**
+     * Returns a string containing the speed
+     *
+     * @author alvaro9650
+     * @return The string containing the speed
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Speed x = , y = ").insert(16, this.y).insert(10, this.x).toString();
+    }
 }
