@@ -59,4 +59,15 @@ public class Camera extends GameObject {
     public void drawFrame() {
         System.out.println(this.frame);
     }
+
+    /**
+     * Returns a string containing the camera information
+     *
+     * @author alvaro9650
+     * @return The string containing the camera information
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Camera resolution = , frame = ").insert(30, this.frame).insert(20, this.resolution.toString()).toString();
+    }
 }
