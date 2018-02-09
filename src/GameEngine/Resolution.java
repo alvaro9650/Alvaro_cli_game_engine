@@ -26,4 +26,15 @@ public class Resolution {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Returns a string containing the resolution
+     *
+     * @author alvaro9650
+     * @return The string containing the resolution
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("Resolution x = , y = ").insert(21, this.y).insert(15, this.x).toString();
+    }
 }
