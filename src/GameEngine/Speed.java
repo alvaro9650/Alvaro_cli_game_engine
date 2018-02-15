@@ -39,6 +39,16 @@ public class Speed {
     }
 
     /**
+     * Sets the x speed and y speed to 0
+     *
+     * @author alvaro9650
+     */
+    public void stop() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    /**
      * Returns a string containing the speed
      *
      * @author alvaro9650
