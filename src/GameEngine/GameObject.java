@@ -55,6 +55,8 @@ public class GameObject implements Closeable {
         this.movedirection = new Speed(0, 0);
         this.movetype = MoveType.None;
         this.playingfield = field;
+        this.givingcollision=CollisionType.Ghost;
+        this.receivingcollision=CollisionType.Ghost;
         this.posiblelocationarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
         this.respawnarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
         this.physicalstatetype = PhysicalStateType.Ghost;
