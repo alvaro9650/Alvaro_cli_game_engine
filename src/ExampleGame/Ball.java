@@ -14,6 +14,7 @@ import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
 import GameEngine.OutOfBoundsMoveType;
+import GameEngine.PhysicalStateType;
 import GameEngine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ public class Ball extends GameObject {
         this.objecttype = "Ball";
         this.character = 'O';
         this.height = 1;
+        this.physicalstatetype=PhysicalStateType.Solid;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
         this.movetype = MoveType.Teleport;

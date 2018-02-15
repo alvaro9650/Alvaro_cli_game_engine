@@ -16,6 +16,7 @@ import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
 import alvaro_tools.MathCustomFuncs;
 import GameEngine.OutOfBoundsMoveType;
+import GameEngine.PhysicalStateType;
 import GameEngine.Speed;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,7 @@ public class Player extends GameObject {
         this.character = character;
         this.outofboundsmovetype = OutOfBoundsMoveType.Farest;
         this.movepoints = 10;
+        this.physicalstatetype=PhysicalStateType.Solid;
         this.points = 0;
         this.movetype = MoveType.Teleport;
         this.loglevel = LogLevel.Verbose;
