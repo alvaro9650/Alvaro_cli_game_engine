@@ -5,11 +5,14 @@
  */
 package GameEngine;
 
+import alvaro_tools.LoggingTools;
 import alvaro_tools.MathCustomFuncs;
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Object to use in the game
@@ -251,8 +254,12 @@ public class GameObject implements Closeable {
                     case Bounceable:
                         Integer bouncingspace,
                          teoricaldestiny;
-                        this.location.x = (((this.speed.x = ((teoricaldestiny = previouslocation.x + this.speed.x) / (bouncingspace = possiblearea.maxcoord.x - possiblearea.mincoord.x) % 2 != 0) ? -this.speed.x : this.speed.x) > 0) ? possiblearea.mincoord.x : possiblearea.maxcoord.x) + teoricaldestiny % bouncingspace * (this.movingspeed.x = new Float(Math.signum(this.speed.x)).intValue());
-                        this.location.y = (((this.speed.y = ((teoricaldestiny = previouslocation.y + this.speed.y) / (bouncingspace = possiblearea.maxcoord.y - possiblearea.mincoord.y) % 2 != 0) ? -this.speed.y : this.speed.y) > 0) ? possiblearea.mincoord.y : possiblearea.maxcoord.y) + teoricaldestiny % bouncingspace * (this.movingspeed.y = new Float(Math.signum(this.speed.y)).intValue());
+                        Boolean 
+                         maxbounce;
+                        this.location.x = (((maxbounce=((teoricaldestiny = previouslocation.x + this.speed.x) / (bouncingspace = possiblearea.maxcoord.x - possiblearea.mincoord.x) != 0 || teoricaldestiny < possiblearea.mincoord.x)&&this.speed.x > 0) ? possiblearea.maxcoord.x : possiblearea.mincoord.x) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
+                        this.movingspeed.x = new Float(Math.signum(this.speed.x = (teoricaldestiny / bouncingspace % 2 != 0 || teoricaldestiny < possiblearea.mincoord.x ? -this.speed.x : this.speed.x))).intValue();
+                        this.location.y = (((maxbounce=((teoricaldestiny = previouslocation.y + this.speed.y) / (bouncingspace = possiblearea.maxcoord.y - possiblearea.mincoord.y) != 0 || teoricaldestiny < possiblearea.mincoord.y)&&this.speed.y > 0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
+                        this.movingspeed.y = new Float(Math.signum(this.speed.y = (teoricaldestiny / bouncingspace % 2 != 0 || teoricaldestiny < possiblearea.mincoord.y ? -this.speed.y : this.speed.y))).intValue();
                         break;
                 }
         }
