@@ -154,6 +154,8 @@ public class Field {
      * @author alvaro9650
      */
     public void processCollision(GameObject givingcollisionobject, GameObject receivingcollisionobject) {
+        givingcollisionobject.giveCollision(receivingcollisionobject);
+        receivingcollisionobject.receiveCollision(givingcollisionobject);
         switch (receivingcollisionobject.receivingcollision) {
             case Ghost:
                 switch (givingcollisionobject.givingcollision) {
