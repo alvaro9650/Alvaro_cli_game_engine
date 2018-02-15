@@ -254,11 +254,10 @@ public class GameObject implements Closeable {
                     case Bounceable:
                         Integer bouncingspace,
                          teoricaldestiny;
-                        Boolean 
-                         maxbounce;
-                        this.location.x = (((maxbounce=((teoricaldestiny = previouslocation.x + this.speed.x) / (bouncingspace = possiblearea.maxcoord.x - possiblearea.mincoord.x) != 0 || teoricaldestiny < possiblearea.mincoord.x)&&this.speed.x > 0) ? possiblearea.maxcoord.x : possiblearea.mincoord.x) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
+                        Boolean maxbounce;
+                        this.location.x = (((maxbounce = ((teoricaldestiny = previouslocation.x + this.speed.x) / (bouncingspace = possiblearea.maxcoord.x - possiblearea.mincoord.x) != 0 || teoricaldestiny < possiblearea.mincoord.x) && this.speed.x > 0) ? possiblearea.maxcoord.x : possiblearea.mincoord.x) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
                         this.movingspeed.x = new Float(Math.signum(this.speed.x = (teoricaldestiny / bouncingspace % 2 != 0 || teoricaldestiny < possiblearea.mincoord.x ? -this.speed.x : this.speed.x))).intValue();
-                        this.location.y = (((maxbounce=((teoricaldestiny = previouslocation.y + this.speed.y) / (bouncingspace = possiblearea.maxcoord.y - possiblearea.mincoord.y) != 0 || teoricaldestiny < possiblearea.mincoord.y)&&this.speed.y > 0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
+                        this.location.y = (((maxbounce = ((teoricaldestiny = previouslocation.y + this.speed.y) / (bouncingspace = possiblearea.maxcoord.y - possiblearea.mincoord.y) != 0 || teoricaldestiny < possiblearea.mincoord.y) && this.speed.y > 0) ? possiblearea.maxcoord.y : possiblearea.mincoord.y) + Math.abs(teoricaldestiny % bouncingspace) * (maxbounce ? -1 : 1));
                         this.movingspeed.y = new Float(Math.signum(this.speed.y = (teoricaldestiny / bouncingspace % 2 != 0 || teoricaldestiny < possiblearea.mincoord.y ? -this.speed.y : this.speed.y))).intValue();
                         break;
                 }
@@ -281,8 +280,10 @@ public class GameObject implements Closeable {
      * @author alvaro9650
      */
     public void stop() {
-        this.speed.x = 0;
-        this.speed.y = 0;
+        this.speed.stop();
+        this.movedirection.stop();
+        this.movingspeed.stop();
+        this.remainingspeed.stop();
     }
 
     /**
