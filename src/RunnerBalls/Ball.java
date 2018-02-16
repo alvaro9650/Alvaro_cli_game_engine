@@ -10,7 +10,6 @@ import GameEngine.Field;
 import GameEngine.GameObject;
 import GameEngine.ImpossibleLocationAddException;
 import GameEngine.ImpossibleLocationRemoveException;
-import GameEngine.LogLevel;
 import GameEngine.MoveType;
 import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
