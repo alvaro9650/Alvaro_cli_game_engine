@@ -566,8 +566,8 @@ public class GameObject implements Closeable {
             case None:
                 return false;
             default:
-                Speed movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
-                Speed remainingspeed = new Speed(this.speed.x, this.speed.y);
+                this.movingspeed = new Speed(new Float(Math.signum(this.speed.x)).intValue(), new Float(Math.signum(this.speed.x)).intValue());
+                this.remainingspeed = new Speed(this.speed.x, this.speed.y);
                 switch (this.movetype) {
                     case HorizontalFirst:
                         for (; remainingspeed.x != 0; destinylocation.x += movingspeed.x, remainingspeed.x -= movingspeed.x) {
