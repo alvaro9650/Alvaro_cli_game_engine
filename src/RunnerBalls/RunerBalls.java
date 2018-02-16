@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ExampleGame;
+package RunnerBalls;
 
 import GameEngine.Field;
 import GameEngine.GameEngine;
@@ -17,7 +17,7 @@ import java.util.Scanner;
  *
  * @author alvaro9650
  */
-public class ExampleGame {
+public class RunerBalls {
 
     /**
      * @param args the command line arguments
