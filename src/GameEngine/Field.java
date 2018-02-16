@@ -56,6 +56,7 @@ public class Field {
      * @throws GameEngine.ImpossibleLocationAddException
      * @throws GameEngine.ObjectCollidesException
      * @throws GameEngine.OutOfBoundsException
+     * @throws GameEngine.ImpossibleLocationRemoveException
      * @author alvaro9650
      */
     public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
@@ -86,6 +87,36 @@ public class Field {
                             throw new ObjectCollidesException();
                     }
             }
+        }
+        Integer i = 0;
+        while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
+            i++;
+        }
+        if (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length) {
+            this.gameobjects[gameobject.location.x][gameobject.location.y][i] = gameobject;
+            gameobject.arrayposition = i;
+        } else {
+            throw new ImpossibleLocationAddException("No space available");
+        }
+        gameobject.located = true;
+    }
+
+    /**
+     * Add an object to a location in the field without checking if it collides
+     * bewcause collision is suposed to already been processed
+     *
+     * @param gameobject The object you want to add
+     * @throws GameEngine.ImpossibleLocationAddException
+     * @throws GameEngine.OutOfBoundsException
+     * @author alvaro9650
+     * @throws GameEngine.ImpossibleLocationRemoveException
+     */
+    public void addCollidedGameObject(GameObject gameobject) throws ImpossibleLocationAddException, OutOfBoundsException, ImpossibleLocationRemoveException {
+        if (gameobject.located) {
+            this.deleteGameObject(gameobject);
+        }
+        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
+            throw new OutOfBoundsException();
         }
         Integer i = 0;
         while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
@@ -499,6 +530,25 @@ public class Field {
                         givingcollisionobject.stop();
                         break;
                 }
+        }
+        try {
+            addCollidedGameObject(givingcollisionobject);
+            addCollidedGameObject(receivingcollisionobject);
+        } catch (ImpossibleLocationAddException ex) {
+            System.out.println("Imposible location add");
+        } catch (OutOfBoundsException ex) {
+            givingcollisionobject.processOutOfBounds(givingcollisionobject.location);
+        } catch (ImpossibleLocationRemoveException ex) {
+            System.out.println("Imposible location remove");
+        }
+        try {
+            addCollidedGameObject(receivingcollisionobject);
+        } catch (ImpossibleLocationAddException ex) {
+            System.out.println("Imposible location add");
+        } catch (OutOfBoundsException ex) {
+            receivingcollisionobject.processOutOfBounds(receivingcollisionobject.location);
+        } catch (ImpossibleLocationRemoveException ex) {
+            System.out.println("Imposible location remove");
         }
     }
 

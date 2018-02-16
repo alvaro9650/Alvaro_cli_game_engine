@@ -39,7 +39,6 @@ public class Ball extends GameObject {
         this.objecttype = "Ball";
         this.character = 'O';
         this.height = 1;
-        this.loglevel = LogLevel.Verbose;
         this.physicalstatetype = PhysicalStateType.Solid;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
@@ -56,17 +55,10 @@ public class Ball extends GameObject {
             } catch (OutOfBoundsException ex) {
                 System.out.println("ball out of bounds");
             } catch (ImpossibleLocationRemoveException ex) {
-                System.out.println("imposible remove");
+                System.out.println("imposible ball remove");
             }
             break;
         } while (true);
-    }
-
-    @Override
-    public void updateLocation() {
-        this.log();
-        super.updateLocation();
-        this.log();
     }
 
     /**
