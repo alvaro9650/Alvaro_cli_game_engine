@@ -46,6 +46,7 @@ public class Field {
         } else {
             throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
         }
+        gameobject.located = false;
     }
 
     /**
@@ -57,8 +58,11 @@ public class Field {
      * @throws GameEngine.OutOfBoundsException
      * @author alvaro9650
      */
-    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException {
+    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
         GameObject collider;
+        if (gameobject.located) {
+            this.deleteGameObject(gameobject);
+        }
         if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
             throw new OutOfBoundsException();
         } else if ((collider = this.collidesWith(gameobject)) != null) {
@@ -93,6 +97,7 @@ public class Field {
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
+        gameobject.located = true;
     }
 
     /**

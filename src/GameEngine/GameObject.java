@@ -40,6 +40,7 @@ public class GameObject implements Closeable {
     public Speed movedirection;
     public Speed movingspeed;
     public Speed remainingspeed;
+    public Boolean located;
 
     /**
      * Creates a basic game object , should be overriden
@@ -55,8 +56,8 @@ public class GameObject implements Closeable {
         this.movedirection = new Speed(0, 0);
         this.movetype = MoveType.None;
         this.playingfield = field;
-        this.givingcollision=CollisionType.Ghost;
-        this.receivingcollision=CollisionType.Ghost;
+        this.givingcollision = CollisionType.Ghost;
+        this.receivingcollision = CollisionType.Ghost;
         this.posiblelocationarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
         this.respawnarea = new RectangularArea(field.size.x - 1, 0, field.size.y - 1, 0);
         this.physicalstatetype = PhysicalStateType.Ghost;
@@ -273,6 +274,8 @@ public class GameObject implements Closeable {
             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
         } catch (OutOfBoundsException ex) {
             this.processOutOfBounds(this.location);
+        } catch (ImpossibleLocationRemoveException ex) {
+            System.out.println("imposible remove");
         }
     }
 
@@ -310,6 +313,8 @@ public class GameObject implements Closeable {
                     Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ObjectCollidesException ex) {
                     this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
+                } catch (ImpossibleLocationRemoveException ex) {
+                    System.out.println("imposible remove");
                 }
                 break;
             case Teleport:
@@ -324,6 +329,8 @@ public class GameObject implements Closeable {
                     this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                 } catch (OutOfBoundsException ex) {
                     this.processOutOfBounds(originallocation);
+                } catch (ImpossibleLocationRemoveException ex) {
+                    System.out.println("imposible remove");
                 }
                 break;
             case HorizontalFirst:
@@ -339,6 +346,8 @@ public class GameObject implements Closeable {
                         this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                     } catch (OutOfBoundsException ex) {
                         this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                    } catch (ImpossibleLocationRemoveException ex) {
+                        System.out.println("imposible remove");
                     }
                 }
                 this.movedirection.x = 0;
@@ -354,6 +363,8 @@ public class GameObject implements Closeable {
                         this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                     } catch (OutOfBoundsException ex) {
                         this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
+                    } catch (ImpossibleLocationRemoveException ex) {
+                        System.out.println("imposible remove");
                     }
                 }
                 this.movedirection.y = 0;
@@ -370,6 +381,8 @@ public class GameObject implements Closeable {
                         this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                     } catch (OutOfBoundsException ex) {
                         this.processOutOfBounds(new Coordinate(this.location.x, this.location.y -= this.movingspeed.y));
+                    } catch (ImpossibleLocationRemoveException ex) {
+                        System.out.println("imposible remove");
                     }
                 }
                 this.movedirection.y = 0;
@@ -385,6 +398,8 @@ public class GameObject implements Closeable {
                         this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                     } catch (OutOfBoundsException ex) {
                         this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                    } catch (ImpossibleLocationRemoveException ex) {
+                        System.out.println("imposible remove");
                     }
                 }
                 this.movedirection.x = 0;
@@ -407,6 +422,8 @@ public class GameObject implements Closeable {
                             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                         } catch (OutOfBoundsException ex) {
                             this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        } catch (ImpossibleLocationRemoveException ex) {
+                            System.out.println("imposible remove");
                         }
                         this.movedirection.y = 0;
                         this.movedirection.x = this.movingspeed.x;
@@ -419,6 +436,8 @@ public class GameObject implements Closeable {
                                 this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                             } catch (OutOfBoundsException ex) {
                                 this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                            } catch (ImpossibleLocationRemoveException ex) {
+                                System.out.println("imposible remove");
                             }
                         }
                         this.movedirection.x = 0;
@@ -434,6 +453,8 @@ public class GameObject implements Closeable {
                             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                         } catch (OutOfBoundsException ex) {
                             this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        } catch (ImpossibleLocationRemoveException ex) {
+                            System.out.println("imposible remove");
                         }
                     }
                     this.movedirection.x = 0;
@@ -455,6 +476,8 @@ public class GameObject implements Closeable {
                             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                         } catch (OutOfBoundsException ex) {
                             this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        } catch (ImpossibleLocationRemoveException ex) {
+                            System.out.println("imposible remove");
                         }
                         this.movedirection.x = 0;
                         for (Integer i = 0; i < times; i++, this.location.y += this.movingspeed.y, this.remainingspeed.y -= this.movingspeed.y) {
@@ -467,6 +490,8 @@ public class GameObject implements Closeable {
                                 this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                             } catch (OutOfBoundsException ex) {
                                 this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                            } catch (ImpossibleLocationRemoveException ex) {
+                                System.out.println("imposible remove");
                             }
                         }
                         this.movedirection.y = 0;
@@ -482,6 +507,8 @@ public class GameObject implements Closeable {
                             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                         } catch (OutOfBoundsException ex) {
                             this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        } catch (ImpossibleLocationRemoveException ex) {
+                            System.out.println("imposible remove");
                         }
                     }
                     this.movedirection.y = 0;
@@ -503,6 +530,8 @@ public class GameObject implements Closeable {
                             this.playingfield.processCollision(this, this.playingfield.collidesWith(this));
                         } catch (OutOfBoundsException ex) {
                             this.processOutOfBounds(new Coordinate(this.location.x -= this.movingspeed.x, this.location.y));
+                        } catch (ImpossibleLocationRemoveException ex) {
+                            System.out.println("imposible remove");
                         }
                     }
                     this.movedirection.x = 0;

@@ -46,7 +46,7 @@ public class Player extends GameObject {
         this.character = character;
         this.outofboundsmovetype = OutOfBoundsMoveType.Farest;
         this.movepoints = 10;
-        this.physicalstatetype=PhysicalStateType.Solid;
+        this.physicalstatetype = PhysicalStateType.Solid;
         this.points = 0;
         this.movetype = MoveType.Teleport;
         this.loglevel = LogLevel.Verbose;
@@ -61,6 +61,8 @@ public class Player extends GameObject {
                 System.out.println("player collide");
             } catch (OutOfBoundsException ex) {
                 System.out.println("player out of bounds");
+            } catch (ImpossibleLocationRemoveException ex) {
+                System.out.println("imposible remove");
             }
             break;
         } while (true);

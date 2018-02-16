@@ -9,6 +9,8 @@ import GameEngine.Coordinate;
 import GameEngine.Field;
 import GameEngine.GameObject;
 import GameEngine.ImpossibleLocationAddException;
+import GameEngine.ImpossibleLocationRemoveException;
+import GameEngine.LogLevel;
 import GameEngine.MoveType;
 import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
@@ -37,7 +39,8 @@ public class Ball extends GameObject {
         this.objecttype = "Ball";
         this.character = 'O';
         this.height = 1;
-        this.physicalstatetype=PhysicalStateType.Solid;
+        this.loglevel = LogLevel.Verbose;
+        this.physicalstatetype = PhysicalStateType.Solid;
         this.outofboundsmovetype = OutOfBoundsMoveType.Bounceable;
         this.speed = new Speed(MathCustomFuncs.random(6, 16).intValue(), MathCustomFuncs.random(6, 16).intValue());
         this.movetype = MoveType.Teleport;
@@ -52,9 +55,18 @@ public class Ball extends GameObject {
                 System.out.println("ball collide");
             } catch (OutOfBoundsException ex) {
                 System.out.println("ball out of bounds");
+            } catch (ImpossibleLocationRemoveException ex) {
+                System.out.println("imposible remove");
             }
             break;
         } while (true);
+    }
+
+    @Override
+    public void updateLocation() {
+        this.log();
+        super.updateLocation();
+        this.log();
     }
 
     /**
