@@ -5,14 +5,11 @@
  */
 package GameEngine;
 
-import alvaro_tools.LoggingTools;
 import alvaro_tools.MathCustomFuncs;
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * Object to use in the game
