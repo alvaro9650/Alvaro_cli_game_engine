@@ -32,6 +32,7 @@ public class ExampleGame {
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
         StringBuilder inputmvmsg = new StringBuilder("Player   input your move coordinates");
+        Speed pmovement;
         game:
         while (true) {
             game_engine.updateLocations(field);
@@ -40,10 +41,14 @@ public class ExampleGame {
                 inputmvmsg.replace(7, 8, String.valueOf(player.character));
                 System.out.println(inputmvmsg.toString());
                 try {
-                    player.move(new Speed(input.nextInt(), input.nextInt()));
-                    input.nextLine();
+                    pmovement = new Speed(input.nextInt(), input.nextInt());
                 } catch (InputMismatchException e) {
                     System.out.println("Thats not a coordinate , you loose your turn");
+                    pmovement = new Speed(0, 0);
+                }
+                try {
+                    player.move(pmovement);
+                    input.nextLine();
                 } catch (ImpossibleLocationRemoveException ex) {
                     System.out.println("You can't move away from here");
                 } catch (ImpossibleLocationAddException ex) {
