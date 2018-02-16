@@ -46,6 +46,7 @@ public class GameObject implements Closeable {
      * @author alvaro9650
      */
     public GameObject(Field field) {
+        this.located = false;
         this.character = '|';
         this.height = 0;
         this.objecttype = "Default";
