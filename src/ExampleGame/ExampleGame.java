@@ -28,7 +28,10 @@ public class ExampleGame {
         Field field = new Field(79, 20, 50);
         GameEngine game_engine = new GameEngine();
         Scanner input = new Scanner(System.in);
-        Ball[] balls = {new Ball(field), new Ball(field), new Ball(field), new Ball(field), new Ball(field)};
+        System.out.println("Input the ball number");
+        Integer ballnumber = input.nextInt();
+        input.nextLine();
+        for (int i = 0; i < ballnumber; new Ball(field), i++);
         System.out.println("Input the character you want to use");
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
         StringBuilder inputmvmsg = new StringBuilder("Player   input your move coordinates");
