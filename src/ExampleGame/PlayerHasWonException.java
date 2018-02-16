@@ -16,6 +16,6 @@ public class PlayerHasWonException extends Exception {
     }
 
     public PlayerHasWonException(String winner) {
-        super("The player" + winner + "has won the match");
+        super("The player " + winner + " has won the match");
     }
 }
