@@ -74,6 +74,7 @@ public class Player extends GameObject {
      * @param speed The speed for this turn
      * @throws GameEngine.ImpossibleLocationRemoveException
      * @throws GameEngine.ImpossibleLocationAddException
+     * @throws ExampleGame.PlayerHasWonException
      * @author alvaro9650
      */
     public void move(Speed speed) throws ImpossibleLocationRemoveException, ImpossibleLocationAddException, PlayerHasWonException {
@@ -81,15 +82,16 @@ public class Player extends GameObject {
         this.movepoints -= Math.abs(speed.y);
         if (this.movepoints < 0) {
             System.out.println("You want to move too fast so you wont move and you wont accumulate move points");
+            speed.stop();
         } else {
-            this.speed = speed;
-            this.updateLocation();
-            if (this.points > 5) {
-                throw new PlayerHasWonException(String.valueOf(this.character));
-            }
-            this.stop();
             this.movepoints += 10;
         }
+        this.speed = speed;
+        this.updateLocation();
+        if (5 <= this.points) {
+            throw new PlayerHasWonException(String.valueOf(this.character));
+        }
+        this.stop();
     }
 
     /**
@@ -107,6 +109,29 @@ public class Player extends GameObject {
                 break;
         }
         switch (collisionreceiver.objecttype) {
+            case "Ball":
+                this.addPoint();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Function to add custom actions when collided against a determined object
+     * or object type
+     *
+     * @param collisiongiver The object that gives the collision
+     * @author alvaro9650
+     */
+    @Override
+    public void receiveCollision(GameObject collisiongiver) {
+        super.receiveCollision(collisiongiver);
+        switch (collisiongiver.objectidentifier) {
+            default:
+                break;
+        }
+        switch (collisiongiver.objecttype) {
             case "Ball":
                 this.addPoint();
                 break;
