@@ -9,7 +9,7 @@ package GameEngine;
  *
  * @author alvaro9650
  */
-public class Composite3dGameObject extends CompositeObject {
+public class Composite3dGameObject extends CompositeGameObject {
 
     public ThreeDimensionsSize size;
     public GameObject[][][][] objectcomponents;

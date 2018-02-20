@@ -9,9 +9,9 @@ package GameEngine;
  *
  * @author alvaro9650
  */
-public class CompositeObject extends GameObject{
+public class CompositeGameObject extends GameObject{
     
-    public CompositeObject(Field field) {
+    public CompositeGameObject(Field field) {
         super(field);
     }
     

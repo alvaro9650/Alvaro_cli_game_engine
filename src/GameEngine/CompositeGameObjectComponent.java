@@ -11,14 +11,14 @@ package GameEngine;
  */
 public class CompositeGameObjectComponent extends GameObject {
 
-    public CompositeObject parent;
+    public CompositeGameObject parent;
 
     /**
      * Constructor for CompositeGameObjectComponent
      *
      * @param parent The parent object
      */
-    public CompositeGameObjectComponent(CompositeObject parent) {
+    public CompositeGameObjectComponent(CompositeGameObject parent) {
         super(parent.playingfield);
         this.parent = parent;
     }
