@@ -9,7 +9,7 @@ package GameEngine;
  *
  * @author alvaro9650
  */
-public class Composite2dGameObject extends GameObject {
+public class Composite2dGameObject extends CompositeObject {
 
     public TwoDimensionsSize size;
     public GameObject[][][] objectcomponents;
