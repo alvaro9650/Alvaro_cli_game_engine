@@ -5,15 +5,16 @@
  */
 package Snake;
 
-import javax.swing.KeyStroke;
+import GameEngine.Composite2dGameObject;
+import GameEngine.Field;
 
 /**
  *
  * @author alvaro9650
  */
-public class Snake {
-    public static void main(String[] args) {
-        
+public class Snake extends Composite2dGameObject {
+
+    public Snake(Field field, Integer maxobjectspercoord) {
+        super(field, field.size.x, field.size.y, maxobjectspercoord);
     }
-    
 }
