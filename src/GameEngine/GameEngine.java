@@ -90,6 +90,24 @@ public class GameEngine {
     }
 
     /**
+     * Updates the location of the objects in that composite object
+     *
+     * @param compositeobject the composite object that has to update locations
+     * @author alvaro9650
+     */
+    public void updateLocations(Composite2dGameObject compositeobject) {
+        for (GameObject[][] x : compositeobject.componentobjects) {
+            for (GameObject[] y : x) {
+                for (GameObject gameobject : y) {
+                    if (gameobject != null) {
+                        gameobject.updateLocation();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Update the locations of the objects in those fields
      *
      * @param fields fields that will update location
