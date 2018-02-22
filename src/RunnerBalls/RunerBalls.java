@@ -26,7 +26,7 @@ public class RunerBalls {
     public static void main(String[] args) {
         System.out.println("You are a character\nYou have to touch a ball to win a point\nYou have 10 move points each turn , if you don't use them all you will have them at the next turn\nYou get 10 move points each turn\nBall speed and position is generated randomly every match\nBalls bounce when they reach a border\nYou have to input your move coordinates in an x(right and left) y(down and up) format\nThe first player to reach 5 points wins\nThe character | means nothing in that position , the character O means ball in that position");
         Field field = new Field(79, 20, 50);
-        GameEngine game_engine = new GameEngine();
+        GameEngine gameengine = new GameEngine();
         Scanner input = new Scanner(System.in);
         System.out.println("Input the ball number");
         Integer ballnumber = input.nextInt();
@@ -38,8 +38,8 @@ public class RunerBalls {
         Speed pmovement;
         game:
         while (true) {
-            game_engine.updateLocations(field);
-            game_engine.DrawFrame(field);
+            gameengine.updateLocations(field);
+            gameengine.DrawFrame(field);
             for (Player player : players) {
                 inputmvmsg.replace(7, 8, String.valueOf(player.character));
                 System.out.println(inputmvmsg.toString());
@@ -60,7 +60,7 @@ public class RunerBalls {
                     System.out.println(ex.getMessage());
                     break game;
                 }
-                game_engine.DrawFrame(field);
+                gameengine.DrawFrame(field);
             }
             showScore(players);
         }
