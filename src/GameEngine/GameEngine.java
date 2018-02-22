@@ -110,7 +110,7 @@ public class GameEngine {
      * @return Character to be drawn at that location
      * @author alvaro9650
      */
-    public char toDrawAt(Field field, Integer x, Integer y) {
+    public static char toDrawAt(Field field, Integer x, Integer y) {
         char drawcharacter = ' ';
         Integer characterheight = 0;
         for (GameObject gameobject : field.gameobjects[x][y]) {
