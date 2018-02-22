@@ -77,7 +77,7 @@ public class GameEngine {
      * @param field the field that has to update locations
      * @author alvaro9650
      */
-    public void updateLocations(Field field) {
+    public static void updateLocations(Field field) {
         for (GameObject[][] x : field.gameobjects) {
             for (GameObject[] y : x) {
                 for (GameObject gameobject : y) {
@@ -95,7 +95,7 @@ public class GameEngine {
      * @param compositeobject the composite object that has to update locations
      * @author alvaro9650
      */
-    public void updateLocations(Composite2dGameObject compositeobject) {
+    public static void updateLocations(Composite2dGameObject compositeobject) {
         for (GameObject[][] x : compositeobject.componentobjects) {
             for (GameObject[] y : x) {
                 for (GameObject gameobject : y) {
