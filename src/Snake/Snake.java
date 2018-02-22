@@ -20,13 +20,13 @@ public class Snake extends Composite2dGameObject {
     public void move(MoveDirection movedirection){
         switch(movedirection){
             case UP:
-                this.updateLocations();
+                GameEngine.GameEngine.updateLocations(this);
             case DOWN:
-                this.updateLocations();
+                GameEngine.GameEngine.updateLocations(this);
             case LEFT:
-                this.updateLocations();
+                GameEngine.GameEngine.updateLocations(this);
             case RIGHT:
-                this.updateLocations();
+                GameEngine.GameEngine.updateLocations(this);
         }
     }
 }
