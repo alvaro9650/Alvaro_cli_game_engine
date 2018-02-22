@@ -13,9 +13,10 @@ package GameEngine;
  */
 public class Camera extends GameObject {
 
-    Resolution resolution;
-    String frame;
-    
+    public Resolution resolution;
+    public String frame;
+    public char blank;
+
     /**
      * Creates a camera
      *
@@ -33,6 +34,7 @@ public class Camera extends GameObject {
         this.location.x = locationx;
         this.location.y = locationy;
         this.resolution = new Resolution(resolutionx, resolutiony);
+        this.blank = ' ';
     }
 
     /**
@@ -44,7 +46,7 @@ public class Camera extends GameObject {
         StringBuilder framecreator = new StringBuilder();
         for (int y = this.location.y; y < this.location.y + this.resolution.y; y++) {
             for (int x = this.location.x; x < this.location.x + this.resolution.x; x++) {
-                framecreator.append((y >= 0 && x >= 0 && x < this.playingfield.size.x && y < this.playingfield.size.y) ? GameEngine.toDrawAt(this.playingfield, x, y) : ' ');
+                framecreator.append((y >= 0 && x >= 0 && x < this.playingfield.size.x && y < this.playingfield.size.y) ? GameEngine.toDrawAt(this.playingfield, x, y) : this.blank);
             }
             framecreator.append("\n");
         }
