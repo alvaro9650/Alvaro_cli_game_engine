@@ -5,6 +5,7 @@
  */
 package RunnerBalls;
 
+import GameEngine.Camera;
 import GameEngine.Field;
 import GameEngine.GameEngine;
 import GameEngine.ImpossibleLocationAddException;
@@ -36,10 +37,12 @@ public class RunerBalls {
         Player[] players = {new Player(input.nextLine().charAt(0), field), new Player(input.nextLine().charAt(0), field)};
         StringBuilder inputmvmsg = new StringBuilder("Player   input your move coordinates");
         Speed pmovement;
+        Camera cam = new Camera(field, 0, 0, 79, 20);
+        cam.blank = '|';
         game:
         while (true) {
-            gameengine.updateLocations(field);
-            gameengine.DrawFrame(field);
+            cam.updateFrame();
+            cam.drawFrame();
             for (Player player : players) {
                 inputmvmsg.replace(7, 8, String.valueOf(player.character));
                 System.out.println(inputmvmsg.toString());
