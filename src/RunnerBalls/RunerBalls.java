@@ -63,7 +63,8 @@ public class RunerBalls {
                     System.out.println(ex.getMessage());
                     break game;
                 }
-                gameengine.DrawFrame(field);
+                cam.updateFrame();
+                cam.drawFrame();
             }
             showScore(players);
         }
