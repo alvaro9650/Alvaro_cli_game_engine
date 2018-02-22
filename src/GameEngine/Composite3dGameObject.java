@@ -26,7 +26,8 @@ public class Composite3dGameObject extends CompositeGameObject {
      */
     public Composite3dGameObject(Field field, Integer x, Integer y, Integer z, Integer maxobjectspercoord) {
         super(field);
-        size = new ThreeDimensionsSize(x, y, z);
-        objectcomponents = new GameObject[x][y][z][maxobjectspercoord];
+        this.type = GameObjectType.Composite3dGameObjectType;
+        this.size = new ThreeDimensionsSize(x, y, z);
+        this.objectcomponents = new GameObject[x][y][z][maxobjectspercoord];
     }
 }

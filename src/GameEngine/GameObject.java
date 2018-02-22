@@ -38,6 +38,7 @@ public class GameObject implements Closeable {
     public Speed movingspeed;
     public Speed remainingspeed;
     public Boolean located;
+    public GameObjectType type;
 
     /**
      * Creates a basic game object , should be overriden
@@ -48,6 +49,7 @@ public class GameObject implements Closeable {
     public GameObject(Field field) {
         this.located = false;
         this.character = '|';
+        this.type = GameObjectType.Simple;
         this.height = 0;
         this.objecttype = "Default";
         this.speed = new Speed(0, 0);

@@ -27,8 +27,9 @@ public class Composite2dGameObject extends CompositeGameObject {
      */
     public Composite2dGameObject(Field field, Integer x, Integer y, Integer maxobjectspercoord) {
         super(field);
-        size = new TwoDimensionsSize(x, y);
-        componentobjects = new GameObject[x][y][maxobjectspercoord];
+        this.type = GameObjectType.Composite2dGameObjectType;
+        this.size = new TwoDimensionsSize(x, y);
+        this.componentobjects = new GameObject[x][y][maxobjectspercoord];
     }
 
     /**
