@@ -14,7 +14,7 @@ import GameEngine.Field;
  */
 public class Snake extends Composite2dGameObject {
 
-    public Snake(Field field, Integer maxobjectspercoord) {
-        super(field, field.size.x, field.size.y, maxobjectspercoord);
+    public Snake(Field field) {
+        super(field, field.size.x, field.size.y, 2);
     }
 }
