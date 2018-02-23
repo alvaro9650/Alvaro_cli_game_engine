@@ -19,6 +19,8 @@ import java.util.logging.Logger;
  */
 public class SnakeComponent extends Composite2dGameObjectComponent {
 
+    public SnakePartType part;
+
     public SnakeComponent(Snake parent) {
         super(parent);
         try {
