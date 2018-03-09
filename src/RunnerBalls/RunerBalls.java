@@ -43,7 +43,7 @@ public class RunerBalls {
         while (true) {
             cam.updateFrame();
             cam.drawFrame();
-            gameengine.updateLocations(field);
+            GameEngine.updateLocations(field);
             for (Player player : players) {
                 inputmvmsg.replace(7, 8, String.valueOf(player.character));
                 System.out.println(inputmvmsg.toString());
