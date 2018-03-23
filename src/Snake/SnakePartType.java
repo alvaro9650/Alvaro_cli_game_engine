@@ -11,8 +11,8 @@ package Snake;
  * @author alvaro9650
  */
 public enum SnakePartType {
-    HEAD, BODY, TAIL;
-    private final int snakeparttype;
+    HEAD("HEAD"), BODY("BODY"), TAIL("TAIL");
+    private final String snakeparttype;
 
     /**
      * Constructor for SnakePartType
@@ -20,7 +20,7 @@ public enum SnakePartType {
      * @param snakeparttype An int that identifies the part of the snake body
      * @author alvaro9650
      */
-    private SnakePartType(int snakeparttype) {
+    private SnakePartType(String snakeparttype) {
         this.snakeparttype = snakeparttype;
     }
 
@@ -30,7 +30,7 @@ public enum SnakePartType {
      * @return Returns an int that identifies the part of the snake body
      * @author alvaro9650
      */
-    public int getSnakePartType() {
+    public String getSnakePartType() {
         return this.snakeparttype;
     }
 }
