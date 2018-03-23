@@ -11,8 +11,8 @@ package Snake;
  * @author alvaro9650
  */
 public enum MoveDirection {
-    UP, DOWN, RIGHT, LEFT;
-    private final int movedirection;
+    UP("UP"), DOWN("DOWN"), RIGHT("RIGHT"), LEFT("RIGHT");
+    private final String movedirection;
 
     /**
      * Constructor for MoveDirection
@@ -20,7 +20,7 @@ public enum MoveDirection {
      * @param movedirection An int that identifies the move direction
      * @author alvaro9650
      */
-    private MoveDirection(int movedirection) {
+    private MoveDirection(String movedirection) {
         this.movedirection = movedirection;
     }
 
@@ -30,7 +30,7 @@ public enum MoveDirection {
      * @return Returns an int that identifies the move direction
      * @author alvaro9650
      */
-    public int getMoveType() {
+    public String getMoveType() {
         return this.movedirection;
     }
 }
