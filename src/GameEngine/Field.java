@@ -93,8 +93,7 @@ public class Field {
             i++;
         }
         if (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length) {
-            this.gameobjects[gameobject.location.x][gameobject.location.y][i] = gameobject;
-            gameobject.arrayposition = i;
+            this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition = i] = gameobject;
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
