@@ -28,6 +28,7 @@ public class Snake extends Composite2dGameObject {
 
     public Snake(Field field) {
         super(field, field.size.x, field.size.y, 2);
+        this.objectidentifier="Snake";
         this.location = new Coordinate(0, 0);
         this.head = new SnakeComponent(this);
         this.head.part = SnakePartType.HEAD;
@@ -57,6 +58,17 @@ public class Snake extends Composite2dGameObject {
         } catch (ImpossibleLocationRemoveException ex) {
             System.out.println("imposible remove");
         }
+        try {
+                this.playingfield.addGameObject(this);
+            } catch (ImpossibleLocationAddException ex) {
+                Logger.getLogger(Snake.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ObjectCollidesException ex) {
+                System.out.println("Snake collide");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("Snake out of bounds");
+            } catch (ImpossibleLocationRemoveException ex) {
+                System.out.println("imposible snake remove");
+            }
     }
 
     /**
