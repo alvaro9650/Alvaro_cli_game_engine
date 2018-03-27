@@ -530,8 +530,8 @@ public class Field {
                 }
         }
         try {
-            addCollidedGameObject(givingcollisionobject);
-            addCollidedGameObject(receivingcollisionobject);
+            this.addCollidedGameObject(givingcollisionobject);
+            this.addCollidedGameObject(receivingcollisionobject);
         } catch (ImpossibleLocationAddException ex) {
             System.out.println("Imposible location add");
         } catch (OutOfBoundsException ex) {
@@ -540,7 +540,7 @@ public class Field {
             System.out.println("Imposible location remove");
         }
         try {
-            addCollidedGameObject(receivingcollisionobject);
+            this.addCollidedGameObject(receivingcollisionobject);
         } catch (ImpossibleLocationAddException ex) {
             System.out.println("Imposible location add");
         } catch (OutOfBoundsException ex) {
