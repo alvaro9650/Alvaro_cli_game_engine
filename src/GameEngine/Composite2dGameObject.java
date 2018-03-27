@@ -81,8 +81,7 @@ public class Composite2dGameObject extends CompositeGameObject {
             i++;
         }
         if (i < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length) {
-            this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][i] = composite2dgameobjectcomponent;
-            composite2dgameobjectcomponent.arrayposition = i;
+            this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][composite2dgameobjectcomponent.arrayposition = i] = composite2dgameobjectcomponent;
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
