@@ -20,7 +20,7 @@ public class GameEngine {
      * @param field field to draw
      * @author alvaro9650
      */
-    public void DrawFrame(Field field) {
+    public static void DrawFrame(Field field) {
         StringBuilder frame = new StringBuilder();
         char drawcharacter = '|';
         Integer characterheight = 0;
@@ -47,7 +47,7 @@ public class GameEngine {
      * @param fields fields to draw
      * @author alvaro9650
      */
-    public void drawFrame(Field[] fields) {
+    public static void drawFrame(Field[] fields) {
         Integer characterheight = 0;
         StringBuilder frame = new StringBuilder();
         for (Field field : fields) {
@@ -113,9 +113,9 @@ public class GameEngine {
      * @param fields fields that will update location
      * @author alvaro9650
      */
-    public void updateLocations(Field[] fields) {
+    public static void updateLocations(Field[] fields) {
         for (Field field : fields) {
-            this.updateLocations(field);
+            GameEngine.updateLocations(field);
         }
     }
 
