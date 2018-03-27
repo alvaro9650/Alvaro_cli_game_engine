@@ -5,7 +5,10 @@
  */
 package GameEngine;
 
+import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -118,5 +121,35 @@ public class Composite2dGameObject extends CompositeGameObject {
             }
         }
         return null;
+    }
+
+    /**
+     * Add an object to a location in the Composite2dGameObject without checking
+     * if it collides because collision is suposed to already been processed
+     *
+     * @param composite2dgameobjectcomponent The Composite2dGameObjectComponent
+     * you want to add
+     * @throws GameEngine.ImpossibleLocationAddException
+     * @throws GameEngine.OutOfBoundsException
+     * @throws GameEngine.ImpossibleLocationRemoveException
+     * @author alvaro9650
+     */
+    public void addCollidedComposite2dGameObjectComponent(Composite2dGameObjectComponent composite2dgameobjectcomponent) throws ImpossibleLocationAddException, OutOfBoundsException, ImpossibleLocationRemoveException {
+        if (composite2dgameobjectcomponent.located) {
+            this.deleteGameObject(composite2dgameobjectcomponent);
+        }
+        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(composite2dgameobjectcomponent.posiblelocationarea).isInside(composite2dgameobjectcomponent.location))) {
+            throw new OutOfBoundsException();
+        }
+        Integer i = 0;
+        while (i < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length && this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][i] != null) {
+            i++;
+        }
+        if (i < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length) {
+            this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][composite2dgameobjectcomponent.arrayposition = i] = composite2dgameobjectcomponent;
+        } else {
+            throw new ImpossibleLocationAddException("No space available");
+        }
+        composite2dgameobjectcomponent.located = true;
     }
 }
