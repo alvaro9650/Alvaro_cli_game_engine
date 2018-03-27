@@ -48,7 +48,7 @@ public class Composite2dGameObject extends CompositeGameObject {
      * @author alvaro9650
      */
     public void addComposite2dGameObjectComponent(Composite2dGameObjectComponent composite2dgameobjectcomponent) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
-        GameObject collider;
+        Composite2dGameObjectComponent collider;
         if (composite2dgameobjectcomponent.located) {
             this.deleteGameObject(composite2dgameobjectcomponent);
         }
