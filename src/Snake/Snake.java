@@ -37,7 +37,7 @@ public class Snake extends Composite2dGameObject {
         this.tail.part = SnakePartType.HEAD;
         this.tail.location = new Coordinate(4, 5);
         try {
-            this.addGameObject(head);
+            this.addComposite2dGameObjectComponent(head);
         } catch (ImpossibleLocationAddException ex) {
             Logger.getLogger(SnakeComponent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCollidesException ex) {
@@ -48,7 +48,7 @@ public class Snake extends Composite2dGameObject {
             System.out.println("imposible remove");
         }
         try {
-            this.addGameObject(tail);
+            this.addComposite2dGameObjectComponent(tail);
         } catch (ImpossibleLocationAddException ex) {
             Logger.getLogger(SnakeComponent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCollidesException ex) {
