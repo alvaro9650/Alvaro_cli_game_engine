@@ -96,11 +96,11 @@ public class GameEngine {
      * @author alvaro9650
      */
     public static void updateLocations(Composite2dGameObject compositeobject) {
-        for (GameObject[][] x : compositeobject.componentobjects) {
-            for (GameObject[] y : x) {
-                for (GameObject gameobject : y) {
-                    if (gameobject != null) {
-                        gameobject.updateLocation();
+        for (Composite2dGameObjectComponent[][] x : compositeobject.componentobjects) {
+            for (Composite2dGameObjectComponent[] y : x) {
+                for (Composite2dGameObjectComponent composite2dgameobjectcomponent : y) {
+                    if (composite2dgameobjectcomponent != null) {
+                        composite2dgameobjectcomponent.updateLocation();
                     }
                 }
             }
