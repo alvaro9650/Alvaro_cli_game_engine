@@ -17,6 +17,6 @@ public class CompositeGameObjectComponent extends GameObject {
      * @param parent The parent object
      */
     public CompositeGameObjectComponent(CompositeGameObject parent) {
-        super(parent.playingfield);
+        super(parent);
     }
 }
