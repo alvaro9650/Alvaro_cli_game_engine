@@ -13,7 +13,9 @@ import java.util.Objects;
  */
 public class Composite2dGameObject extends CompositeGameObject {
 
+    // The size of the Composite2dGameObject
     public TwoDimensionsSize size;
+    // The objects the Composite2dGameObject contains
     public Composite2dGameObjectComponent[][][] componentobjects;
 
     /**
