@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Composite2dGameObject extends CompositeGameObject {
 
     public TwoDimensionsSize size;
-    public GameObject[][][] componentobjects;
+    public Composite2dGameObjectComponent[][][] componentobjects;
 
     /**
      * Costructor for Composite2dGameObject
@@ -29,42 +29,42 @@ public class Composite2dGameObject extends CompositeGameObject {
         super(field);
         this.type = GameObjectType.Composite2dGameObjectType;
         this.size = new TwoDimensionsSize(x, y);
-        this.componentobjects = new GameObject[x][y][maxobjectspercoord];
+        this.componentobjects = new Composite2dGameObjectComponent[x][y][maxobjectspercoord];
     }
 
     /**
      * Add an object to a location in the object
      *
-     * @param gameobject The object you want to add
+     * @param composite2dgameobjectcomponent The object you want to add
      * @throws GameEngine.ImpossibleLocationAddException
      * @throws GameEngine.ObjectCollidesException
      * @throws GameEngine.OutOfBoundsException
      * @throws GameEngine.ImpossibleLocationRemoveException
      * @author alvaro9650
      */
-    public void addGameObject(GameObject gameobject) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
+    public void addComposite2dGameObjectComponent(Composite2dGameObjectComponent composite2dgameobjectcomponent) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
         GameObject collider;
-        if (gameobject.located) {
-            this.deleteGameObject(gameobject);
+        if (composite2dgameobjectcomponent.located) {
+            this.deleteGameObject(composite2dgameobjectcomponent);
         }
-        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
+        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(composite2dgameobjectcomponent.posiblelocationarea).isInside(composite2dgameobjectcomponent.location))) {
             throw new OutOfBoundsException();
-        } else if ((collider = this.collidesWith(gameobject)) != null) {
+        } else if ((collider = this.collidesWith(composite2dgameobjectcomponent)) != null) {
             switch (collider.physicalstatetype) {
                 case Solid:
                 case SolidWithHoles:
-                    switch (gameobject.physicalstatetype) {
+                    switch (composite2dgameobjectcomponent.physicalstatetype) {
                         case SolidWithHoles:
                         case Solid:
                             throw new ObjectCollidesException();
                     }
                 case Liquid:
-                    switch (gameobject.physicalstatetype) {
+                    switch (composite2dgameobjectcomponent.physicalstatetype) {
                         case Solid:
                             throw new ObjectCollidesException();
                     }
                 case Gas:
-                    switch (gameobject.physicalstatetype) {
+                    switch (composite2dgameobjectcomponent.physicalstatetype) {
                         case Solid:
                         case Liquid:
                             throw new ObjectCollidesException();
@@ -72,32 +72,32 @@ public class Composite2dGameObject extends CompositeGameObject {
             }
         }
         Integer i = 0;
-        while (i < this.componentobjects[gameobject.location.x][gameobject.location.y].length && this.componentobjects[gameobject.location.x][gameobject.location.y][i] != null) {
+        while (i < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length && this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][i] != null) {
             i++;
         }
-        if (i < this.componentobjects[gameobject.location.x][gameobject.location.y].length) {
-            this.componentobjects[gameobject.location.x][gameobject.location.y][i] = gameobject;
-            gameobject.arrayposition = i;
+        if (i < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length) {
+            this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][i] = composite2dgameobjectcomponent;
+            composite2dgameobjectcomponent.arrayposition = i;
         } else {
             throw new ImpossibleLocationAddException("No space available");
         }
-        gameobject.located = true;
+        composite2dgameobjectcomponent.located = true;
     }
 
     /**
      * Remove an object from a location in the object
      *
-     * @param gameobject The object you want to delete
+     * @param composite2dgameobjectcomponent The object you want to delete
      * @throws GameEngine.ImpossibleLocationRemoveException
      * @author alvaro9650
      */
-    public void deleteGameObject(GameObject gameobject) throws ImpossibleLocationRemoveException {
-        if (gameobject.arrayposition < this.componentobjects[gameobject.location.x][gameobject.location.y].length && gameobject.hashCode() == this.componentobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition].hashCode()) {
-            this.componentobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition] = null;
+    public void deleteGameObject(Composite2dGameObjectComponent composite2dgameobjectcomponent) throws ImpossibleLocationRemoveException {
+        if (composite2dgameobjectcomponent.arrayposition < this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y].length && composite2dgameobjectcomponent.hashCode() == this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][composite2dgameobjectcomponent.arrayposition].hashCode()) {
+            this.componentobjects[composite2dgameobjectcomponent.location.x][composite2dgameobjectcomponent.location.y][composite2dgameobjectcomponent.arrayposition] = null;
         } else {
             throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
         }
-        gameobject.located = false;
+        composite2dgameobjectcomponent.located = false;
     }
 
     /**
@@ -109,8 +109,8 @@ public class Composite2dGameObject extends CompositeGameObject {
      * anything
      * @author alvaro9650
      */
-    public GameObject collidesWith(GameObject objectlookingforcollider) {
-        for (GameObject object : this.componentobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
+    public Composite2dGameObjectComponent collidesWith(GameObject objectlookingforcollider) {
+        for (Composite2dGameObjectComponent object : this.componentobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
             if (object != null && Objects.equals(object.height, objectlookingforcollider.height) && !Objects.equals(object, objectlookingforcollider)) {
                 return object;
             }
