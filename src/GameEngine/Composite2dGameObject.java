@@ -124,6 +124,375 @@ public class Composite2dGameObject extends CompositeGameObject {
     }
 
     /**
+     * It's used to process a collision between 2 objects
+     *
+     * @param receivingcollisionobject Object which this object collides to
+     * @param givingcollisionobject
+     * @author alvaro9650
+     */
+    public void processCollision(Composite2dGameObjectComponent givingcollisionobject, Composite2dGameObjectComponent receivingcollisionobject) {
+        givingcollisionobject.giveCollision(receivingcollisionobject);
+        receivingcollisionobject.receiveCollision(givingcollisionobject);
+        switch (receivingcollisionobject.receivingcollision) {
+            case Ghost:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        break;
+                    case WormHole:
+                        break;
+                    case Imparable:
+                        break;
+                    case Unmoveable:
+                        break;
+                    case Respawnable:
+                        break;
+                    case Destroyable:
+                        break;
+                    case Farest:
+                        break;
+                }
+                break;
+            case Bounce:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        givingcollisionobject.speed.x /= -2;
+                        receivingcollisionobject.speed.x -= givingcollisionobject.speed.x;
+                        givingcollisionobject.speed.y /= -2;
+                        receivingcollisionobject.speed.x -= givingcollisionobject.speed.y;
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Imparable:
+                        if (givingcollisionobject.movedirection.x != 0) {
+                            if (givingcollisionobject.movedirection.x == Math.signum(receivingcollisionobject.speed.x)) {
+                                receivingcollisionobject.speed.x = givingcollisionobject.speed.x;
+                            } else {
+                                receivingcollisionobject.speed.x /= -2;
+                                receivingcollisionobject.speed.x -= givingcollisionobject.speed.x;
+                            }
+                        }
+                        if (givingcollisionobject.movedirection.y != 0) {
+                            if (givingcollisionobject.movedirection.y == Math.signum(receivingcollisionobject.speed.y)) {
+                                receivingcollisionobject.speed.y = givingcollisionobject.speed.y;
+                            } else {
+                                receivingcollisionobject.speed.y /= -2;
+                                receivingcollisionobject.speed.y -= givingcollisionobject.speed.y;
+                            }
+                        }
+                        break;
+                    case Unmoveable:
+                        if (givingcollisionobject.movedirection.x != 0) {
+                            if (givingcollisionobject.movedirection.x == Math.signum(receivingcollisionobject.speed.x)) {
+                                receivingcollisionobject.speed.x = givingcollisionobject.speed.x;
+                            } else {
+                                receivingcollisionobject.speed.x /= -2;
+                                receivingcollisionobject.speed.x -= givingcollisionobject.speed.x;
+                            }
+                        }
+                        if (givingcollisionobject.movedirection.y != 0) {
+                            if (givingcollisionobject.movedirection.y == Math.signum(receivingcollisionobject.speed.y)) {
+                                receivingcollisionobject.speed.y = givingcollisionobject.speed.y;
+                            } else {
+                                receivingcollisionobject.speed.y /= -2;
+                                receivingcollisionobject.speed.y -= givingcollisionobject.speed.y;
+                            }
+                        }
+                        break;
+                    case Respawnable:
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                        break;
+                }
+            case WormHole:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Bounce:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Imparable:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Unmoveable:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Respawnable:
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                }
+            case Imparable:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        givingcollisionobject.speed.x = -givingcollisionobject.speed.x;
+                        givingcollisionobject.speed.y = -givingcollisionobject.speed.y;
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Imparable:
+                        break;
+                    case Unmoveable:
+                        break;
+                    case Respawnable:
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                        break;
+                }
+                break;
+            case Unmoveable:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        givingcollisionobject.speed.x = -givingcollisionobject.speed.x;
+                        givingcollisionobject.speed.y = -givingcollisionobject.speed.y;
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Imparable:
+                        break;
+                    case Unmoveable:
+                        break;
+                    case Respawnable:
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                        break;
+                }
+                break;
+            case Respawnable:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        givingcollisionobject.speed.x /= -2;
+                        givingcollisionobject.speed.y /= -2;
+                        receivingcollisionobject.respawn();
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        receivingcollisionobject.respawn();
+                        break;
+                    case Imparable:
+                        receivingcollisionobject.respawn();
+                        break;
+                    case Unmoveable:
+                        receivingcollisionobject.respawn();
+                        break;
+                    case Respawnable:
+                        receivingcollisionobject.respawn();
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    receivingcollisionobject.respawn();
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                        receivingcollisionobject.respawn();
+                        break;
+                }
+            case Destroyable:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        givingcollisionobject.speed.x /= -2;
+                        givingcollisionobject.speed.y /= -2;
+                         {
+                            try {
+                                receivingcollisionobject.close();
+                            } catch (IOException ex) {
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                         {
+                            try {
+                                receivingcollisionobject.close();
+                            } catch (IOException ex) {
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                    case Imparable: {
+                        try {
+                            receivingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Unmoveable: {
+                        try {
+                            receivingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Respawnable: {
+                        try {
+                            receivingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    givingcollisionobject.respawn();
+                    break;
+                    case Destroyable: {
+                        try {
+                            givingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                     {
+                        try {
+                            receivingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                         {
+                            try {
+                                receivingcollisionobject.close();
+                            } catch (IOException ex) {
+                                Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                }
+            case Farest:
+                switch (givingcollisionobject.givingcollision) {
+                    case Ghost:
+                        break;
+                    case Bounce:
+                        receivingcollisionobject.location.x += new Float(Math.signum(receivingcollisionobject.speed.x)).intValue();
+                        receivingcollisionobject.location.y += new Float(Math.signum(receivingcollisionobject.speed.y)).intValue();
+                        break;
+                    case WormHole:
+                        givingcollisionobject.location.x += givingcollisionobject.movedirection.x;
+                        givingcollisionobject.location.y += givingcollisionobject.movedirection.y;
+                        break;
+                    case Imparable:
+                        receivingcollisionobject.location.x += new Float(Math.signum(receivingcollisionobject.speed.x)).intValue();
+                        receivingcollisionobject.location.y += new Float(Math.signum(receivingcollisionobject.speed.y)).intValue();
+                        break;
+                    case Unmoveable:
+                        receivingcollisionobject.location.x += new Float(Math.signum(receivingcollisionobject.speed.x)).intValue();
+                        receivingcollisionobject.location.y += new Float(Math.signum(receivingcollisionobject.speed.y)).intValue();
+                        break;
+                    case Respawnable:
+                        givingcollisionobject.respawn();
+                        break;
+                    case Destroyable: {
+                        try {
+                            receivingcollisionobject.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                    case Farest:
+                        givingcollisionobject.stop();
+                        break;
+                }
+        }
+        try {
+            this.addCollidedComposite2dGameObjectComponent(givingcollisionobject);
+            this.addCollidedComposite2dGameObjectComponent(receivingcollisionobject);
+        } catch (ImpossibleLocationAddException ex) {
+            System.out.println("Imposible location add");
+        } catch (OutOfBoundsException ex) {
+            givingcollisionobject.processOutOfBounds(givingcollisionobject.location);
+        } catch (ImpossibleLocationRemoveException ex) {
+            System.out.println("Imposible location remove");
+        }
+        try {
+            this.addCollidedComposite2dGameObjectComponent(receivingcollisionobject);
+        } catch (ImpossibleLocationAddException ex) {
+            System.out.println("Imposible location add");
+        } catch (OutOfBoundsException ex) {
+            receivingcollisionobject.processOutOfBounds(receivingcollisionobject.location);
+        } catch (ImpossibleLocationRemoveException ex) {
+            System.out.println("Imposible location remove");
+        }
+    }
+    /**
      * Add an object to a location in the Composite2dGameObject without checking
      * if it collides because collision is suposed to already been processed
      *
