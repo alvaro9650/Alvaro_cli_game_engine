@@ -10,8 +10,9 @@ package GameEngine;
  * @author alvaro9650
  */
 public class RectangularArea {
-
+    // Maximum coordinate of the rectangular area
     Coordinate maxcoord;
+    // Minimum coordinate of the rectangular area
     Coordinate mincoord;
 
     /**
@@ -24,17 +25,26 @@ public class RectangularArea {
      * @author alvaro9650
      */
     public RectangularArea(Integer maxx, Integer minx, Integer maxy, Integer miny) {
+        // Check the max and the min are not inversed
         if (maxx >= minx && maxy >= miny) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(maxx, maxy);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(minx, miny);
         } else if (maxx < minx && maxy >= miny) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(minx, maxy);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(maxx, miny);
         } else if (maxx >= minx && maxy < miny) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(maxx, miny);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(minx, maxy);
         } else if (maxx < minx && maxy < miny) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(minx, miny);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(maxx, maxy);
         }
 
@@ -49,17 +59,26 @@ public class RectangularArea {
      * @author alvaro9650
      */
     public RectangularArea(Coordinate maxcoord, Coordinate mincoord) {
+        // Check the max and the min are not inversed
         if (maxcoord.x >= mincoord.x && maxcoord.y >= mincoord.y) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(maxcoord.x, maxcoord.y);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(mincoord.x, mincoord.y);
         } else if (maxcoord.x < mincoord.x && maxcoord.y >= mincoord.y) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(mincoord.x, maxcoord.y);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(maxcoord.x, mincoord.y);
         } else if (maxcoord.x >= mincoord.x && maxcoord.y < mincoord.y) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(maxcoord.x, mincoord.y);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(mincoord.x, maxcoord.y);
         } else if (maxcoord.x < mincoord.x && maxcoord.y < mincoord.y) {
+            // Create the maximum coordinate and asign it to maxcoord
             this.maxcoord = new Coordinate(mincoord.x, mincoord.y);
+            // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(maxcoord.x, maxcoord.y);
         }
     }
@@ -72,28 +91,39 @@ public class RectangularArea {
      * @author alvaro9650
      */
     public RectangularArea getCommonArea(RectangularArea extarea) {
+        // Create coordinate to save the common minimum
         Coordinate commonmin = new Coordinate(0, 0);
+        // Create coordinate to save the common maximum
         Coordinate commonmax = new Coordinate(0, 0);
         if (this.mincoord.x <= extarea.mincoord.x) {
+            // Assign the common minimum x
             commonmin.x = this.mincoord.x;
         } else {
+            // Assign the common minimum x
             commonmin.x = extarea.mincoord.x;
         }
         if (this.mincoord.y <= extarea.mincoord.y) {
+            // Assign the common minimum y
             commonmin.y = this.mincoord.y;
         } else {
+            // Assign the common minimum y
             commonmin.y = extarea.mincoord.y;
         }
         if (this.maxcoord.x >= extarea.maxcoord.x) {
+            // Assign the common maximum x
             commonmax.x = this.maxcoord.x;
         } else {
+            // Assign the common maximum x
             commonmax.x = extarea.maxcoord.x;
         }
         if (this.maxcoord.y >= extarea.maxcoord.y) {
+            // Assign the common maximum y
             commonmax.y = this.maxcoord.y;
         } else {
+            // Assign the common maximum y
             commonmax.y = extarea.maxcoord.y;
         }
+        // Create a RectangularArea with the common values and return it
         return new RectangularArea(commonmax, commonmin);
     }
 
