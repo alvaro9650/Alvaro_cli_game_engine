@@ -68,6 +68,81 @@ public class GameObject implements Closeable {
     }
 
     /**
+     * Creates a basic game object , should be overriden
+     *
+     * @param parent The parent object
+     * @author alvaro9650
+     */
+    public GameObject(CompositeGameObject parent) {
+        this.located = false;
+        this.character = '|';
+        this.type = GameObjectType.Simple;
+        this.height = 0;
+        this.objecttype = "Default";
+        this.speed = new Speed(0, 0);
+        this.movedirection = new Speed(0, 0);
+        this.movetype = MoveType.None;
+        this.playingfield = parent.playingfield;
+        this.givingcollision = CollisionType.Ghost;
+        this.receivingcollision = CollisionType.Ghost;
+        this.physicalstatetype = PhysicalStateType.Ghost;
+        this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
+        this.loglevel = LogLevel.None;
+        this.objectidentifier = Integer.toString(this.hashCode());
+    }
+
+    /**
+     * Creates a basic game object , should be overriden
+     *
+     * @param parent The parent object
+     * @author alvaro9650
+     */
+    public GameObject(Composite2dGameObject parent) {
+        this.located = false;
+        this.character = '|';
+        this.type = GameObjectType.Simple;
+        this.height = 0;
+        this.objecttype = "Default";
+        this.speed = new Speed(0, 0);
+        this.movedirection = new Speed(0, 0);
+        this.movetype = MoveType.None;
+        this.playingfield = parent.playingfield;
+        this.givingcollision = CollisionType.Ghost;
+        this.receivingcollision = CollisionType.Ghost;
+        this.physicalstatetype = PhysicalStateType.Ghost;
+        this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
+        this.loglevel = LogLevel.None;
+        this.objectidentifier = Integer.toString(this.hashCode());
+    }
+
+    /**
+     * Creates a basic game object , should be overriden
+     *
+     * @param parent The parent object
+     * @author alvaro9650
+     */
+    public GameObject(Composite3dGameObject parent) {
+        this.located = false;
+        this.character = '|';
+        this.type = GameObjectType.Simple;
+        this.height = 0;
+        this.objecttype = "Default";
+        this.speed = new Speed(0, 0);
+        this.movedirection = new Speed(0, 0);
+        this.movetype = MoveType.None;
+        this.playingfield = parent.playingfield;
+        this.givingcollision = CollisionType.Ghost;
+        this.receivingcollision = CollisionType.Ghost;
+        this.posiblelocationarea = new RectangularArea(parent.size.x - 1, 0, parent.size.y - 1, 0);
+        this.respawnarea = new RectangularArea(parent.size.x - 1, 0, parent.size.y - 1, 0);
+        this.physicalstatetype = PhysicalStateType.Ghost;
+        this.outofboundsmovetype = OutOfBoundsMoveType.CircularUniverse;
+        this.loglevel = LogLevel.None;
+        this.location = new Coordinate(this.posiblelocationarea.mincoord.x, this.posiblelocationarea.mincoord.y);
+        this.objectidentifier = Integer.toString(this.hashCode());
+    }
+
+    /**
      * Creates a respawn point to use when it's going to be respawned
      *
      * @param x x coordinate
