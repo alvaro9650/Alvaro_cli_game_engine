@@ -133,11 +133,48 @@ public class GameEngine {
         Integer characterheight = 0;
         for (GameObject gameobject : field.gameobjects[x][y]) {
             if (gameobject != null && gameobject.height != null && gameobject.height > characterheight && gameobject.height > 0) {
-                characterheight = gameobject.height;
-                drawcharacter = gameobject.character;
+                switch (gameobject.type) {
+                    case Simple:
+                        characterheight = gameobject.height;
+                        drawcharacter = gameobject.character;
+                    case Composite2dGameObjectType:
+                        Character charatcom;
+                        if (null != (charatcom = GameEngine.toDrawAt((Composite2dGameObject) gameobject, x - gameobject.location.x, y - gameobject.location.y))) {
+                            characterheight = gameobject.height;
+                            drawcharacter = charatcom;
+                        }
+                    case Composite3dGameObjectType:
+                }
             }
         }
         return drawcharacter;
     }
 
+    /**
+     * Returns which character has to be drawn in that position in that
+     * Composite2dGameObject
+     *
+     * @param object
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return Character to be drawn at that location
+     * @author alvaro9650
+     */
+    public static Character toDrawAt(Composite2dGameObject object, Integer x, Integer y) {
+        Character drawcharacter = null;
+        Integer characterheight = 0;
+        for (GameObject component : object.componentobjects[x][y]) {
+            if (component != null && component.height != null && component.height > characterheight && component.height > 0) {
+                switch (component.type) {
+                    case Simple:
+                        characterheight = component.height;
+                        drawcharacter = component.character;
+                    case Composite2dGameObjectType:
+                        GameEngine.toDrawAt((Composite2dGameObject) component, x - component.location.x, y - component.location.y);
+                    case Composite3dGameObjectType:
+                }
+            }
+        }
+        return drawcharacter;
+    }
 }
