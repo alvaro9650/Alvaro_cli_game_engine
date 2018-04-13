@@ -9,10 +9,8 @@ package GameEngine;
  *
  * @author alvaro9650
  */
-public class ThreeDimensionsSize {
+public class ThreeDimensionsSize extends TwoDimensionsSize {
 
-    public Integer x;
-    public Integer y;
     public Integer z;
 
     /**
@@ -24,8 +22,7 @@ public class ThreeDimensionsSize {
      * @author alvaro9650
      */
     public ThreeDimensionsSize(Integer x, Integer y, Integer z) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.z = z;
     }
 
