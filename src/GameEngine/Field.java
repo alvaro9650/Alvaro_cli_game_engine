@@ -64,7 +64,26 @@ public class Field {
         if (gameobject.located) {
             this.deleteGameObject(gameobject);
         }
-        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
+        TwoDimensionsSize objectsize;
+        switch (gameobject.type) {
+            case Simple: {
+                objectsize = new TwoDimensionsSize(1, 1);
+                break;
+            }
+            case Composite2dGameObjectType: {
+                objectsize = ((Composite2dGameObject) gameobject).size;
+                break;
+            }
+            case Composite3dGameObjectType: {
+                objectsize = ((Composite3dGameObject) gameobject).size;
+                break;
+            }
+            default:
+                objectsize = new TwoDimensionsSize(0, 0);
+                break;
+        }
+        Coordinate coordinatetoadd = new Coordinate(gameobject.location);
+        if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(coordinatetoadd))) {
             throw new OutOfBoundsException();
         } else if ((collider = this.collidesWith(gameobject)) != null) {
             switch (collider.physicalstatetype) {
@@ -88,14 +107,21 @@ public class Field {
                     }
             }
         }
-        Integer i = 0;
-        while (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length && this.gameobjects[gameobject.location.x][gameobject.location.y][i] != null) {
-            i++;
+        Integer[][] spaceavailable = new Integer[objectsize.x][objectsize.y];
+        Boolean lastpartlocated;
+        for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
+            for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
+                for (spaceavailable[xoffset][yoffset] = 0, lastpartlocated = false; spaceavailable[xoffset][yoffset] < this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset].length && !(lastpartlocated = this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset][spaceavailable[xoffset][yoffset]] == null); spaceavailable[xoffset][yoffset]++) {
+                }
+                if (!lastpartlocated) {
+                    throw new ImpossibleLocationAddException("No space available");
+                }
+            }
         }
-        if (i < this.gameobjects[gameobject.location.x][gameobject.location.y].length) {
-            this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition = i] = gameobject;
-        } else {
-            throw new ImpossibleLocationAddException("No space available");
+        for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
+            for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
+                this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset][gameobject.arrayposition = spaceavailable[xoffset][yoffset]] = gameobject;
+            }
         }
         gameobject.located = true;
     }
