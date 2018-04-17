@@ -180,10 +180,25 @@ public class Field {
      * @author alvaro9650
      */
     public Boolean canRelocateGameObject(GameObject gameobject, Coordinate coordinate) {
-        if (!checkSpaceAvailable(coordinate) || new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(coordinate)) {
-            return false;
+        TwoDimensionsSize objectsize;
+        switch (gameobject.type) {
+            case Simple: {
+                objectsize = new TwoDimensionsSize(1, 1);
+                break;
+            }
+            case Composite2dGameObjectType: {
+                objectsize = ((Composite2dGameObject) gameobject).size;
+                break;
+            }
+            case Composite3dGameObjectType: {
+                objectsize = ((Composite3dGameObject) gameobject).size;
+                break;
+            }
+            default:
+                objectsize = new TwoDimensionsSize(0, 0);
+                break;
         }
-        return true;
+        return new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(new Coordinate(coordinate.x + objectsize.x, coordinate.y + objectsize.y)) || !checkSpaceAvailable(coordinate);
     }
 
     /**
