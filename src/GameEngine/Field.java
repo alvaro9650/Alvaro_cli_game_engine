@@ -108,12 +108,11 @@ public class Field {
             }
         }
         Integer[][] spaceavailable = new Integer[objectsize.x][objectsize.y];
-        Boolean lastpartlocated;
         for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
             for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
-                for (spaceavailable[xoffset][yoffset] = 0, lastpartlocated = false; spaceavailable[xoffset][yoffset] < this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset].length && !(lastpartlocated = this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset][spaceavailable[xoffset][yoffset]] == null); spaceavailable[xoffset][yoffset]++) {
+                for (spaceavailable[xoffset][yoffset] = 0; spaceavailable[xoffset][yoffset] < this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset].length && this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset][spaceavailable[xoffset][yoffset]] != null; spaceavailable[xoffset][yoffset]++) {
                 }
-                if (!lastpartlocated) {
+                if (spaceavailable[xoffset][yoffset] >= this.gameobjects[coordinatetoadd.x + xoffset][coordinatetoadd.y + yoffset].length) {
                     throw new ImpossibleLocationAddException("No space available");
                 }
             }
