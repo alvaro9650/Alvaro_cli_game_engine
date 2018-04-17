@@ -157,17 +157,42 @@ public class Field {
      * Checks if coordinate has space available
      *
      * @param coordinate The coordinate you want to know if has space
+     * @param gameobject The object you want to check space for
      * @return true if there is space to put an object in that Coordinate false
      * if not
      * @author alvaro9650
      */
-    public Boolean checkSpaceAvailable(Coordinate coordinate) {
-        for (GameObject object : this.gameobjects[coordinate.x][coordinate.y]) {
-            if (object == null) {
-                return true;
+    public Boolean checkSpaceAvailable(Coordinate coordinate, GameObject gameobject) {
+        TwoDimensionsSize objectsize;
+        switch (gameobject.type) {
+            case Simple: {
+                objectsize = new TwoDimensionsSize(1, 1);
+                break;
+            }
+            case Composite2dGameObjectType: {
+                objectsize = ((Composite2dGameObject) gameobject).size;
+                break;
+            }
+            case Composite3dGameObjectType: {
+                objectsize = ((Composite3dGameObject) gameobject).size;
+                break;
+            }
+            default:
+                objectsize = new TwoDimensionsSize(0, 0);
+                break;
+        }
+        for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
+            coord:
+            for (Integer yoffset = 0; yoffset < objectsize.x; yoffset++) {
+                for (GameObject object : this.gameobjects[coordinate.x + xoffset][coordinate.y + yoffset]) {
+                    if (object == null) {
+                        continue coord;
+                    }
+                }
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -198,7 +223,7 @@ public class Field {
                 objectsize = new TwoDimensionsSize(0, 0);
                 break;
         }
-        return new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(new Coordinate(coordinate.x + objectsize.x, coordinate.y + objectsize.y)) || !checkSpaceAvailable(coordinate);
+        return new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(new Coordinate(coordinate.x + objectsize.x, coordinate.y + objectsize.y)) || !checkSpaceAvailable(coordinate, gameobject);
     }
 
     /**
