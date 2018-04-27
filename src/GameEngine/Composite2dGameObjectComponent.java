@@ -25,6 +25,7 @@ public class Composite2dGameObjectComponent extends CompositeGameObjectComponent
         super(parent);
         this.posiblelocationarea = new RectangularArea(new Coordinate(parent.size.x, parent.size.y), new Coordinate(0, 0));
         this.parent = parent;
+        this.type = GameObjectType.Composite2dGameObjectComponentType;
     }
 
     /**
