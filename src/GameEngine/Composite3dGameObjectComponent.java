@@ -21,6 +21,7 @@ public class Composite3dGameObjectComponent extends CompositeGameObjectComponent
     public Composite3dGameObjectComponent(Composite3dGameObject parent) {
         super(parent);
         this.parent = parent;
+        this.type = GameObjectType.Composite2dGameObjectComponentType;
     }
 
 }
