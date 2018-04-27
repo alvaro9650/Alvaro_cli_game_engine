@@ -166,6 +166,8 @@ public class GameEngine {
         for (GameObject component : object.componentobjects[x][y]) {
             if (component != null && component.height != null && component.height > characterheight && component.height > 0) {
                 switch (component.type) {
+                    case Composite2dGameObjectComponentType:
+                    case Composite3dGameObjectComponentType:
                     case Simple:
                         characterheight = component.height;
                         drawcharacter = component.character;
