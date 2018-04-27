@@ -127,7 +127,7 @@ public class Field {
         }
         for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
             for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
-                this.gameobjects[gameobject.location.x + xoffset][gameobject.location.y + yoffset][gameobject.arrayposition = spaceavailable[xoffset][yoffset]] = gameobject;
+                this.gameobjects[gameobject.location.x + xoffset][gameobject.location.y + yoffset][spaceavailable[xoffset][yoffset]] = gameobject;
             }
         }
         gameobject.located = true;
