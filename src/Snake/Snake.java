@@ -78,17 +78,108 @@ public class Snake extends Composite2dGameObject {
      * Method for moving the snake in a direction
      *
      * @param movedirection The direction the snake moves
+     * @throws Snake.GameOverException If the snake collides itself
      */
-    public void move(MoveDirection movedirection) {
+    public void move(MoveDirection movedirection) throws GameOverException {
+        Coordinate newheadcoord;
+        Coordinate lastpartlocation;
         switch (movedirection) {
             case UP:
+                if (tail.location == (newheadcoord = new Coordinate(head.location.x + 1, head.location.y))) {
+                    throw new GameOverException("Snake collides itself");
+                } else {
+                    for (SnakeComponent part : body) {
+                        if (part.location == newheadcoord) {
+                            throw new GameOverException("Snake collides itself");
+                        }
+                    }
+                }
+                head.speed = new Speed(0, 1);
+                lastpartlocation = head.location;
+                for (SnakeComponent part : body) {
+                    part.speed = new Speed(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
+                    lastpartlocation = part.location;
+                }
+                tail.speed = new Speed(lastpartlocation.x - tail.location.x, lastpartlocation.y - tail.location.y);
                 GameEngine.GameEngine.updateLocations(this);
+                head.speed = new Speed(0, 0);
+                body.forEach((part) -> {
+                    part.speed = new Speed(0, 0);
+                });
+                tail.speed = new Speed(0, 0);
+                break;
             case DOWN:
+                if (tail.location == (newheadcoord = new Coordinate(head.location.x + 1, head.location.y))) {
+                    throw new GameOverException("Snake collides itself");
+                } else {
+                    for (SnakeComponent part : body) {
+                        if (part.location == newheadcoord) {
+                            throw new GameOverException("Snake collides itself");
+                        }
+                    }
+                }
+                head.speed = new Speed(0, 1);
+                lastpartlocation = head.location;
+                for (SnakeComponent part : body) {
+                    part.speed = new Speed(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
+                    lastpartlocation = part.location;
+                }
+                tail.speed = new Speed(lastpartlocation.x - tail.location.x, lastpartlocation.y - tail.location.y);
                 GameEngine.GameEngine.updateLocations(this);
+                head.speed = new Speed(0, -1);
+                body.forEach((part) -> {
+                    part.speed = new Speed(0, 0);
+                });
+                tail.speed = new Speed(0, 0);
+                break;
             case LEFT:
+                if (tail.location == (newheadcoord = new Coordinate(head.location.x + 1, head.location.y))) {
+                    throw new GameOverException("Snake collides itself");
+                } else {
+                    for (SnakeComponent part : body) {
+                        if (part.location == newheadcoord) {
+                            throw new GameOverException("Snake collides itself");
+                        }
+                    }
+                }
+                head.speed = new Speed(-1, 0);
+                lastpartlocation = head.location;
+                for (SnakeComponent part : body) {
+                    part.speed = new Speed(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
+                    lastpartlocation = part.location;
+                }
+                tail.speed = new Speed(lastpartlocation.x - tail.location.x, lastpartlocation.y - tail.location.y);
                 GameEngine.GameEngine.updateLocations(this);
+                head.speed = new Speed(0, 0);
+                body.forEach((part) -> {
+                    part.speed = new Speed(0, 0);
+                });
+                tail.speed = new Speed(0, 0);
+                break;
             case RIGHT:
+                if (tail.location == (newheadcoord = new Coordinate(head.location.x + 1, head.location.y))) {
+                    throw new GameOverException("Snake collides itself");
+                } else {
+                    for (SnakeComponent part : body) {
+                        if (part.location == newheadcoord) {
+                            throw new GameOverException("Snake collides itself");
+                        }
+                    }
+                }
+                head.speed = new Speed(1, 0);
+                lastpartlocation = head.location;
+                for (SnakeComponent part : body) {
+                    part.speed = new Speed(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
+                    lastpartlocation = part.location;
+                }
+                tail.speed = new Speed(lastpartlocation.x - tail.location.x, lastpartlocation.y - tail.location.y);
                 GameEngine.GameEngine.updateLocations(this);
+                head.speed = new Speed(0, 0);
+                body.forEach((part) -> {
+                    part.speed = new Speed(0, 0);
+                });
+                tail.speed = new Speed(0, 0);
+                break;
         }
     }
 }
