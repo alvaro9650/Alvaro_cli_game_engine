@@ -17,5 +17,7 @@ public class SnakeComponent extends Composite2dGameObjectComponent {
 
     public SnakeComponent(Snake parent) {
         super(parent);
+        this.character='8';
+        this.height=1;
     }
 }
