@@ -8,6 +8,8 @@ package Snake;
 import GameEngine.Camera;
 import GameEngine.Field;
 import GameEngine.GameEngine;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +31,12 @@ public class SnakeGame {
         while (true) {
             cam.updateFrame();
             cam.drawFrame();
-            snake.move(MoveDirection.UP);
+            try {
+                snake.move(MoveDirection.UP);
+            } catch (GameOverException ex) {
+                System.out.println("Game finished");
+                break;
+            }
         }
     }
 }
