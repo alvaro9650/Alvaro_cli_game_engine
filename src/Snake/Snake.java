@@ -13,6 +13,8 @@ import GameEngine.ImpossibleLocationAddException;
 import GameEngine.ImpossibleLocationRemoveException;
 import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
+import GameEngine.Speed;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +25,7 @@ import java.util.logging.Logger;
 public class Snake extends Composite2dGameObject {
 
     public SnakeComponent head;
-    public SnakeComponent[] body;
+    public ArrayList<SnakeComponent> body;
     public SnakeComponent tail;
 
     public Snake(Field field) {
