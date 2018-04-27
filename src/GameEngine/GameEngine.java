@@ -171,8 +171,10 @@ public class GameEngine {
                     case Simple:
                         characterheight = component.height;
                         drawcharacter = component.character;
+                        break;
                     case Composite2dGameObjectType:
                         GameEngine.toDrawAt((Composite2dGameObject) component, x - component.location.x, y - component.location.y);
+                    break;
                     case Composite3dGameObjectType:
                 }
             }
