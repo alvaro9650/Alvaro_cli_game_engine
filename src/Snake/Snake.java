@@ -39,6 +39,7 @@ public class Snake extends Composite2dGameObject {
         this.tail = new SnakeComponent(this);
         this.tail.part = SnakePartType.HEAD;
         this.tail.location = new Coordinate(4, 5);
+        body = new ArrayList<>();
         try {
             this.addComposite2dGameObjectComponent(head);
         } catch (ImpossibleLocationAddException ex) {
