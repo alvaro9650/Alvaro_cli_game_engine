@@ -116,6 +116,16 @@ public class Field {
                 }
             }
         }
+        switch (gameobject.type) {
+            case Simple: {
+                gameobject.arrayposition=spaceavailable[0][0];
+                break;
+            }
+            case Composite2dGameObjectType: {
+                ((Composite2dGameObject)gameobject).arrayposition = spaceavailable;
+                break;
+            }
+        }
         for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
             for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
                 this.gameobjects[gameobject.location.x + xoffset][gameobject.location.y + yoffset][gameobject.arrayposition = spaceavailable[xoffset][yoffset]] = gameobject;
