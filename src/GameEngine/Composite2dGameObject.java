@@ -20,7 +20,8 @@ public class Composite2dGameObject extends CompositeGameObject {
     public TwoDimensionsSize size;
     // The objects the Composite2dGameObject contains
     public Composite2dGameObjectComponent[][][] componentobjects;
-
+    //The array position where the object is located
+    public Integer[][] arrayposition;
     /**
      * Costructor for Composite2dGameObject
      *
