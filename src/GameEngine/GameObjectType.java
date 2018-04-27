@@ -11,7 +11,7 @@ package GameEngine;
  * @author alvaro9650
  */
 public enum GameObjectType {
-    Simple(1), Composite2dGameObjectType(2), Composite3dGameObjectType(3);
+    Simple(1), Composite2dGameObjectType(2), Composite3dGameObjectType(3),Composite2dGameObjectComponentType(4),Composite3dGameObjectComponentType(5);
     private final int gameobjecttype;
 
     /**
