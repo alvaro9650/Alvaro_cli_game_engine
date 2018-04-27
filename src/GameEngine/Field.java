@@ -41,10 +41,29 @@ public class Field {
      * @author alvaro9650
      */
     public void deleteGameObject(GameObject gameobject) throws ImpossibleLocationRemoveException {
-        if (gameobject.arrayposition < this.gameobjects[gameobject.location.x][gameobject.location.y].length && gameobject.hashCode() == this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition].hashCode()) {
-            this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition] = null;
-        } else {
-            throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
+        Integer[][] spacetoremove;
+        switch (gameobject.type) {
+            case Simple:
+                spacetoremove = new Integer[1][1];
+                spacetoremove[0][0] = gameobject.arrayposition;
+                break;
+            case Composite2dGameObjectType:
+                spacetoremove = ((Composite2dGameObject) gameobject).arrayposition;
+                break;
+            default:
+                throw new UnsupportedOperationException("Not supported yet"); //To change body of generated methods, choose Tools | Templates.
+        }
+        for (Integer xoffset = 0; xoffset < spacetoremove.length; xoffset++) {
+            for (Integer yoffset = 0; yoffset < spacetoremove[0].length; yoffset++) {
+                if (spacetoremove[xoffset][yoffset] >= this.gameobjects[gameobject.location.x][gameobject.location.y].length || gameobject.hashCode() != this.gameobjects[gameobject.location.x][gameobject.location.y][spacetoremove[xoffset][yoffset]].hashCode()) {
+                    throw new ImpossibleLocationRemoveException("Object is not in the object stated location");
+                }
+            }
+        }
+        for (Integer xoffset = 0; xoffset < spacetoremove.length; xoffset++) {
+            for (Integer yoffset = 0; yoffset < spacetoremove[0].length; yoffset++) {
+                this.gameobjects[gameobject.location.x][gameobject.location.y][gameobject.arrayposition] = null;
+            }
         }
         gameobject.located = false;
     }
