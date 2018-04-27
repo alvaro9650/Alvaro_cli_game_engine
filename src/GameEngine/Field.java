@@ -79,8 +79,7 @@ public class Field {
                 break;
             }
             default:
-                objectsize = new TwoDimensionsSize(0, 0);
-                break;
+                throw new UnsupportedOperationException("Not supported yet"); //To change body of generated methods, choose Tools | Templates.
         }
         if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
             throw new OutOfBoundsException();
@@ -117,14 +116,14 @@ public class Field {
             }
         }
         switch (gameobject.type) {
-            case Simple: {
-                gameobject.arrayposition=spaceavailable[0][0];
+            case Simple:
+                gameobject.arrayposition = spaceavailable[0][0];
                 break;
-            }
-            case Composite2dGameObjectType: {
-                ((Composite2dGameObject)gameobject).arrayposition = spaceavailable;
+            case Composite2dGameObjectType:
+                ((Composite2dGameObject) gameobject).arrayposition = spaceavailable;
                 break;
-            }
+            default:
+                throw new UnsupportedOperationException("Not supported yet"); //To change body of generated methods, choose Tools | Templates.
         }
         for (Integer xoffset = 0; xoffset < objectsize.x; xoffset++) {
             for (Integer yoffset = 0; yoffset < objectsize.y; yoffset++) {
