@@ -32,7 +32,7 @@ public class SnakeGame {
             cam.updateFrame();
             cam.drawFrame();
             try {
-                snake.move(MoveDirection.UP);
+                snake.move(MoveDirection.RIGHT);
             } catch (GameOverException ex) {
                 System.out.println("Game finished");
                 break;
