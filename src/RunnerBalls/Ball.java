@@ -49,7 +49,6 @@ public class Ball extends GameObject {
                 break;
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
-                continue;
             } catch (ObjectCollidesException ex) {
                 System.out.println("ball collide");
             } catch (OutOfBoundsException ex) {
