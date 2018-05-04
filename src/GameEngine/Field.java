@@ -98,7 +98,7 @@ public class Field {
                 break;
             }
             default:
-                throw new UnsupportedOperationException("Not supported yet"); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet,object type:"+gameobject.type); //To change body of generated methods, choose Tools | Templates.
         }
         if (!(new RectangularArea(this.size.x - 1, 0, this.size.y - 1, 0).getCommonArea(gameobject.posiblelocationarea).isInside(gameobject.location))) {
             throw new OutOfBoundsException();
