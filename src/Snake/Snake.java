@@ -29,7 +29,7 @@ public class Snake extends Composite2dGameObject {
 
     public Snake(Field field) {
         super(field, field.size.x, field.size.y, 2);
-        this.objectidentifier = "Snake";
+        this.objecttype = "Snake";
         this.height = 1;
         this.location = new Coordinate(0, 0);
         this.head = new SnakeComponent(this);
