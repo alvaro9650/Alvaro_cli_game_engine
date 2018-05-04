@@ -321,12 +321,12 @@ public class GameObject implements Closeable {
                         if (this.location.x < possiblearea.mincoord.x) {
                             this.location.x = possiblearea.maxcoord.x - (possiblearea.mincoord.x - this.location.x);
                         } else if (this.location.x > possiblearea.maxcoord.x) {
-                            this.location.x = this.location.x - possiblearea.maxcoord.x + possiblearea.mincoord.x;
+                            this.location.x = this.location.x - possiblearea.maxcoord.x + possiblearea.mincoord.x - 1;
                         }
                         if (this.location.y < possiblearea.mincoord.y) {
                             this.location.y = possiblearea.maxcoord.y - (possiblearea.mincoord.y - this.location.y);
                         } else if (this.location.y > possiblearea.maxcoord.y) {
-                            this.location.y = this.location.y - possiblearea.maxcoord.y + possiblearea.mincoord.y;
+                            this.location.y = this.location.y - possiblearea.maxcoord.y + possiblearea.mincoord.y - 1;
                         }
                         break;
                     case Bounceable:
