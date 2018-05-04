@@ -5,9 +5,19 @@
  */
 package Snake;
 
+import GameEngine.Coordinate;
 import GameEngine.Field;
 import GameEngine.GameObject;
+import GameEngine.ImpossibleLocationAddException;
+import GameEngine.ImpossibleLocationRemoveException;
 import GameEngine.MoveType;
+import GameEngine.ObjectCollidesException;
+import GameEngine.OutOfBoundsException;
+import GameEngine.OutOfBoundsMoveType;
+import GameEngine.PhysicalStateType;
+import alvaro_tools.MathCustomFuncs;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The apple the snake has to eat to grow
@@ -22,6 +32,24 @@ public class Apple extends GameObject {
         this.height = 1;
         this.character = 'O';
         this.objecttype = "Apple";
+        this.physicalstatetype = PhysicalStateType.Solid;
+        this.outofboundsmovetype = OutOfBoundsMoveType.Respawnable;
+        this.movetype = MoveType.Teleport;
+        do {
+            this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
+            try {
+                this.playingfield.addGameObject(this);
+                break;
+            } catch (ImpossibleLocationAddException ex) {
+                Logger.getLogger(Apple.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ObjectCollidesException ex) {
+                System.out.println("apple collides");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("apple out of bounds");
+            } catch (ImpossibleLocationRemoveException ex) {
+                System.out.println("imposible apple remove");
+            }
+        } while (true);
     }
 
 }
