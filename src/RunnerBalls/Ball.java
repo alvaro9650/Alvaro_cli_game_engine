@@ -46,6 +46,7 @@ public class Ball extends GameObject {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
                 this.playingfield.addGameObject(this);
+                break;
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Ball.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
@@ -56,7 +57,6 @@ public class Ball extends GameObject {
             } catch (ImpossibleLocationRemoveException ex) {
                 System.out.println("imposible ball remove");
             }
-            break;
         } while (true);
     }
 
