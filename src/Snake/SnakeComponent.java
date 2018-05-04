@@ -6,6 +6,7 @@
 package Snake;
 
 import GameEngine.Composite2dGameObjectComponent;
+import GameEngine.MoveType;
 
 /**
  *
@@ -18,6 +19,7 @@ public class SnakeComponent extends Composite2dGameObjectComponent {
     public SnakeComponent(Snake parent) {
         super(parent);
         this.character='8';
+        this.movetype=MoveType.Teleport;
         this.height=1;
     }
 }
