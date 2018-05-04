@@ -80,11 +80,13 @@ public class GameEngine {
      * @author alvaro9650
      */
     public static void updateLocations(Field field) {
+        ArrayList<GameObject> movedobjects = new ArrayList<GameObject>();
         for (GameObject[][] x : field.gameobjects) {
             for (GameObject[] y : x) {
                 for (GameObject gameobject : y) {
-                    if (gameobject != null) {
+                    if (gameobject != null && !movedobjects.contains(gameobject)) {
                         gameobject.updateLocation();
+                        movedobjects.add(gameobject);
                     }
                 }
             }
@@ -102,7 +104,7 @@ public class GameEngine {
         for (Composite2dGameObjectComponent[][] x : compositeobject.componentobjects) {
             for (Composite2dGameObjectComponent[] y : x) {
                 for (Composite2dGameObjectComponent composite2dgameobjectcomponent : y) {
-                    if (composite2dgameobjectcomponent != null&&!movedobjects.contains(composite2dgameobjectcomponent)) {
+                    if (composite2dgameobjectcomponent != null && !movedobjects.contains(composite2dgameobjectcomponent)) {
                         composite2dgameobjectcomponent.updateLocation();
                         movedobjects.add(composite2dgameobjectcomponent);
                     }
