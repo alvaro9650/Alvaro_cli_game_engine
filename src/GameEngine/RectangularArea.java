@@ -10,6 +10,7 @@ package GameEngine;
  * @author alvaro9650
  */
 public class RectangularArea {
+
     // Maximum coordinate of the rectangular area
     Coordinate maxcoord;
     // Minimum coordinate of the rectangular area
@@ -47,7 +48,6 @@ public class RectangularArea {
             // Create the minimum coordinate and asign it to mincoord
             this.mincoord = new Coordinate(maxx, maxy);
         }
-
     }
 
     /**
@@ -95,28 +95,28 @@ public class RectangularArea {
         Coordinate commonmin = new Coordinate(0, 0);
         // Create coordinate to save the common maximum
         Coordinate commonmax = new Coordinate(0, 0);
-        if (this.mincoord.x <= extarea.mincoord.x) {
+        if (this.mincoord.x >= extarea.mincoord.x) {
             // Assign the common minimum x
             commonmin.x = this.mincoord.x;
         } else {
             // Assign the common minimum x
             commonmin.x = extarea.mincoord.x;
         }
-        if (this.mincoord.y <= extarea.mincoord.y) {
+        if (this.mincoord.y >= extarea.mincoord.y) {
             // Assign the common minimum y
             commonmin.y = this.mincoord.y;
         } else {
             // Assign the common minimum y
             commonmin.y = extarea.mincoord.y;
         }
-        if (this.maxcoord.x >= extarea.maxcoord.x) {
+        if (this.maxcoord.x <= extarea.maxcoord.x) {
             // Assign the common maximum x
             commonmax.x = this.maxcoord.x;
         } else {
             // Assign the common maximum x
             commonmax.x = extarea.maxcoord.x;
         }
-        if (this.maxcoord.y >= extarea.maxcoord.y) {
+        if (this.maxcoord.y <= extarea.maxcoord.y) {
             // Assign the common maximum y
             commonmax.y = this.maxcoord.y;
         } else {
