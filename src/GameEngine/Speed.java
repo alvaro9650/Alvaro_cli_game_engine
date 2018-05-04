@@ -5,6 +5,8 @@
  */
 package GameEngine;
 
+import java.util.Objects;
+
 /**
  * An object to save x direction speed and y direction speed
  *
@@ -46,6 +48,26 @@ public class Speed {
     public void stop() {
         this.x = 0;
         this.y = 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.x);
+        hash = 23 * hash + Objects.hashCode(this.y);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null||getClass() != obj.getClass()) {
+            return false;
+        }
+        final Speed other = (Speed) obj;
+        return !(!Objects.equals(this.x, other.x)||!Objects.equals(this.y, other.y));
     }
 
     /**
