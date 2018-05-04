@@ -143,13 +143,16 @@ public class GameEngine {
                     case Simple:
                         characterheight = gameobject.height;
                         drawcharacter = gameobject.character;
+                        break;
                     case Composite2dGameObjectType:
                         Character charatcom;
                         if (null != (charatcom = GameEngine.toDrawAt((Composite2dGameObject) gameobject, x - gameobject.location.x, y - gameobject.location.y))) {
                             characterheight = gameobject.height;
                             drawcharacter = charatcom;
                         }
+                        break;
                     case Composite3dGameObjectType:
+                        break;
                 }
             }
         }
