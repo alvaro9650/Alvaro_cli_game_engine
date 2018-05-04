@@ -101,11 +101,11 @@ public class Snake extends Composite2dGameObject {
                 movespeed = new Speed(0, 0);
                 break;
         }
-        if (tail.location == (newheadcoord = new Coordinate(head.location.x + movespeed.x, head.location.y + movespeed.y))) {
+        if (tail.location.equals(newheadcoord = new Coordinate(head.location.x + movespeed.x, head.location.y + movespeed.y))) {
             throw new GameOverException("Snake collides itself");
         } else {
             for (SnakeComponent part : body) {
-                if (part.location == newheadcoord) {
+                if (part.location.equals(newheadcoord)) {
                     throw new GameOverException("Snake collides itself");
                 }
             }
