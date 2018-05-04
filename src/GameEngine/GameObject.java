@@ -325,7 +325,7 @@ public class GameObject implements Closeable {
                         }
                         if (this.location.y < possiblearea.mincoord.y) {
                             this.location.y = possiblearea.maxcoord.y - (possiblearea.mincoord.y - this.location.y);
-                        } else if (this.location.x > possiblearea.maxcoord.y) {
+                        } else if (this.location.y > possiblearea.maxcoord.y) {
                             this.location.y = this.location.y - possiblearea.maxcoord.y + possiblearea.mincoord.y;
                         }
                         break;
