@@ -5,6 +5,8 @@
  */
 package GameEngine;
 
+import java.util.Objects;
+
 /**
  * Coordinate in 2d
  *
@@ -25,6 +27,26 @@ public class Coordinate {
     public Coordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.x);
+        hash = 97 * hash + Objects.hashCode(this.y);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Coordinate other = (Coordinate) obj;
+        return !(!Objects.equals(this.x, other.x) || !Objects.equals(this.y, other.y));
     }
 
     public Coordinate(Coordinate coord) {
