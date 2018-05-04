@@ -5,6 +5,8 @@
  */
 package GameEngine;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author alvaro9650
@@ -96,11 +98,13 @@ public class GameEngine {
      * @author alvaro9650
      */
     public static void updateLocations(Composite2dGameObject compositeobject) {
+        ArrayList<Composite2dGameObjectComponent> movedobjects = new ArrayList<Composite2dGameObjectComponent>();
         for (Composite2dGameObjectComponent[][] x : compositeobject.componentobjects) {
             for (Composite2dGameObjectComponent[] y : x) {
                 for (Composite2dGameObjectComponent composite2dgameobjectcomponent : y) {
-                    if (composite2dgameobjectcomponent != null) {
+                    if (composite2dgameobjectcomponent != null&&!movedobjects.contains(composite2dgameobjectcomponent)) {
                         composite2dgameobjectcomponent.updateLocation();
+                        movedobjects.add(composite2dgameobjectcomponent);
                     }
                 }
             }
@@ -174,7 +178,7 @@ public class GameEngine {
                         break;
                     case Composite2dGameObjectType:
                         GameEngine.toDrawAt((Composite2dGameObject) component, x - component.location.x, y - component.location.y);
-                    break;
+                        break;
                     case Composite3dGameObjectType:
                 }
             }
