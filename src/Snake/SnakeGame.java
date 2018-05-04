@@ -27,12 +27,13 @@ public class SnakeGame {
         Camera cam = new Camera(field, 0, 0, 79, 20);
         cam.blank = '|';
         Snake snake = new Snake(field);
+        new Apple(field);
         game:
         while (true) {
             cam.updateFrame();
             cam.drawFrame();
             try {
-                snake.move(MoveDirection.UP);
+                snake.move(MoveDirection.LEFT);
             } catch (GameOverException ex) {
                 System.out.println("Game finished");
                 break;
