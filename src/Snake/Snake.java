@@ -86,16 +86,16 @@ public class Snake extends Composite2dGameObject {
         Speed movespeed;
         switch (movedirection) {
             case UP:
-                movespeed = new Speed(-1, 0);
-                break;
-            case DOWN:
-                movespeed = new Speed(1, 0);
-                break;
-            case LEFT:
                 movespeed = new Speed(0, -1);
                 break;
-            case RIGHT:
+            case DOWN:
                 movespeed = new Speed(0, 1);
+                break;
+            case LEFT:
+                movespeed = new Speed(-1, 0);
+                break;
+            case RIGHT:
+                movespeed = new Speed(1, 0);
                 break;
             default:
                 movespeed = new Speed(0, 0);
