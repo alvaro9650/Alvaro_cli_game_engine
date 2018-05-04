@@ -128,6 +128,50 @@ public class RectangularArea {
     }
 
     /**
+     * Gets the combined area of this area and another one
+     *
+     * @param extarea Other area
+     * @return The combined area
+     * @author alvaro9650
+     */
+    public RectangularArea getCombinedArea(RectangularArea extarea) {
+        // Create coordinate to save the common minimum
+        Coordinate commonmin = new Coordinate(0, 0);
+        // Create coordinate to save the common maximum
+        Coordinate commonmax = new Coordinate(0, 0);
+        if (this.mincoord.x <= extarea.mincoord.x) {
+            // Assign the common minimum x
+            commonmin.x = this.mincoord.x;
+        } else {
+            // Assign the common minimum x
+            commonmin.x = extarea.mincoord.x;
+        }
+        if (this.mincoord.y <= extarea.mincoord.y) {
+            // Assign the common minimum y
+            commonmin.y = this.mincoord.y;
+        } else {
+            // Assign the common minimum y
+            commonmin.y = extarea.mincoord.y;
+        }
+        if (this.maxcoord.x >= extarea.maxcoord.x) {
+            // Assign the common maximum x
+            commonmax.x = this.maxcoord.x;
+        } else {
+            // Assign the common maximum x
+            commonmax.x = extarea.maxcoord.x;
+        }
+        if (this.maxcoord.y >= extarea.maxcoord.y) {
+            // Assign the common maximum y
+            commonmax.y = this.maxcoord.y;
+        } else {
+            // Assign the common maximum y
+            commonmax.y = extarea.maxcoord.y;
+        }
+        // Create a RectangularArea with the common values and return it
+        return new RectangularArea(commonmax, commonmin);
+    }
+
+    /**
      * Checks if a coordinate is inside the area
      *
      * @param coord the coordinate you want to check if it's in the area
