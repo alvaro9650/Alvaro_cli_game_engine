@@ -125,7 +125,7 @@ public class Snake extends Composite2dGameObject {
         });
         if (this.unusedfood > 0) {
             this.unusedfood--;
-            this.body.add(tail);
+            this.body.add(this.tail);
             this.tail = new SnakeComponent(this);
             this.tail.part = SnakePartType.TAIL;
             this.tail.location = new Coordinate(this.body.get(this.body.size() - 1).location.x - this.body.get(this.body.size() - 1).speed.x, this.body.get(this.body.size() - 1).location.y - this.body.get(this.body.size() - 1).speed.y);
