@@ -124,7 +124,7 @@ public class Snake extends Composite2dGameObject {
             part.speed = new Speed(0, 0);
         });
         if (this.unusedfood > 0) {
-            unusedfood--;
+            this.unusedfood--;
             this.body.add(tail);
             this.tail = new SnakeComponent(this);
             this.tail.part = SnakePartType.TAIL;
