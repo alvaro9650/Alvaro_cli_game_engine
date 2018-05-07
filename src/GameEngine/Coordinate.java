@@ -55,6 +55,45 @@ public class Coordinate {
     }
 
     /**
+     * Sets the coordinate x
+     *
+     * @param x
+     */
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    /**
+     * Sets the coordinate y
+     *
+     * @param y
+     */
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+    /**
+     * Sets the coordinates x and y
+     *
+     * @param x
+     * @param y
+     */
+    public void set(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Sets the coordinates x and y
+     *
+     * @param coordinates
+     */
+    public void set(Coordinate coordinates) {
+        this.x = coordinates.y;
+        this.y = coordinates.y;
+    }
+
+    /**
      * Returns a string containing the coordinates
      *
      * @author alvaro9650
