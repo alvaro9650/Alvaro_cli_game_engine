@@ -132,7 +132,7 @@ public class Snake extends Composite2dGameObject {
             this.body.get(this.body.size() - 1).part = SnakePartType.BODY;
             this.body.get(this.body.size() - 1).speed.stop();
         }
-        this.tail.speed = new Speed(0, 0);
+        this.tail.speed.stop();
     }
 
     /**
