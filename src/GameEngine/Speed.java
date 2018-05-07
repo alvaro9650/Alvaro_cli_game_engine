@@ -50,6 +50,35 @@ public class Speed {
         this.y = 0;
     }
 
+    /**
+     * Sets the X speed
+     *
+     * @param x
+     */
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    /**
+     * Sets the Y speed
+     *
+     * @param y
+     */
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+    /**
+     * Sets the X and y speed
+     *
+     * @param x
+     * @param y
+     */
+    public void set(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -63,11 +92,11 @@ public class Speed {
         if (this == obj) {
             return true;
         }
-        if (obj == null||getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Speed other = (Speed) obj;
-        return !(!Objects.equals(this.x, other.x)||!Objects.equals(this.y, other.y));
+        return !(!Objects.equals(this.x, other.x) || !Objects.equals(this.y, other.y));
     }
 
     /**
