@@ -83,27 +83,25 @@ public class Snake extends Composite2dGameObject {
      * @throws Snake.GameOverException If the snake collides itself
      */
     public void move(MoveDirection movedirection) throws GameOverException {
-        Coordinate newheadcoord;
-        Coordinate lastpartlocation;
-        Speed movespeed;
         switch (movedirection) {
             case UP:
-                movespeed = new Speed(0, -1);
+                this.head.speed.set(0, -1);
                 break;
             case DOWN:
-                movespeed = new Speed(0, 1);
+                this.head.speed.set(0, 1);
                 break;
             case LEFT:
-                movespeed = new Speed(-1, 0);
+                this.head.speed.set(-1, 0);
                 break;
             case RIGHT:
-                movespeed = new Speed(1, 0);
+                this.head.speed.set(1, 0);
                 break;
             default:
-                movespeed = new Speed(0, 0);
+                this.head.speed.set(0, 0);
                 break;
         }
-        if (this.tail.location.equals(newheadcoord = new Coordinate(this.head.location.x + movespeed.x, this.head.location.y + movespeed.y))) {
+        Coordinate newheadcoord;
+        if (this.tail.location.equals(newheadcoord = new Coordinate(this.head.location.x + this.head.speed.x, this.head.location.y + this.head.speed.y))) {
             throw new GameOverException("Snake collides itself");
         } else {
             for (SnakeComponent part : this.body) {
@@ -112,13 +110,13 @@ public class Snake extends Composite2dGameObject {
                 }
             }
         }
-        this.head.speed = new Speed(movespeed);
+        Coordinate lastpartlocation;
         lastpartlocation = this.head.location;
         for (SnakeComponent part : this.body) {
-            part.speed = new Speed(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
+            part.speed.set(lastpartlocation.x - part.location.x, lastpartlocation.y - part.location.y);
             lastpartlocation = part.location;
         }
-        this.tail.speed = new Speed(lastpartlocation.x - this.tail.location.x, lastpartlocation.y - this.tail.location.y);
+        this.tail.speed.set(lastpartlocation.x - this.tail.location.x, lastpartlocation.y - this.tail.location.y);
         GameEngine.GameEngine.updateLocations(this);
         this.head.speed.stop();
         this.body.forEach((part) -> {
