@@ -123,6 +123,15 @@ public class Snake extends Composite2dGameObject {
         body.forEach((part) -> {
             part.speed = new Speed(0, 0);
         });
+        if (unusedfood > 0) {
+            unusedfood--;
+            this.body.add(tail);
+            this.tail = new SnakeComponent(this);
+            this.tail.part = SnakePartType.TAIL;
+            this.tail.location = new Coordinate(this.body.get(this.body.size() - 1).location.x - this.body.get(this.body.size() - 1).speed.x, this.body.get(this.body.size() - 1).location.y - this.body.get(this.body.size() - 1).speed.y);
+            this.body.get(this.body.size() - 1).part = SnakePartType.BODY;
+            this.body.get(this.body.size() - 1).speed.stop();
+        }
         tail.speed = new Speed(0, 0);
     }
 
