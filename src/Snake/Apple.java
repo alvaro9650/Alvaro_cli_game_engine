@@ -51,5 +51,26 @@ public class Apple extends GameObject {
             }
         } while (true);
     }
-
+    /**
+     * Function to add custom actions when collided against a determined object
+     * or object type
+     *
+     * @param collisiongiver The object that gives the collision
+     * @author alvaro9650
+     */
+    @Override
+    public void receiveCollision(GameObject collisiongiver){
+        super.receiveCollision(collisiongiver);
+        switch (collisiongiver.objectidentifier) {    
+            default:
+                break;
+        }
+        switch (collisiongiver.objecttype) {
+            case "SnakePart":
+                this.respawn();
+                break;
+            default:
+                break;
+        }
+    }
 }
