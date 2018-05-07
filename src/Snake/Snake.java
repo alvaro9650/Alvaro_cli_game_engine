@@ -26,6 +26,7 @@ public class Snake extends Composite2dGameObject {
     public SnakeComponent head;
     public ArrayList<SnakeComponent> body;
     public SnakeComponent tail;
+    public Integer unusedfood;
 
     public Snake(Field field) {
         super(field, field.size.x, field.size.y, 2);
@@ -123,5 +124,12 @@ public class Snake extends Composite2dGameObject {
             part.speed = new Speed(0, 0);
         });
         tail.speed = new Speed(0, 0);
+    }
+
+    /**
+     * Does the necesary functions to perform when the snake eats an apple
+     */
+    public void eatApple() {
+        this.unusedfood++;
     }
 }
