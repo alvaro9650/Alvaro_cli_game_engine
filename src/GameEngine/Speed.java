@@ -79,6 +79,16 @@ public class Speed {
         this.y = y;
     }
 
+    /**
+     * Sets the X and y speed
+     *
+     * @param speed
+     */
+    public void set(Speed speed) {
+        this.x = speed.x;
+        this.y = speed.y;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
