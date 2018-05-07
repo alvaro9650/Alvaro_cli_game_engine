@@ -52,7 +52,7 @@ public class Snake extends Composite2dGameObject {
             System.out.println("imposible remove");
         }
         try {
-            this.addComposite2dGameObjectComponent(tail);
+            this.addComposite2dGameObjectComponent(this.tail);
         } catch (ImpossibleLocationAddException ex) {
             Logger.getLogger(SnakeComponent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCollidesException ex) {
