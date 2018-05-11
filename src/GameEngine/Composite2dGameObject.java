@@ -22,6 +22,7 @@ public class Composite2dGameObject extends CompositeGameObject {
     public Composite2dGameObjectComponent[][][] componentobjects;
     //The array position where the object is located
     public Integer[][] arrayposition;
+
     /**
      * Costructor for Composite2dGameObject
      *
@@ -49,7 +50,7 @@ public class Composite2dGameObject extends CompositeGameObject {
      * @author alvaro9650
      */
     public void addComposite2dGameObjectComponent(Composite2dGameObjectComponent composite2dgameobjectcomponent) throws ImpossibleLocationAddException, ObjectCollidesException, OutOfBoundsException, ImpossibleLocationRemoveException {
-        Composite2dGameObjectComponent collider;
+        GameObject collider;
         if (composite2dgameobjectcomponent.located) {
             this.deleteGameObject(composite2dgameobjectcomponent);
         }
@@ -114,13 +115,13 @@ public class Composite2dGameObject extends CompositeGameObject {
      * anything
      * @author alvaro9650
      */
-    public Composite2dGameObjectComponent collidesWith(GameObject objectlookingforcollider) {
+    public GameObject collidesWith(GameObject objectlookingforcollider) {
         for (Composite2dGameObjectComponent object : this.componentobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
             if (object != null && Objects.equals(object.height, objectlookingforcollider.height) && !Objects.equals(object, objectlookingforcollider)) {
                 return object;
             }
         }
-        return null;
+        return this.playingfield.collidesWith(objectlookingforcollider);
     }
 
     /**
@@ -130,7 +131,7 @@ public class Composite2dGameObject extends CompositeGameObject {
      * @param givingcollisionobject
      * @author alvaro9650
      */
-    public void processCollision(Composite2dGameObjectComponent givingcollisionobject, Composite2dGameObjectComponent receivingcollisionobject) {
+    public void processCollision(GameObject givingcollisionobject, GameObject receivingcollisionobject) {
         givingcollisionobject.giveCollision(receivingcollisionobject);
         receivingcollisionobject.receiveCollision(givingcollisionobject);
         switch (receivingcollisionobject.receivingcollision) {
@@ -473,8 +474,11 @@ public class Composite2dGameObject extends CompositeGameObject {
                 }
         }
         try {
-            this.addCollidedComposite2dGameObjectComponent(givingcollisionobject);
-            this.addCollidedComposite2dGameObjectComponent(receivingcollisionobject);
+            if (givingcollisionobject.type == GameObjectType.Composite2dGameObjectComponentType) {
+                this.addCollidedComposite2dGameObjectComponent((Composite2dGameObjectComponent) givingcollisionobject);
+            } else {
+                this.playingfield.addCollidedGameObject(givingcollisionobject);
+            }
         } catch (ImpossibleLocationAddException ex) {
             System.out.println("Imposible location add");
         } catch (OutOfBoundsException ex) {
@@ -483,7 +487,11 @@ public class Composite2dGameObject extends CompositeGameObject {
             System.out.println("Imposible location remove");
         }
         try {
-            this.addCollidedComposite2dGameObjectComponent(receivingcollisionobject);
+            if (receivingcollisionobject.type == GameObjectType.Composite2dGameObjectComponentType) {
+                this.addCollidedComposite2dGameObjectComponent((Composite2dGameObjectComponent) receivingcollisionobject);
+            } else {
+                this.playingfield.addCollidedGameObject(receivingcollisionobject);
+            }
         } catch (ImpossibleLocationAddException ex) {
             System.out.println("Imposible location add");
         } catch (OutOfBoundsException ex) {
@@ -492,6 +500,7 @@ public class Composite2dGameObject extends CompositeGameObject {
             System.out.println("Imposible location remove");
         }
     }
+
     /**
      * Add an object to a location in the Composite2dGameObject without checking
      * if it collides because collision is suposed to already been processed
