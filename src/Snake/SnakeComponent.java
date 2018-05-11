@@ -8,6 +8,7 @@ package Snake;
 import GameEngine.Composite2dGameObjectComponent;
 import GameEngine.GameObject;
 import GameEngine.MoveType;
+import GameEngine.PhysicalStateType;
 
 /**
  *
@@ -23,6 +24,7 @@ public class SnakeComponent extends Composite2dGameObjectComponent {
         this.movetype = MoveType.Teleport;
         this.height = 1;
         this.objecttype = "SnakePart";
+        this.physicalstatetype=PhysicalStateType.Solid;
     }
     /**
      * Function to add custom actions when colliding against a determined object
