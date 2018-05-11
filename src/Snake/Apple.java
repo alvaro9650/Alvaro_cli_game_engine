@@ -38,7 +38,6 @@ public class Apple extends GameObject {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
                 this.playingfield.addGameObject(this);
-                break;
             } catch (ImpossibleLocationAddException ex) {
                 Logger.getLogger(Apple.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ObjectCollidesException ex) {
@@ -48,7 +47,7 @@ public class Apple extends GameObject {
             } catch (ImpossibleLocationRemoveException ex) {
                 System.out.println("imposible apple remove");
             }
-        } while (true);
+        } while (!this.located);
     }
     /**
      * Function to add custom actions when collided against a determined object
