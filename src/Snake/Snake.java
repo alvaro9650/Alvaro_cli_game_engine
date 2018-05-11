@@ -12,7 +12,6 @@ import GameEngine.ImpossibleLocationAddException;
 import GameEngine.ImpossibleLocationRemoveException;
 import GameEngine.ObjectCollidesException;
 import GameEngine.OutOfBoundsException;
-import GameEngine.Speed;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,6 +129,17 @@ public class Snake extends Composite2dGameObject {
             this.tail.location = new Coordinate(this.body.get(this.body.size() - 1).location.x - this.body.get(this.body.size() - 1).speed.x, this.body.get(this.body.size() - 1).location.y - this.body.get(this.body.size() - 1).speed.y);
             this.body.get(this.body.size() - 1).part = SnakePartType.BODY;
             this.body.get(this.body.size() - 1).speed.stop();
+            try {
+                this.addComposite2dGameObjectComponent(this.tail);
+            } catch (ImpossibleLocationAddException ex) {
+                Logger.getLogger(SnakeComponent.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ObjectCollidesException ex) {
+                System.out.println("it collides");
+            } catch (OutOfBoundsException ex) {
+                System.out.println("it's out of bounds");
+            } catch (ImpossibleLocationRemoveException ex) {
+                System.out.println("imposible remove");
+            }
         }
         this.tail.speed.stop();
     }
