@@ -125,6 +125,25 @@ public class Composite2dGameObject extends CompositeGameObject {
     }
 
     /**
+     * Checks if an object collides with something in that location and inside
+     * the object
+     *
+     * @param objectlookingforcollider The object that you want to know if
+     * collides with something
+     * @return The object to collide with or null if it doesn't collide with
+     * anything
+     * @author alvaro9650
+     */
+    public Composite2dGameObjectComponent collidesWithInternal(GameObject objectlookingforcollider) {
+        for (Composite2dGameObjectComponent object : this.componentobjects[objectlookingforcollider.location.x][objectlookingforcollider.location.y]) {
+            if (object != null && Objects.equals(object.height, objectlookingforcollider.height) && !Objects.equals(object, objectlookingforcollider)) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    /**
      * It's used to process a collision between 2 objects
      *
      * @param receivingcollisionobject Object which this object collides to
