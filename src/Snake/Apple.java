@@ -34,7 +34,6 @@ public class Apple extends GameObject {
         this.objecttype = "Apple";
         this.physicalstatetype = PhysicalStateType.Solid;
         this.outofboundsmovetype = OutOfBoundsMoveType.Respawnable;
-        this.movetype = MoveType.Teleport;
         do {
             this.location = new Coordinate(MathCustomFuncs.random(0, playingfield.size.x - 1).intValue(), MathCustomFuncs.random(0, playingfield.size.y - 1).intValue());
             try {
