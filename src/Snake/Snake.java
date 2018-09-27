@@ -118,9 +118,7 @@ public class Snake extends Composite2dGameObject {
         this.tail.speed.set(lastpartlocation.x - this.tail.location.x, lastpartlocation.y - this.tail.location.y);
         GameEngine.GameEngine.updateLocations(this);
         this.head.speed.stop();
-        this.body.forEach((part) -> {
-            part.speed.stop();
-        });
+        this.body.forEach((part) -> part.speed.stop());
         if (this.unusedfood > 0) {
             this.unusedfood--;
             this.body.add(this.tail);
