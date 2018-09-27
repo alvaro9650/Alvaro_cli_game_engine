@@ -79,7 +79,7 @@ public class Snake extends Composite2dGameObject {
      * Method for moving the snake in a direction
      *
      * @param movedirection The direction the snake moves
-     * @throws Snake.GameOverException If the snake collides itself
+     * @throws GameOverException If the snake collides itself
      */
     public void move(MoveDirection movedirection) throws GameOverException {
         switch (movedirection) {
